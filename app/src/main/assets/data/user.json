@@ -1,0 +1,19 @@
+{
+  "userId": "user001",
+  "name": "小明",
+  "avatarUrl": "avatar/spring.jpg",
+  "level": 5,
+  "bCoins": 0.0,
+  "hardCoins": 988,
+  "isVip": true,
+  "vipLevel": 1,
+  "dynamicCount": 1,
+  "followingCount": 87,
+  "fansCount": 0,
+  "space": "空间",
+  "offlineCacheCount": 12,
+  "historyCount": 45,
+  "collectionCount": 23,
+  "watchLaterCount": 8,
+  "lastUpdateTime": 1729180800000
+}
