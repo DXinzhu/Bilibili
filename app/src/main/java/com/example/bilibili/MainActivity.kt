@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.example.bilibili.ui.theme.BilibiliTheme
 import com.example.bilibili.view.ActionTab
+import com.example.bilibili.view.BuyTab
 import com.example.bilibili.view.MeTab
 import com.example.bilibili.view.RecommendTab
 
@@ -145,9 +146,9 @@ fun MainScreen() {
             val context = LocalContext.current
             when (selectedTab) {
                 0 -> RecommendTab(context = context)  // 推荐页面
-                1 -> ActionTab()     // 动态页面
-                2 -> PlaceholderTab("会员购")  // 占位页面
-                3 -> MeTab(context = context)  // 我的页面
+                1 -> ActionTab(context = context)     // 动态页面
+                2 -> BuyTab(context = context)        // 会员购页面
+                3 -> MeTab(context = context)         // 我的页面
             }
         }
     }

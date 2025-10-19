@@ -1,5 +1,53 @@
 [
   {
+    "upMasterId": "up1",
+    "name": "up1",
+    "avatarUrl": "avatar/autumn.jpg",
+    "description": "罗翔老师的忠实粉丝",
+    "isFollowed": true,
+    "fansCount": 50000,
+    "videoCount": 20,
+    "videoList": ["vid001"],
+    "followTime": 1697520000000,
+    "lastUpdateTime": 1729180800000
+  },
+  {
+    "upMasterId": "up2",
+    "name": "up2",
+    "avatarUrl": "avatar/summer.jpg",
+    "description": "生活博主",
+    "isFollowed": true,
+    "fansCount": 30000,
+    "videoCount": 15,
+    "videoList": [],
+    "followTime": 1697520000000,
+    "lastUpdateTime": 1729180800000
+  },
+  {
+    "upMasterId": "up3",
+    "name": "up3",
+    "avatarUrl": "avatar/winter.jpg",
+    "description": "美食探店",
+    "isFollowed": true,
+    "fansCount": 80000,
+    "videoCount": 35,
+    "videoList": [],
+    "followTime": 1697520000000,
+    "lastUpdateTime": 1729180800000
+  },
+  {
+    "upMasterId": "up4",
+    "name": "up4",
+    "avatarUrl": "avatar/cloud.jpg",
+    "description": "科技数码",
+    "isFollowed": true,
+    "fansCount": 120000,
+    "videoCount": 50,
+    "videoList": [],
+    "followTime": 1697520000000,
+    "lastUpdateTime": 1729180800000
+  },
+  {
     "upMasterId": "up001",
     "name": "技术宅阿伟",
     "avatarUrl": "avatar/up001.jpg",

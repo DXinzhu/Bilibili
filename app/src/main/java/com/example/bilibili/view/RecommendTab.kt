@@ -403,16 +403,6 @@ fun VideoCard(video: Video) {
                     )
                 }
             }
-
-            // 播放按钮覆盖层
-            Icon(
-                imageVector = Icons.Default.PlayCircle,
-                contentDescription = "播放",
-                tint = Color.White.copy(alpha = 0.8f),
-                modifier = Modifier
-                    .size(40.dp)
-                    .align(Alignment.Center)
-            )
         }
 
         // 视频信息

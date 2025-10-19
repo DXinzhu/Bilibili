@@ -1,0 +1,40 @@
+[
+  {
+    "postId": "post001",
+    "type": "VIDEO",
+    "upMasterId": "up1",
+    "upMasterName": "up1",
+    "upMasterAvatar": "avatar/autumn.jpg",
+    "publishTime": "29分钟前",
+    "content": "罗翔说刑法",
+    "videoUrl": "video/1.mp4",
+    "videoCover": "L1.png",
+    "videoDuration": "01:58",
+    "videoPlayCount": "1439播放",
+    "images": [],
+    "forwardCount": 0,
+    "commentCount": 14,
+    "likeCount": 115,
+    "isLiked": false,
+    "lastUpdateTime": 1729180800000
+  },
+  {
+    "postId": "post002",
+    "type": "TEXT",
+    "upMasterId": "up2",
+    "upMasterName": "up2",
+    "upMasterAvatar": "avatar/summer.jpg",
+    "publishTime": "4小时前",
+    "content": "恭喜评论区前四名中奖,详情请点击抽奖查看。",
+    "videoUrl": "",
+    "videoCover": "",
+    "videoDuration": "",
+    "videoPlayCount": "",
+    "images": ["bike.jpg"],
+    "forwardCount": 0,
+    "commentCount": 0,
+    "likeCount": 0,
+    "isLiked": false,
+    "lastUpdateTime": 1729180800000
+  }
+]
