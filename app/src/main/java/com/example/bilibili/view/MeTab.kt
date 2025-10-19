@@ -285,19 +285,6 @@ fun UserInfoSection(user: User) {
                 }
             }
         }
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        // 第四行：快捷功能图标（离线缓存、历史记录、我的收藏、稍后再看）
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            QuickActionItem(icon = Icons.Default.Download, label = "离线缓存")
-            QuickActionItem(icon = Icons.Default.History, label = "历史记录")
-            QuickActionItem(icon = Icons.Default.Star, label = "我的收藏")
-            QuickActionItem(icon = Icons.Default.WatchLater, label = "稍后再看")
-        }
     }
 }
 
@@ -359,6 +346,28 @@ fun BottomServiceList() {
             .fillMaxSize()
             .background(Color(0xFFF5F5F5))
     ) {
+        // 快捷功能区（离线缓存、历史记录、我的收藏、稍后再看）
+        item {
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp),
+                color = Color.White
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    QuickActionItem(icon = Icons.Default.Download, label = "离线缓存")
+                    QuickActionItem(icon = Icons.Default.History, label = "历史记录")
+                    QuickActionItem(icon = Icons.Default.Star, label = "我的收藏")
+                    QuickActionItem(icon = Icons.Default.WatchLater, label = "稍后再看")
+                }
+            }
+        }
+
         // 发布视频提示
         item {
             Surface(

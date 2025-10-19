@@ -7,6 +7,7 @@ package com.example.bilibili.model
 data class Video(
     val videoId: String,                    // 视频唯一标识
     val title: String,                      // 视频标题
+    val coverImage: String = "",            // 视频封面图片路径
     val upMasterId: String,                 // UP主ID
     val upMasterName: String,               // UP主名称
     var isLiked: Boolean = false,           // 是否已点赞

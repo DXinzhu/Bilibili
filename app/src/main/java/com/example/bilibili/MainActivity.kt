@@ -142,11 +142,12 @@ fun MainScreen() {
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
+            val context = LocalContext.current
             when (selectedTab) {
-                0 -> RecommendTab()  // 推荐页面
+                0 -> RecommendTab(context = context)  // 推荐页面
                 1 -> ActionTab()     // 动态页面
                 2 -> PlaceholderTab("会员购")  // 占位页面
-                3 -> MeTab(context = LocalContext.current)  // 我的页面
+                3 -> MeTab(context = context)  // 我的页面
             }
         }
     }
