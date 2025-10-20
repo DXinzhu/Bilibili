@@ -1,0 +1,67 @@
+[
+  {
+    "liveId": "live001",
+    "title": "天猫双十一直播",
+    "coverImage": "video/yuge.jpg",
+    "upMasterId": "tmall",
+    "upMasterName": "天猫官方",
+    "upMasterAvatar": "video/yuge.jpg",
+    "viewerCount": 52439,
+    "tags": ["购物", "双十一"],
+    "isLive": true,
+    "category": "购物",
+    "startTime": 1705564800000
+  },
+  {
+    "liveId": "live002",
+    "title": "【直播】北京JD游戏联赛 争流上岸",
+    "coverImage": "video/Live1.jpg",
+    "upMasterId": "up_jdgame",
+    "upMasterName": "JD游戏",
+    "upMasterAvatar": "video/Live1.jpg",
+    "viewerCount": 52439,
+    "tags": ["游戏", "电竞"],
+    "isLive": true,
+    "category": "游戏",
+    "startTime": 1705568000000
+  },
+  {
+    "liveId": "live003",
+    "title": "iQOO 15新品发布 跨代领先",
+    "coverImage": "video/Live2.jpg",
+    "upMasterId": "up_iqoo",
+    "upMasterName": "iQOO手机",
+    "upMasterAvatar": "video/Live2.jpg",
+    "viewerCount": 61627,
+    "tags": ["科技", "数码"],
+    "isLive": true,
+    "category": "科技",
+    "startTime": 1705565400000
+  },
+  {
+    "liveId": "live004",
+    "title": "逍遥散人 大学生宿舍吃播",
+    "coverImage": "video/Live3.jpg",
+    "upMasterId": "up_xiaoyao",
+    "upMasterName": "逍遥散人",
+    "upMasterAvatar": "avatar/sanren.jpg",
+    "viewerCount": 5243,
+    "tags": ["游戏", "实况"],
+    "isLive": true,
+    "category": "游戏",
+    "startTime": 1705571600000
+  },
+  {
+    "liveId": "live005",
+    "title": "暗黑点唱 新店开业",
+    "coverImage": "video/Live4.jpg",
+    "upMasterId": "up_music",
+    "upMasterName": "暗黑点唱",
+    "upMasterAvatar": "video/Live4.jpg",
+    "viewerCount": 3380,
+    "tags": ["音乐", "点唱"],
+    "isLive": true,
+    "category": "娱乐",
+    "startTime": 1705569600000
+  }
+]

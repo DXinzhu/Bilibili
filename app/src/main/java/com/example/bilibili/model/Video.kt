@@ -16,7 +16,10 @@ data class Video(
     val danmakuList: MutableList<Danmaku> = mutableListOf(),    // 弹幕列表
     val commentList: MutableList<Comment> = mutableListOf(),    // 评论列表
     val createdTime: Long = System.currentTimeMillis(),         // 视频创建时间
-    var lastUpdateTime: Long = System.currentTimeMillis()       // 最后更新时间
+    var lastUpdateTime: Long = System.currentTimeMillis(),      // 最后更新时间
+    val category: String = "",              // 视频分类 (cartoon=番剧)
+    val ranking: Int = 0,                   // 排行榜排名 (0表示不在榜)
+    val episodeInfo: String = ""            // 番剧集数信息 (如"更新至165话")
 ) {
     /**
      * 切换点赞状态

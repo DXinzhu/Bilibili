@@ -47,47 +47,55 @@ fun RecommendTab(context: Context) {
     val presenter = remember { RecommendPresenter(context) }
     var user by remember { mutableStateOf<User?>(null) }
     var videos by remember { mutableStateOf<List<Video>>(emptyList()) }
+    var currentTab by remember { mutableStateOf("推荐") }
 
     LaunchedEffect(Unit) {
         user = presenter.loadUserData()
         videos = presenter.getRecommendedVideos()
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        // 顶部工具栏（固定）
-        user?.let { TopBar(it) }
+    // 根据选中的标签显示不同内容
+    when (currentTab) {
+        "直播" -> LiveTab(context)
+        "动画" -> CartoonTab(context)
+        else -> {
+            Column(modifier = Modifier.fillMaxSize()) {
+                // 顶部工具栏（固定）
+                user?.let { TopBar(it, currentTab) { selectedTab -> currentTab = selectedTab } }
 
-        // 底部滚动内容
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color(0xFFF5F5F5))
-        ) {
-            // 轮播图
-            item {
-                BannerCarousel()
-            }
-
-            // 视频网格（2列）
-            item {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
+                // 底部滚动内容
+                LazyColumn(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height((videos.size / 2 * 250).dp),
-                    contentPadding = PaddingValues(8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                        .fillMaxSize()
+                        .background(Color(0xFFF5F5F5))
                 ) {
-                    items(videos) { video ->
-                        VideoCard(video)
+                    // 轮播图
+                    item {
+                        BannerCarousel()
+                    }
+
+                    // 视频网格（2列）
+                    item {
+                        LazyVerticalGrid(
+                            columns = GridCells.Fixed(2),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height((videos.size / 2 * 250).dp),
+                            contentPadding = PaddingValues(8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            items(videos) { video ->
+                                VideoCard(video)
+                            }
+                        }
+                    }
+
+                    // 底部空白
+                    item {
+                        Spacer(modifier = Modifier.height(80.dp))
                     }
                 }
-            }
-
-            // 底部空白
-            item {
-                Spacer(modifier = Modifier.height(80.dp))
             }
         }
     }
@@ -97,7 +105,7 @@ fun RecommendTab(context: Context) {
  * 顶部工具栏
  */
 @Composable
-fun TopBar(user: User) {
+fun TopBar(user: User, selectedTab: String = "推荐", onTabSelected: (String) -> Unit = {}) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -210,12 +218,12 @@ fun TopBar(user: User) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            TabItem(text = "直播", isSelected = false)
-            TabItem(text = "推荐", isSelected = true)
-            TabItem(text = "热门", isSelected = false)
-            TabItem(text = "动画", isSelected = false)
-            TabItem(text = "影视", isSelected = false)
-            TabItem(text = "S15", isSelected = false)
+            TabItem(text = "直播", isSelected = selectedTab == "直播", onClick = { onTabSelected("直播") })
+            TabItem(text = "推荐", isSelected = selectedTab == "推荐", onClick = { onTabSelected("推荐") })
+            TabItem(text = "热门", isSelected = selectedTab == "热门", onClick = { onTabSelected("热门") })
+            TabItem(text = "动画", isSelected = selectedTab == "动画", onClick = { onTabSelected("动画") })
+            TabItem(text = "影视", isSelected = selectedTab == "影视", onClick = { onTabSelected("影视") })
+            TabItem(text = "S15", isSelected = selectedTab == "S15", onClick = { onTabSelected("S15") })
             Icon(
                 imageVector = Icons.Default.MoreHoriz,
                 contentDescription = "更多",
@@ -232,10 +240,10 @@ fun TopBar(user: User) {
  * 标签项
  */
 @Composable
-fun TabItem(text: String, isSelected: Boolean) {
+fun TabItem(text: String, isSelected: Boolean, onClick: () -> Unit = {}) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.clickable { /* TODO */ }
+        modifier = Modifier.clickable { onClick() }
     ) {
         Text(
             text = text,
