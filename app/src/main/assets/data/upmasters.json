@@ -142,5 +142,17 @@
     "videoList": ["vid018", "vid019", "vid020"],
     "followTime": 1710259200000,
     "lastUpdateTime": 1729180800000
+  },
+  {
+    "upMasterId": "up_xiaoyao",
+    "name": "逍遥散人",
+    "avatarUrl": "avatar/sanren.jpg",
+    "description": "游戏实况主播，大学生宿舍吃播",
+    "isFollowed": true,
+    "fansCount": 234500,
+    "videoCount": 156,
+    "videoList": [],
+    "followTime": 1700000000000,
+    "lastUpdateTime": 1729180800000
   }
 ]

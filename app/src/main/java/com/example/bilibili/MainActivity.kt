@@ -16,8 +16,11 @@ import androidx.compose.ui.platform.LocalContext
 import com.example.bilibili.ui.theme.BilibiliTheme
 import com.example.bilibili.view.ActionTab
 import com.example.bilibili.view.BuyTab
+import com.example.bilibili.view.ConcernTab
 import com.example.bilibili.view.MeTab
 import com.example.bilibili.view.RecommendTab
+import com.example.bilibili.view.SettingTab
+import com.example.bilibili.view.VipTab
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,14 +37,19 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen() {
     var selectedTab by remember { mutableStateOf(0) }
+    var showConcernTab by remember { mutableStateOf(false) }
+    var showVipTab by remember { mutableStateOf(false) }
+    var showSettingTab by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            NavigationBar(
-                containerColor = Color.White,
-                contentColor = Color.Gray
-            ) {
+            // 只在不显示子页面时显示底部导航栏
+            if (!showConcernTab && !showVipTab && !showSettingTab) {
+                NavigationBar(
+                    containerColor = Color.White,
+                    contentColor = Color.Gray
+                ) {
                 // 首页
                 NavigationBarItem(
                     icon = {
@@ -135,6 +143,7 @@ fun MainScreen() {
                         indicatorColor = Color.Transparent
                     )
                 )
+                }
             }
         }
     ) { innerPadding ->
@@ -144,11 +153,40 @@ fun MainScreen() {
                 .padding(innerPadding)
         ) {
             val context = LocalContext.current
-            when (selectedTab) {
-                0 -> RecommendTab(context = context)  // 推荐页面
-                1 -> ActionTab(context = context)     // 动态页面
-                2 -> BuyTab(context = context)        // 会员购页面
-                3 -> MeTab(context = context)         // 我的页面
+
+            // 根据状态显示不同的页面
+            when {
+                showConcernTab -> {
+                    ConcernTab(
+                        context = context,
+                        onBack = { showConcernTab = false }
+                    )
+                }
+                showVipTab -> {
+                    VipTab(
+                        context = context,
+                        onBack = { showVipTab = false }
+                    )
+                }
+                showSettingTab -> {
+                    SettingTab(
+                        context = context,
+                        onBack = { showSettingTab = false }
+                    )
+                }
+                else -> {
+                    when (selectedTab) {
+                        0 -> RecommendTab(context = context)  // 推荐页面
+                        1 -> ActionTab(context = context)     // 动态页面
+                        2 -> BuyTab(context = context)        // 会员购页面
+                        3 -> MeTab(
+                            context = context,
+                            onNavigateToConcern = { showConcernTab = true },
+                            onNavigateToVip = { showVipTab = true },
+                            onNavigateToSetting = { showSettingTab = true }
+                        )  // 我的页面
+                    }
+                }
             }
         }
     }

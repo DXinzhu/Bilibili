@@ -38,7 +38,12 @@ import com.example.bilibili.presenter.MePresenter
  * 按照MVP模式实现，展示用户信息和各种服务入口
  */
 @Composable
-fun MeTab(context: Context) {
+fun MeTab(
+    context: Context,
+    onNavigateToConcern: () -> Unit = {},
+    onNavigateToVip: () -> Unit = {},
+    onNavigateToSetting: () -> Unit = {}
+) {
     val presenter = remember { MePresenter(context) }
     var user by remember { mutableStateOf<User?>(null) }
 
@@ -52,10 +57,10 @@ fun MeTab(context: Context) {
             TopToolbar()
 
             // 中部信息栏（固定）
-            user?.let { UserInfoSection(it) }
+            user?.let { UserInfoSection(it, onNavigateToConcern, onNavigateToVip) }
 
             // 底部滚动列表
-            BottomServiceList()
+            BottomServiceList(onNavigateToSetting)
         }
     }
 }
@@ -114,7 +119,11 @@ fun TopToolbar() {
  * 用户信息区域（中部固定区域）
  */
 @Composable
-fun UserInfoSection(user: User) {
+fun UserInfoSection(
+    user: User,
+    onNavigateToConcern: () -> Unit = {},
+    onNavigateToVip: () -> Unit = {}
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -217,21 +226,21 @@ fun UserInfoSection(user: User) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            StatItem(count = user.dynamicCount, label = "动态")
+            StatItem(count = user.dynamicCount, label = "动态", onClick = { /* TODO */ })
             HorizontalDivider(
                 modifier = Modifier
                     .width(1.dp)
                     .height(40.dp),
                 color = Color.LightGray
             )
-            StatItem(count = user.followingCount, label = "关注")
+            StatItem(count = user.followingCount, label = "关注", onClick = onNavigateToConcern)
             HorizontalDivider(
                 modifier = Modifier
                     .width(1.dp)
                     .height(40.dp),
                 color = Color.LightGray
             )
-            StatItem(count = user.fansCount, label = "粉丝")
+            StatItem(count = user.fansCount, label = "粉丝", onClick = { /* TODO */ })
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -240,7 +249,7 @@ fun UserInfoSection(user: User) {
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { /* TODO */ },
+                .clickable(onClick = onNavigateToVip),
             color = Color(0xFFFFE5F0),
             shape = RoundedCornerShape(8.dp)
         ) {
@@ -292,10 +301,10 @@ fun UserInfoSection(user: User) {
  * 统计数字项
  */
 @Composable
-fun StatItem(count: Int, label: String) {
+fun StatItem(count: Int, label: String, onClick: () -> Unit = {}) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.clickable { /* TODO */ }
+        modifier = Modifier.clickable(onClick = onClick)
     ) {
         Text(
             text = count.toString(),
@@ -340,7 +349,7 @@ fun QuickActionItem(icon: ImageVector, label: String) {
  * 底部服务列表（可滚动）
  */
 @Composable
-fun BottomServiceList() {
+fun BottomServiceList(onNavigateToSetting: () -> Unit = {}) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -473,11 +482,11 @@ fun BottomServiceList() {
                 Column {
                     ServiceListItem(icon = Icons.Default.Support, text = "联系客服")
                     HorizontalDivider(color = Color.LightGray, thickness = 0.5.dp)
-                    ServiceListItem(icon = Icons.Default.Headphones, text = "听视频")
+                    ServiceListItem(icon = Icons.Default.Headphones, text = "听视频", onClick = { /* TODO */ })
                     HorizontalDivider(color = Color.LightGray, thickness = 0.5.dp)
-                    ServiceListItem(icon = Icons.Default.ChildCare, text = "未成年人守护")
+                    ServiceListItem(icon = Icons.Default.ChildCare, text = "未成年人守护", onClick = { /* TODO */ })
                     HorizontalDivider(color = Color.LightGray, thickness = 0.5.dp)
-                    ServiceListItem(icon = Icons.Default.Settings, text = "设置")
+                    ServiceListItem(icon = Icons.Default.Settings, text = "设置", onClick = onNavigateToSetting)
                 }
             }
         }
@@ -601,11 +610,11 @@ fun ServiceGridItem(icon: ImageVector, label: String, modifier: Modifier = Modif
  * 服务列表项
  */
 @Composable
-fun ServiceListItem(icon: ImageVector, text: String) {
+fun ServiceListItem(icon: ImageVector, text: String, onClick: () -> Unit = {}) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { /* TODO */ }
+            .clickable(onClick = onClick)
             .padding(vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
