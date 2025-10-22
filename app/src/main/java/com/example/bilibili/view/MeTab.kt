@@ -42,7 +42,8 @@ fun MeTab(
     context: Context,
     onNavigateToConcern: () -> Unit = {},
     onNavigateToVip: () -> Unit = {},
-    onNavigateToSetting: () -> Unit = {}
+    onNavigateToSetting: () -> Unit = {},
+    onNavigateToHistory: () -> Unit = {}
 ) {
     val presenter = remember { MePresenter(context) }
     var user by remember { mutableStateOf<User?>(null) }
@@ -60,7 +61,7 @@ fun MeTab(
             user?.let { UserInfoSection(it, onNavigateToConcern, onNavigateToVip) }
 
             // 底部滚动列表
-            BottomServiceList(onNavigateToSetting)
+            BottomServiceList(onNavigateToSetting, onNavigateToHistory)
         }
     }
 }
@@ -323,11 +324,11 @@ fun StatItem(count: Int, label: String, onClick: () -> Unit = {}) {
  * 快捷功能项
  */
 @Composable
-fun QuickActionItem(icon: ImageVector, label: String) {
+fun QuickActionItem(icon: ImageVector, label: String, onClick: () -> Unit = {}) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .clickable { /* TODO */ }
+            .clickable(onClick = onClick)
             .padding(8.dp)
     ) {
         Icon(
@@ -349,7 +350,10 @@ fun QuickActionItem(icon: ImageVector, label: String) {
  * 底部服务列表（可滚动）
  */
 @Composable
-fun BottomServiceList(onNavigateToSetting: () -> Unit = {}) {
+fun BottomServiceList(
+    onNavigateToSetting: () -> Unit = {},
+    onNavigateToHistory: () -> Unit = {}
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -369,10 +373,10 @@ fun BottomServiceList(onNavigateToSetting: () -> Unit = {}) {
                         .padding(16.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    QuickActionItem(icon = Icons.Default.Download, label = "离线缓存")
-                    QuickActionItem(icon = Icons.Default.History, label = "历史记录")
-                    QuickActionItem(icon = Icons.Default.Star, label = "我的收藏")
-                    QuickActionItem(icon = Icons.Default.WatchLater, label = "稍后再看")
+                    QuickActionItem(icon = Icons.Default.Download, label = "离线缓存", onClick = { /* TODO */ })
+                    QuickActionItem(icon = Icons.Default.History, label = "历史记录", onClick = onNavigateToHistory)
+                    QuickActionItem(icon = Icons.Default.Star, label = "我的收藏", onClick = { /* TODO */ })
+                    QuickActionItem(icon = Icons.Default.WatchLater, label = "稍后再看", onClick = { /* TODO */ })
                 }
             }
         }

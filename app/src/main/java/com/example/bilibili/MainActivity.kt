@@ -17,6 +17,7 @@ import com.example.bilibili.ui.theme.BilibiliTheme
 import com.example.bilibili.view.ActionTab
 import com.example.bilibili.view.BuyTab
 import com.example.bilibili.view.ConcernTab
+import com.example.bilibili.view.HistoryTab
 import com.example.bilibili.view.MeTab
 import com.example.bilibili.view.RecommendTab
 import com.example.bilibili.view.SettingTab
@@ -40,12 +41,13 @@ fun MainScreen() {
     var showConcernTab by remember { mutableStateOf(false) }
     var showVipTab by remember { mutableStateOf(false) }
     var showSettingTab by remember { mutableStateOf(false) }
+    var showHistoryTab by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             // 只在不显示子页面时显示底部导航栏
-            if (!showConcernTab && !showVipTab && !showSettingTab) {
+            if (!showConcernTab && !showVipTab && !showSettingTab && !showHistoryTab) {
                 NavigationBar(
                     containerColor = Color.White,
                     contentColor = Color.Gray
@@ -174,6 +176,12 @@ fun MainScreen() {
                         onBack = { showSettingTab = false }
                     )
                 }
+                showHistoryTab -> {
+                    HistoryTab(
+                        context = context,
+                        onNavigateBack = { showHistoryTab = false }
+                    )
+                }
                 else -> {
                     when (selectedTab) {
                         0 -> RecommendTab(context = context)  // 推荐页面
@@ -183,7 +191,8 @@ fun MainScreen() {
                             context = context,
                             onNavigateToConcern = { showConcernTab = true },
                             onNavigateToVip = { showVipTab = true },
-                            onNavigateToSetting = { showSettingTab = true }
+                            onNavigateToSetting = { showSettingTab = true },
+                            onNavigateToHistory = { showHistoryTab = true }
                         )  // 我的页面
                     }
                 }
