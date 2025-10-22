@@ -20,7 +20,9 @@ import com.example.bilibili.view.ConcernTab
 import com.example.bilibili.view.HistoryTab
 import com.example.bilibili.view.MeTab
 import com.example.bilibili.view.RecommendTab
+import com.example.bilibili.view.SearchTab
 import com.example.bilibili.view.SettingTab
+import com.example.bilibili.view.VideoTab
 import com.example.bilibili.view.VipTab
 
 class MainActivity : ComponentActivity() {
@@ -42,12 +44,15 @@ fun MainScreen() {
     var showVipTab by remember { mutableStateOf(false) }
     var showSettingTab by remember { mutableStateOf(false) }
     var showHistoryTab by remember { mutableStateOf(false) }
+    var showSearchTab by remember { mutableStateOf(false) }
+    var showVideoTab by remember { mutableStateOf(false) }
+    var currentVideoId by remember { mutableStateOf("") }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             // 只在不显示子页面时显示底部导航栏
-            if (!showConcernTab && !showVipTab && !showSettingTab && !showHistoryTab) {
+            if (!showConcernTab && !showVipTab && !showSettingTab && !showHistoryTab && !showSearchTab && !showVideoTab) {
                 NavigationBar(
                     containerColor = Color.White,
                     contentColor = Color.Gray
@@ -158,6 +163,19 @@ fun MainScreen() {
 
             // 根据状态显示不同的页面
             when {
+                showVideoTab -> {
+                    VideoTab(
+                        context = context,
+                        videoId = currentVideoId,
+                        onBack = { showVideoTab = false }
+                    )
+                }
+                showSearchTab -> {
+                    SearchTab(
+                        context = context,
+                        onBack = { showSearchTab = false }
+                    )
+                }
                 showConcernTab -> {
                     ConcernTab(
                         context = context,
@@ -184,7 +202,14 @@ fun MainScreen() {
                 }
                 else -> {
                     when (selectedTab) {
-                        0 -> RecommendTab(context = context)  // 推荐页面
+                        0 -> RecommendTab(
+                            context = context,
+                            onNavigateToSearch = { showSearchTab = true },
+                            onNavigateToVideo = { videoId ->
+                                currentVideoId = videoId
+                                showVideoTab = true
+                            }
+                        )  // 推荐页面
                         1 -> ActionTab(context = context)     // 动态页面
                         2 -> BuyTab(context = context)        // 会员购页面
                         3 -> MeTab(

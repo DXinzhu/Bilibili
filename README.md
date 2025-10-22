@@ -25,6 +25,7 @@
 - **Coil 2.5.0**: 图片加载库
 - **Material Icons Extended**: 扩展图标库
 - **Accompanist Pager 0.32.0**: 轮播图组件库
+- **Accompanist FlowLayout 0.32.0**: 流式布局组件库
 
 ## 项目结构
 
@@ -41,7 +42,10 @@ app/src/main/java/com/example/bilibili/
 │   ├── WatchHistory.kt                # 观看历史模型
 │   ├── Post.kt                        # 动态数据模型
 │   ├── Product.kt                     # 商品数据模型
-│   └── TaskState.kt                   # 任务状态模型
+│   ├── TaskState.kt                   # 任务状态模型
+│   ├── HotSearch.kt                   # 热搜数据模型
+│   ├── SearchHistory.kt               # 搜索历史模型
+│   └── SearchDiscovery.kt             # 搜索发现模型
 ├── presenter/                         # 业务逻辑层
 │   ├── MePresenter.kt                 # "我的"页面业务逻辑
 │   ├── RecommendPresenter.kt          # 推荐页面业务逻辑
@@ -52,7 +56,9 @@ app/src/main/java/com/example/bilibili/
 │   ├── ConcernPresenter.kt            # 关注页面业务逻辑
 │   ├── VipPresenter.kt                # 会员中心页面业务逻辑
 │   ├── SettingPresenter.kt            # 设置页面业务逻辑
-│   └── HistoryPresenter.kt            # 历史记录页面业务逻辑
+│   ├── HistoryPresenter.kt            # 历史记录页面业务逻辑
+│   ├── SearchPresenter.kt             # 搜索页面业务逻辑
+│   └── VideoPresenter.kt              # 视频播放页面业务逻辑
 ├── view/                              # 视图层
 │   ├── MeTab.kt                       # "我的"页面UI
 │   ├── RecommendTab.kt                # 推荐页面UI
@@ -63,7 +69,9 @@ app/src/main/java/com/example/bilibili/
 │   ├── ConcernTab.kt                  # 关注页面UI
 │   ├── VipTab.kt                      # 会员中心页面UI
 │   ├── SettingTab.kt                  # 设置页面UI
-│   └── HistoryTab.kt                  # 历史记录页面UI
+│   ├── HistoryTab.kt                  # 历史记录页面UI
+│   ├── SearchTab.kt                   # 搜索页面UI
+│   └── VideoTab.kt                    # 视频播放页面UI
 └── ui/theme/                          # 主题配置
     ├── Color.kt
     ├── Theme.kt
@@ -81,7 +89,10 @@ app/src/main/assets/
 │   ├── upmasters.json                 # UP主数据
 │   ├── posts.json                     # 动态数据
 │   ├── products.json                  # 商品数据
-│   └── watch_history.json             # 观看历史
+│   ├── watch_history.json             # 观看历史
+│   ├── hot_searches.json              # 热搜数据
+│   ├── search_history.json            # 搜索历史数据
+│   └── search_discoveries.json        # 搜索发现数据
 ├── avatar/                            # 头像图片资源
 │   └── *.jpg                          # 各种头像图片
 ├── video/                             # 视频资源
@@ -106,7 +117,7 @@ app/src/main/assets/
 #### 顶部工具栏（固定不滚动）
 - **第一行**:
   - 用户头像（与MeTab保持一致）
-  - 搜索栏（占位文字"天后"）
+  - 搜索栏（占位文字"天后"，点击跳转到SearchTab搜索页面）
   - 游戏图标
   - 消息图标（带红色数字角标99）
 
@@ -141,7 +152,7 @@ app/src/main/assets/
 - 视频封面图片（从assets/video目录加载）
 - 视频标题（最多显示2行）
 - UP主名称
-- 点击视频卡片可播放视频（TODO）
+- 点击视频卡片可跳转到VideoTab视频播放页面
 
 ### 直播页面 (LiveTab)
 
@@ -651,7 +662,9 @@ app/src/main/assets/
 
 ### 视频数据 (videos.json)
 推荐页面展示的4个视频：
-- vid001: 罗翔说刑法 (UP主: up1, 封面: video/L1.png)
+- vid001: 罗翔说刑法 (UP主: up1, 封面: video/L1.png, 视频: video/1.mp4)
+  - 播放量: 48.9万，评论: 1793，在线: 477人
+  - 互动数据: 4万点赞，1.1万投币，3105收藏，895分享
 - vid003: 游戏实况 (UP主: up3, 封面: video/Y3.png)
 - vid011: 打铁花 (UP主: up11, 封面: video/M11.png)
 - vid012: 舞龙表演 (UP主: up12, 封面: video/M12.png)
@@ -706,6 +719,8 @@ app/src/main/assets/
 - `VipPresenter` 负责加载用户数据、会员专享内容、特权列表等
 - `SettingPresenter` 负责提供设置项数据、设置分组等
 - `HistoryPresenter` 负责加载观看历史数据、合并视频信息、分类筛选、格式化时间等
+- `SearchPresenter` 负责加载热搜数据、搜索历史、搜索发现数据等
+- `VideoPresenter` 负责加载视频详情、UP主信息、推荐视频、格式化播放数据等
 
 ## 开发规范
 
@@ -733,12 +748,119 @@ app/src/main/assets/
 ./gradlew clean
 ```
 
+### 视频播放页面 (VideoTab)
+
+#### 顶部视频播放区域（固定不滚动）
+- **视频播放器**:
+  - 16:9比例视频播放区域
+  - 黑色背景
+  - 返回按钮（左上角）
+  - 播放/暂停按钮（中间）
+  - 功能按钮（右上角）：投屏、设置
+
+#### Tab切换栏和弹幕按钮（固定不滚动）
+- **Tab切换**:
+  - "简介"标签（默认选中，粉色高亮）
+  - "评论 1793"标签（灰色）
+- **弹幕按钮区**（右侧）:
+  - 弹幕图标按钮
+  - 弹幕设置按钮
+
+#### UP主信息区域（可滚动）
+- **UP主信息卡片**:
+  - 左侧：UP主头像（圆形，48dp）
+  - 中间：UP主名称 + 粉丝数 + 视频数
+  - 右侧：关注按钮（粉色背景，"+ 关注"）
+
+#### 视频详情区域（可滚动）
+- **视频标题**（黑色粗体，最多2行）
+- **播放数据**:
+  - 播放量（眼睛图标）
+  - 评论数（评论图标）
+  - 发布时间
+  - 在线观看人数（"X人正在看"）
+
+#### 互动按钮区域（可滚动）
+5个互动按钮横向排列：
+1. **点赞按钮**（带数字，点击切换状态，数字+1/-1）
+2. **不喜欢按钮**（点击数字+1）
+3. **投币按钮**（带数字，点击数字+1）
+4. **收藏按钮**（带数字，点击切换状态，数字+1/-1）
+5. **转发按钮**（带数字，显示分享数）
+
+#### 话题标签区域（可滚动）
+- 标题行："话题" + 右箭头图标
+- 标签列表：显示视频关联的话题标签（如"把兴趣玩出名堂"）
+
+#### 推荐视频列表（可滚动）
+- 标题："推荐视频"
+- 视频卡片列表（垂直排列）:
+  - 每个卡片包含：封面图（120dp×80dp）、标题、UP主头像、UP主名称
+  - 显示10个推荐视频
+  - 点击可跳转到对应视频播放页面
+
+#### 导航
+- 从RecommendTab点击视频卡片进入
+- 点击返回按钮返回RecommendTab
+- 进入VideoTab时隐藏底部导航栏
+
+### 搜索页面 (SearchTab)
+
+#### 顶部搜索栏（固定不滚动）
+- **返回按钮**（箭头图标，点击返回推荐页面）
+- **搜索输入框**（可输入文字，默认"B站"）
+- **搜索按钮**（粉色文字）
+
+#### bilibili热搜区域（可滚动）
+- **标题行**:
+  - "bilibili热搜" 标题
+  - "完整榜单" 按钮（带右箭头）
+
+- **热搜列表**（2列网格布局）:
+  - 展示10条热搜
+  - 每条热搜包含：关键词 + 标签（"热"或"新"，带颜色标识）
+  - 热搜标签：粉色背景代表"热"，黄色背景代表"新"
+
+#### 搜索历史区域（可滚动）
+- **标题行**:
+  - "搜索历史" 标题
+  - 删除图标（点击清除历史）
+  - 折叠/展开图标
+
+- **搜索历史标签**（流式布局）:
+  - 展示7条搜索历史
+  - 每条历史以圆角标签形式展示
+  - 白色背景，灰色文字
+
+#### 搜索发现区域（可滚动）
+- **标题行**:
+  - "搜索发现" 标题
+  - 刷新图标
+  - 查看图标
+
+- **搜索发现列表**（2列网格布局）:
+  - 展示12条搜索发现
+  - 每条发现包含：标题 + 副标题（如更新时间）
+  - 白色背景卡片
+
+#### 底部反馈按钮
+- 白色圆角按钮
+- "反馈" 文字 + 反馈图标
+- 居中显示
+
+#### 导航
+- 从RecommendTab点击搜索栏进入
+- 点击返回按钮返回RecommendTab
+- 进入SearchTab时隐藏底部导航栏
+
 ## 待开发功能
 
 根据页面树定义，所有主要页面已完成：
 - [x] RecommendTab - 推荐视频页面（已完成）
 - [x] LiveTab - 直播页面（已完成）
 - [x] CartoonTab - 番剧/动画页面（已完成）
+- [x] SearchTab - 搜索页面（已完成）
+- [x] VideoTab - 视频播放页面（已完成）
 - [x] ActionTab - 关注动态页面（已完成）
 - [x] BuyTab - 会员购页面（已完成）
 - [x] MeTab - 我的页面（已完成）
@@ -755,6 +877,65 @@ app/src/main/assets/
 4. 不需要申请任何特殊权限（网络、通知等）
 
 ## 版本历史
+
+### v1.13.0 (2025-10-22)
+- ✅ 完成视频播放页面 (VideoTab)
+  - 实现视频播放器区域（返回按钮、播放/暂停按钮、功能按钮）
+  - 实现Tab切换栏（简介/评论 1793）和弹幕按钮区
+  - 实现UP主信息区域（头像、名称、粉丝数、视频数、关注按钮）
+  - 实现视频详情区域（标题、播放量、评论数、发布时间、在线人数）
+  - 实现5个互动按钮（点赞、不喜欢、投币、收藏、转发）
+  - 实现话题标签区域（显示视频关联标签）
+  - 实现推荐视频列表（垂直排列，10个推荐视频）
+  - 支持点赞、收藏、投币等互动操作，实时更新数字
+- ✅ 扩展Video数据模型
+  - 添加videoPath字段（视频文件路径）
+  - 添加互动数据字段：likeCount, dislikeCount, coinCount, favoriteCount, shareCount
+  - 添加播放数据字段：viewCount, commentCount, onlineViewers
+  - 添加tags字段（话题标签列表）
+  - 更新互动方法：toggleLike(), toggleDislike(), addCoin(), toggleFavorite(), markAsShared()
+- ✅ 创建VideoPresenter业务逻辑层
+  - 根据videoId加载视频详情
+  - 根据upMasterId加载UP主信息
+  - 获取推荐视频列表（排除当前视频）
+  - 格式化播放量、点赞数等数字显示（万/亿）
+  - 格式化发布时间、在线观看人数
+- ✅ 更新视频数据
+  - 为vid001添加完整视频播放页面数据（播放量、评论数、互动数据等）
+  - 添加视频文件路径：video/1.mp4
+- ✅ 实现导航功能
+  - 从RecommendTab点击视频卡片跳转到VideoTab
+  - 进入VideoTab时隐藏底部导航栏
+  - 点击返回按钮返回RecommendTab
+- ✅ 修改MainActivity支持VideoTab页面导航状态管理
+- ✅ 修改RecommendTab添加视频点击回调
+
+### v1.12.0 (2025-10-22)
+- ✅ 完成搜索页面 (SearchTab)
+  - 实现顶部搜索栏（返回按钮、可输入的搜索框、搜索按钮）
+  - 实现bilibili热搜区域（2列网格布局，10条热搜，带"热"/"新"标签）
+  - 实现搜索历史区域（流式布局，7条历史标签，带删除和折叠图标）
+  - 实现搜索发现区域（2列网格布局，12条发现，支持副标题显示）
+  - 实现底部反馈按钮
+- ✅ 创建搜索相关数据模型
+  - HotSearch: 热搜数据模型（id, keyword, tag）
+  - SearchHistory: 搜索历史模型（id, keyword, timestamp）
+  - SearchDiscovery: 搜索发现模型（id, title, subtitle）
+- ✅ 创建SearchPresenter业务逻辑层
+  - 加载热搜数据（hot_searches.json）
+  - 加载搜索历史数据（search_history.json）
+  - 加载搜索发现数据（search_discoveries.json）
+- ✅ 创建搜索数据文件
+  - hot_searches.json: 包含10条热搜数据
+  - search_history.json: 包含7条搜索历史
+  - search_discoveries.json: 包含12条搜索发现
+- ✅ 实现导航功能
+  - 从RecommendTab点击搜索栏跳转到SearchTab
+  - 进入SearchTab时隐藏底部导航栏
+  - 点击返回按钮返回RecommendTab
+- ✅ 修改MainActivity支持SearchTab页面导航状态管理
+- ✅ 修改RecommendTab添加搜索栏点击事件
+- ✅ 添加Accompanist FlowLayout依赖用于搜索历史流式布局
 
 ### v1.11.0 (2025-10-22)
 - ✅ 完成历史记录页面 (HistoryTab)

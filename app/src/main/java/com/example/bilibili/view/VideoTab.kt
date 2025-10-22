@@ -1,0 +1,909 @@
+package com.example.bilibili.view
+
+import android.content.Context
+import android.net.Uri
+import android.widget.VideoView
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.example.bilibili.model.UPMaster
+import com.example.bilibili.model.Video
+import com.example.bilibili.presenter.VideoPresenter
+
+/**
+ * 视频播放页面
+ * 包含视频播放区、标签栏、UP主信息、视频信息、互动按钮、推荐视频列表
+ */
+@Composable
+fun VideoTab(
+    context: Context,
+    videoId: String,
+    onBack: () -> Unit = {}
+) {
+    val presenter = remember { VideoPresenter(context) }
+    var video by remember { mutableStateOf<Video?>(null) }
+    var upMaster by remember { mutableStateOf<UPMaster?>(null) }
+    var recommendedVideos by remember { mutableStateOf<List<Video>>(emptyList()) }
+    var selectedTab by remember { mutableStateOf("简介") }
+
+    LaunchedEffect(videoId) {
+        video = presenter.getVideoById(videoId)
+        video?.let {
+            upMaster = presenter.getUpMasterById(it.upMasterId)
+            recommendedVideos = presenter.getRecommendedVideos(videoId)
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+        // 视频播放区域
+        VideoPlayerSection(
+            video = video,
+            onBack = onBack
+        )
+
+        // 滚动内容区域
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xFFF5F5F5))
+        ) {
+            // 标签栏（简介/评论）+ 弹幕按钮
+            item {
+                TabAndDanmakuSection(
+                    selectedTab = selectedTab,
+                    commentCount = video?.commentCount ?: 0,
+                    onTabSelected = { selectedTab = it }
+                )
+            }
+
+            // UP主信息区域
+            item {
+                video?.let { v ->
+                    upMaster?.let { up ->
+                        UpMasterInfoSection(
+                            upMaster = up,
+                            presenter = presenter
+                        )
+                    }
+                }
+            }
+
+            // 视频标题和数据信息
+            item {
+                video?.let { v ->
+                    VideoInfoSection(
+                        video = v,
+                        presenter = presenter
+                    )
+                }
+            }
+
+            // 互动按钮区域
+            item {
+                video?.let { v ->
+                    InteractionButtonsSection(
+                        video = v,
+                        presenter = presenter,
+                        onLike = { v.toggleLike() },
+                        onDislike = { v.toggleDislike() },
+                        onCoin = { v.addCoin() },
+                        onFavorite = { v.toggleFavorite() },
+                        onShare = { v.markAsShared() }
+                    )
+                }
+            }
+
+            // 话题标签区域
+            item {
+                video?.let { v ->
+                    if (v.tags.isNotEmpty()) {
+                        TagsSection(tags = v.tags)
+                    }
+                }
+            }
+
+            // 推荐视频列表
+            items(recommendedVideos) { recommendedVideo ->
+                RecommendedVideoItem(
+                    video = recommendedVideo,
+                    presenter = presenter
+                )
+            }
+
+            // 底部空白
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+        }
+    }
+}
+
+/**
+ * 视频播放区域
+ */
+@Composable
+fun VideoPlayerSection(
+    video: Video?,
+    onBack: () -> Unit
+) {
+    val context = LocalContext.current
+    var isPlaying by remember { mutableStateOf(false) }
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(16f / 9f)
+            .background(Color.Black)
+    ) {
+        // VideoView视频播放器
+        video?.let { v ->
+            if (v.videoPath.isNotEmpty()) {
+                AndroidView(
+                    factory = { ctx ->
+                        VideoView(ctx).apply {
+                            val videoUri = Uri.parse("android.resource://${context.packageName}/raw/${v.videoPath.replace("video/", "").replace(".mp4", "")}")
+                            setVideoURI(videoUri)
+                            setOnPreparedListener { mediaPlayer ->
+                                mediaPlayer.isLooping = true
+                                start()
+                                isPlaying = true
+                            }
+                            setOnErrorListener { _, _, _ ->
+                                // 如果视频文件不存在，显示封面
+                                false
+                            }
+                        }
+                    },
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else if (v.coverImage.isNotEmpty()) {
+                // 如果没有视频路径，显示封面
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data("file:///android_asset/${v.coverImage}")
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = v.title,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+            }
+        }
+
+        // 顶部返回按钮和功能图标
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.TopStart)
+                .background(Color.Black.copy(alpha = 0.3f))
+                .padding(8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            // 返回按钮
+            Icon(
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = "返回",
+                tint = Color.White,
+                modifier = Modifier
+                    .size(32.dp)
+                    .clickable { onBack() }
+            )
+
+            // 右侧功能图标
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Home,
+                    contentDescription = "首页",
+                    tint = Color.White,
+                    modifier = Modifier.size(28.dp)
+                )
+                Icon(
+                    imageVector = Icons.Default.Headphones,
+                    contentDescription = "音频",
+                    tint = Color.White,
+                    modifier = Modifier.size(28.dp)
+                )
+                Icon(
+                    imageVector = Icons.Default.Cast,
+                    contentDescription = "投屏",
+                    tint = Color.White,
+                    modifier = Modifier.size(28.dp)
+                )
+                Icon(
+                    imageVector = Icons.Default.Tv,
+                    contentDescription = "电视",
+                    tint = Color.White,
+                    modifier = Modifier.size(28.dp)
+                )
+                Icon(
+                    imageVector = Icons.Default.MoreVert,
+                    contentDescription = "更多",
+                    tint = Color.White,
+                    modifier = Modifier.size(28.dp)
+                )
+            }
+        }
+
+        // 底部播放控制
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomStart)
+                .background(Color.Black.copy(alpha = 0.3f))
+                .padding(12.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // 播放/暂停按钮
+            Icon(
+                imageVector = Icons.Default.PlayArrow,
+                contentDescription = "播放",
+                tint = Color.White,
+                modifier = Modifier.size(32.dp)
+            )
+
+            // 时间和全屏
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "00:01/02:59",
+                    color = Color.White,
+                    fontSize = 12.sp
+                )
+                Icon(
+                    imageVector = Icons.Default.Fullscreen,
+                    contentDescription = "全屏",
+                    tint = Color.White,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+        }
+    }
+}
+
+/**
+ * 标签栏和弹幕按钮区域
+ */
+@Composable
+fun TabAndDanmakuSection(
+    selectedTab: String,
+    commentCount: Int,
+    onTabSelected: (String) -> Unit
+) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White),
+        color = Color.White
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // 左侧标签栏
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(24.dp)
+            ) {
+                // 简介标签
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "简介",
+                        fontSize = 15.sp,
+                        fontWeight = if (selectedTab == "简介") FontWeight.Bold else FontWeight.Normal,
+                        color = if (selectedTab == "简介") Color(0xFFFF6699) else Color.Gray,
+                        modifier = Modifier.clickable { onTabSelected("简介") }
+                    )
+                    if (selectedTab == "简介") {
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Surface(
+                            modifier = Modifier
+                                .width(20.dp)
+                                .height(3.dp),
+                            color = Color(0xFFFF6699),
+                            shape = RoundedCornerShape(1.5.dp)
+                        ) {}
+                    }
+                }
+
+                // 评论标签
+                Text(
+                    text = "评论 $commentCount",
+                    fontSize = 15.sp,
+                    fontWeight = if (selectedTab == "评论") FontWeight.Bold else FontWeight.Normal,
+                    color = if (selectedTab == "评论") Color(0xFFFF6699) else Color.Gray,
+                    modifier = Modifier.clickable { onTabSelected("评论") }
+                )
+            }
+
+            // 右侧弹幕按钮
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Surface(
+                    modifier = Modifier
+                        .clickable { /* TODO: 发弹幕 */ },
+                    shape = RoundedCornerShape(16.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFE0E0E0)),
+                    color = Color.White
+                ) {
+                    Text(
+                        text = "点我发弹幕",
+                        fontSize = 12.sp,
+                        color = Color.Gray,
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                    )
+                }
+
+                Surface(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clickable { /* TODO: 弹幕开关 */ },
+                    shape = CircleShape,
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFFF6699)),
+                    color = Color.White
+                ) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        Text(
+                            text = "弹",
+                            fontSize = 12.sp,
+                            color = Color(0xFFFF6699),
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * UP主信息区域
+ */
+@Composable
+fun UpMasterInfoSection(
+    upMaster: UPMaster,
+    presenter: VideoPresenter
+) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        color = Color.White,
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // UP主头像
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data("file:///android_asset/${upMaster.avatarUrl}")
+                    .crossfade(true)
+                    .build(),
+                contentDescription = upMaster.name,
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop
+            )
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            // UP主信息
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = upMaster.name,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = "${presenter.formatFansCount(upMaster.fansCount)}  ${upMaster.videoCount}视频",
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
+            }
+
+            // 关注按钮
+            Surface(
+                modifier = Modifier.clickable { /* TODO: 关注UP主 */ },
+                shape = RoundedCornerShape(16.dp),
+                color = Color(0xFFFF6699)
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "关注",
+                        tint = Color.White,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = "关注",
+                        fontSize = 13.sp,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+        }
+    }
+}
+
+/**
+ * 视频信息区域
+ */
+@Composable
+fun VideoInfoSection(
+    video: Video,
+    presenter: VideoPresenter
+) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        color = Color.White,
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp)
+        ) {
+            // 视频标题
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Whatshot,
+                    contentDescription = "热门",
+                    tint = Color(0xFFFF6699),
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    text = video.title,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // 视频数据信息
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Default.PlayArrow,
+                    contentDescription = "播放",
+                    tint = Color.Gray,
+                    modifier = Modifier.size(16.dp)
+                )
+                Text(
+                    text = presenter.formatViewCount(video.viewCount),
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
+
+                Spacer(modifier = Modifier.width(12.dp))
+
+                Icon(
+                    imageVector = Icons.Default.Comment,
+                    contentDescription = "评论",
+                    tint = Color.Gray,
+                    modifier = Modifier.size(16.dp)
+                )
+                Text(
+                    text = video.commentCount.toString(),
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
+
+                Spacer(modifier = Modifier.width(12.dp))
+
+                Text(
+                    text = presenter.formatPublishTime(video.createdTime),
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
+
+                Spacer(modifier = Modifier.width(12.dp))
+
+                Icon(
+                    imageVector = Icons.Default.RemoveRedEye,
+                    contentDescription = "在线",
+                    tint = Color.Gray,
+                    modifier = Modifier.size(16.dp)
+                )
+                Text(
+                    text = presenter.formatOnlineViewers(video.onlineViewers),
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
+            }
+        }
+    }
+}
+
+/**
+ * 互动按钮区域
+ */
+@Composable
+fun InteractionButtonsSection(
+    video: Video,
+    presenter: VideoPresenter,
+    onLike: () -> Unit,
+    onDislike: () -> Unit,
+    onCoin: () -> Unit,
+    onFavorite: () -> Unit,
+    onShare: () -> Unit
+) {
+    var likeCount by remember { mutableStateOf(video.likeCount) }
+    var coinCount by remember { mutableStateOf(video.coinCount) }
+    var favoriteCount by remember { mutableStateOf(video.favoriteCount) }
+    var shareCount by remember { mutableStateOf(video.shareCount) }
+    var isLiked by remember { mutableStateOf(video.isLiked) }
+    var isFavorited by remember { mutableStateOf(video.isFavorited) }
+
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        color = Color.White,
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            // 点赞
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.clickable {
+                    onLike()
+                    isLiked = !isLiked
+                    likeCount = if (isLiked) likeCount + 1 else maxOf(0, likeCount - 1)
+                }
+            ) {
+                Icon(
+                    imageVector = if (isLiked) Icons.Default.ThumbUp else Icons.Default.ThumbUpOffAlt,
+                    contentDescription = "点赞",
+                    tint = if (isLiked) Color(0xFFFF6699) else Color.Gray,
+                    modifier = Modifier.size(28.dp)
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = presenter.formatCount(likeCount),
+                    fontSize = 11.sp,
+                    color = Color.Gray
+                )
+            }
+
+            // 不喜欢
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.clickable {
+                    onDislike()
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.ThumbDownOffAlt,
+                    contentDescription = "不喜欢",
+                    tint = Color.Gray,
+                    modifier = Modifier.size(28.dp)
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = "不喜欢",
+                    fontSize = 11.sp,
+                    color = Color.Gray
+                )
+            }
+
+            // 投币
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.clickable {
+                    onCoin()
+                    coinCount++
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.MonetizationOn,
+                    contentDescription = "投币",
+                    tint = Color.Gray,
+                    modifier = Modifier.size(28.dp)
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = presenter.formatCount(coinCount),
+                    fontSize = 11.sp,
+                    color = Color.Gray
+                )
+            }
+
+            // 收藏
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.clickable {
+                    onFavorite()
+                    isFavorited = !isFavorited
+                    favoriteCount = if (isFavorited) favoriteCount + 1 else maxOf(0, favoriteCount - 1)
+                }
+            ) {
+                Icon(
+                    imageVector = if (isFavorited) Icons.Default.Star else Icons.Default.StarBorder,
+                    contentDescription = "收藏",
+                    tint = if (isFavorited) Color(0xFFFFB800) else Color.Gray,
+                    modifier = Modifier.size(28.dp)
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = presenter.formatCount(favoriteCount),
+                    fontSize = 11.sp,
+                    color = Color.Gray
+                )
+            }
+
+            // 分享
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.clickable {
+                    onShare()
+                    shareCount++
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Share,
+                    contentDescription = "分享",
+                    tint = Color.Gray,
+                    modifier = Modifier.size(28.dp)
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = presenter.formatCount(shareCount),
+                    fontSize = 11.sp,
+                    color = Color.Gray
+                )
+            }
+        }
+    }
+}
+
+/**
+ * 话题标签区域
+ */
+@Composable
+fun TagsSection(tags: List<String>) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        color = Color.White,
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Default.LocalOffer,
+                contentDescription = "话题",
+                tint = Color.Gray,
+                modifier = Modifier.size(20.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = tags.joinToString("  "),
+                fontSize = 13.sp,
+                color = Color(0xFF666666)
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Icon(
+                imageVector = Icons.Default.KeyboardArrowRight,
+                contentDescription = "更多",
+                tint = Color.Gray,
+                modifier = Modifier.size(20.dp)
+            )
+        }
+    }
+}
+
+/**
+ * 推荐视频列表项
+ */
+@Composable
+fun RecommendedVideoItem(
+    video: Video,
+    presenter: VideoPresenter
+) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 4.dp)
+            .clickable { /* TODO: 跳转到视频播放页面 */ },
+        color = Color.White,
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp)
+        ) {
+            // 视频缩略图
+            Box(
+                modifier = Modifier
+                    .width(120.dp)
+                    .height(80.dp)
+            ) {
+                if (video.coverImage.isNotEmpty()) {
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data("file:///android_asset/${video.coverImage}")
+                            .crossfade(true)
+                            .build(),
+                        contentDescription = video.title,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(4.dp)),
+                        contentScale = ContentScale.Crop
+                    )
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(4.dp))
+                            .background(Color(0xFFE0E0E0)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.PlayCircle,
+                            contentDescription = "播放",
+                            tint = Color.White,
+                            modifier = Modifier.size(32.dp)
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            // 视频信息
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .height(80.dp),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                // 标题
+                Text(
+                    text = video.title,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = Color.Black,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                // UP主和数据
+                Column {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.AccountCircle,
+                            contentDescription = "UP主",
+                            tint = Color.Gray,
+                            modifier = Modifier.size(14.dp)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = video.upMasterName,
+                            fontSize = 11.sp,
+                            color = Color.Gray
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(2.dp))
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.PlayArrow,
+                            contentDescription = "播放",
+                            tint = Color.Gray,
+                            modifier = Modifier.size(14.dp)
+                        )
+                        Text(
+                            text = presenter.formatViewCount(video.viewCount),
+                            fontSize = 11.sp,
+                            color = Color.Gray
+                        )
+
+                        Spacer(modifier = Modifier.width(12.dp))
+
+                        Icon(
+                            imageVector = Icons.Default.Comment,
+                            contentDescription = "评论",
+                            tint = Color.Gray,
+                            modifier = Modifier.size(14.dp)
+                        )
+                        Text(
+                            text = video.commentCount.toString(),
+                            fontSize = 11.sp,
+                            color = Color.Gray
+                        )
+                    }
+                }
+            }
+
+            // 更多按钮
+            Icon(
+                imageVector = Icons.Default.MoreVert,
+                contentDescription = "更多",
+                tint = Color.Gray,
+                modifier = Modifier
+                    .size(20.dp)
+                    .align(Alignment.Top)
+            )
+        }
+    }
+}

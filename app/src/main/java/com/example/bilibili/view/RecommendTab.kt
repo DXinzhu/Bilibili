@@ -43,7 +43,11 @@ import kotlinx.coroutines.launch
  * 按照MVP模式实现，展示推荐视频和轮播图
  */
 @Composable
-fun RecommendTab(context: Context) {
+fun RecommendTab(
+    context: Context,
+    onNavigateToSearch: () -> Unit = {},
+    onNavigateToVideo: (String) -> Unit = {}
+) {
     val presenter = remember { RecommendPresenter(context) }
     var user by remember { mutableStateOf<User?>(null) }
     var videos by remember { mutableStateOf<List<Video>>(emptyList()) }
@@ -61,7 +65,7 @@ fun RecommendTab(context: Context) {
         else -> {
             Column(modifier = Modifier.fillMaxSize()) {
                 // 顶部工具栏（固定）
-                user?.let { TopBar(it, currentTab) { selectedTab -> currentTab = selectedTab } }
+                user?.let { TopBar(it, currentTab, onTabSelected = { selectedTab -> currentTab = selectedTab }, onSearchClick = onNavigateToSearch) }
 
                 // 底部滚动内容
                 LazyColumn(
@@ -86,7 +90,7 @@ fun RecommendTab(context: Context) {
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             items(videos) { video ->
-                                VideoCard(video)
+                                VideoCard(video, onClick = { onNavigateToVideo(video.videoId) })
                             }
                         }
                     }
@@ -105,7 +109,12 @@ fun RecommendTab(context: Context) {
  * 顶部工具栏
  */
 @Composable
-fun TopBar(user: User, selectedTab: String = "推荐", onTabSelected: (String) -> Unit = {}) {
+fun TopBar(
+    user: User,
+    selectedTab: String = "推荐",
+    onTabSelected: (String) -> Unit = {},
+    onSearchClick: () -> Unit = {}
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -139,7 +148,7 @@ fun TopBar(user: User, selectedTab: String = "推荐", onTabSelected: (String) -
                 modifier = Modifier
                     .weight(1f)
                     .height(36.dp)
-                    .clickable { /* TODO */ },
+                    .clickable { onSearchClick() },
                 color = Color(0xFFF5F5F5),
                 shape = RoundedCornerShape(18.dp)
             ) {
@@ -371,13 +380,13 @@ fun BannerPage(banner: BannerItem) {
  * 视频卡片
  */
 @Composable
-fun VideoCard(video: Video) {
+fun VideoCard(video: Video, onClick: () -> Unit = {}) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White)
             .clip(RoundedCornerShape(8.dp))
-            .clickable { /* TODO: 播放视频 */ }
+            .clickable { onClick() }
     ) {
         // 视频封面
         Box(
