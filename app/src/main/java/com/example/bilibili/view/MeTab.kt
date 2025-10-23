@@ -43,7 +43,9 @@ fun MeTab(
     onNavigateToConcern: () -> Unit = {},
     onNavigateToVip: () -> Unit = {},
     onNavigateToSetting: () -> Unit = {},
-    onNavigateToHistory: () -> Unit = {}
+    onNavigateToHistory: () -> Unit = {},
+    onNavigateToCollect: () -> Unit = {},
+    onNavigateToPerson: () -> Unit = {}
 ) {
     val presenter = remember { MePresenter(context) }
     var user by remember { mutableStateOf<User?>(null) }
@@ -58,10 +60,10 @@ fun MeTab(
             TopToolbar()
 
             // 中部信息栏（固定）
-            user?.let { UserInfoSection(it, onNavigateToConcern, onNavigateToVip) }
+            user?.let { UserInfoSection(it, onNavigateToConcern, onNavigateToVip, onNavigateToPerson) }
 
             // 底部滚动列表
-            BottomServiceList(onNavigateToSetting, onNavigateToHistory)
+            BottomServiceList(onNavigateToSetting, onNavigateToHistory, onNavigateToCollect)
         }
     }
 }
@@ -123,7 +125,8 @@ fun TopToolbar() {
 fun UserInfoSection(
     user: User,
     onNavigateToConcern: () -> Unit = {},
-    onNavigateToVip: () -> Unit = {}
+    onNavigateToVip: () -> Unit = {},
+    onNavigateToPerson: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -146,7 +149,8 @@ fun UserInfoSection(
                 modifier = Modifier
                     .size(64.dp)
                     .clip(CircleShape)
-                    .border(2.dp, Color(0xFFFF6699), CircleShape),
+                    .border(2.dp, Color(0xFFFF6699), CircleShape)
+                    .clickable(onClick = onNavigateToPerson),
                 contentScale = ContentScale.Crop
             )
 
@@ -158,7 +162,8 @@ fun UserInfoSection(
                     Text(
                         text = user.name,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.clickable(onClick = onNavigateToPerson)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Icon(
@@ -352,7 +357,8 @@ fun QuickActionItem(icon: ImageVector, label: String, onClick: () -> Unit = {}) 
 @Composable
 fun BottomServiceList(
     onNavigateToSetting: () -> Unit = {},
-    onNavigateToHistory: () -> Unit = {}
+    onNavigateToHistory: () -> Unit = {},
+    onNavigateToCollect: () -> Unit = {}
 ) {
     LazyColumn(
         modifier = Modifier
@@ -375,7 +381,7 @@ fun BottomServiceList(
                 ) {
                     QuickActionItem(icon = Icons.Default.Download, label = "离线缓存", onClick = { /* TODO */ })
                     QuickActionItem(icon = Icons.Default.History, label = "历史记录", onClick = onNavigateToHistory)
-                    QuickActionItem(icon = Icons.Default.Star, label = "我的收藏", onClick = { /* TODO */ })
+                    QuickActionItem(icon = Icons.Default.Star, label = "我的收藏", onClick = onNavigateToCollect)
                     QuickActionItem(icon = Icons.Default.WatchLater, label = "稍后再看", onClick = { /* TODO */ })
                 }
             }

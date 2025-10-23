@@ -36,7 +36,8 @@ import com.google.accompanist.flowlayout.FlowRow
 @Composable
 fun SearchTab(
     context: Context,
-    onBack: () -> Unit = {}
+    onBack: () -> Unit = {},
+    onNavigateToGame: (String) -> Unit = {}
 ) {
     val presenter = remember { SearchPresenter(context) }
     var searchText by remember { mutableStateOf("B站") }
@@ -60,7 +61,13 @@ fun SearchTab(
             searchText = searchText,
             onSearchTextChange = { searchText = it },
             onBack = onBack,
-            onSearch = { presenter.search(searchText) }
+            onSearch = {
+                if (searchText == "游戏解说") {
+                    onNavigateToGame(searchText)
+                } else {
+                    presenter.search(searchText)
+                }
+            }
         )
 
         // 滚动内容

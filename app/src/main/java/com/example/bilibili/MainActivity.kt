@@ -16,9 +16,12 @@ import androidx.compose.ui.platform.LocalContext
 import com.example.bilibili.ui.theme.BilibiliTheme
 import com.example.bilibili.view.ActionTab
 import com.example.bilibili.view.BuyTab
+import com.example.bilibili.view.CollectTab
 import com.example.bilibili.view.ConcernTab
+import com.example.bilibili.view.GameTab
 import com.example.bilibili.view.HistoryTab
 import com.example.bilibili.view.MeTab
+import com.example.bilibili.view.PersonTab
 import com.example.bilibili.view.RecommendTab
 import com.example.bilibili.view.SearchTab
 import com.example.bilibili.view.SettingTab
@@ -44,15 +47,19 @@ fun MainScreen() {
     var showVipTab by remember { mutableStateOf(false) }
     var showSettingTab by remember { mutableStateOf(false) }
     var showHistoryTab by remember { mutableStateOf(false) }
+    var showCollectTab by remember { mutableStateOf(false) }
     var showSearchTab by remember { mutableStateOf(false) }
     var showVideoTab by remember { mutableStateOf(false) }
+    var showGameTab by remember { mutableStateOf(false) }
+    var showPersonTab by remember { mutableStateOf(false) }
     var currentVideoId by remember { mutableStateOf("") }
+    var searchQuery by remember { mutableStateOf("") }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             // 只在不显示子页面时显示底部导航栏
-            if (!showConcernTab && !showVipTab && !showSettingTab && !showHistoryTab && !showSearchTab && !showVideoTab) {
+            if (!showConcernTab && !showVipTab && !showSettingTab && !showHistoryTab && !showCollectTab && !showSearchTab && !showVideoTab && !showGameTab && !showPersonTab) {
                 NavigationBar(
                     containerColor = Color.White,
                     contentColor = Color.Gray
@@ -163,6 +170,19 @@ fun MainScreen() {
 
             // 根据状态显示不同的页面
             when {
+                showPersonTab -> {
+                    PersonTab(
+                        context = context,
+                        onNavigateBack = { showPersonTab = false }
+                    )
+                }
+                showGameTab -> {
+                    GameTab(
+                        context = context,
+                        searchQuery = searchQuery,
+                        onBack = { showGameTab = false }
+                    )
+                }
                 showVideoTab -> {
                     VideoTab(
                         context = context,
@@ -173,7 +193,11 @@ fun MainScreen() {
                 showSearchTab -> {
                     SearchTab(
                         context = context,
-                        onBack = { showSearchTab = false }
+                        onBack = { showSearchTab = false },
+                        onNavigateToGame = { query ->
+                            searchQuery = query
+                            showGameTab = true
+                        }
                     )
                 }
                 showConcernTab -> {
@@ -200,6 +224,12 @@ fun MainScreen() {
                         onNavigateBack = { showHistoryTab = false }
                     )
                 }
+                showCollectTab -> {
+                    CollectTab(
+                        context = context,
+                        onNavigateBack = { showCollectTab = false }
+                    )
+                }
                 else -> {
                     when (selectedTab) {
                         0 -> RecommendTab(
@@ -217,7 +247,9 @@ fun MainScreen() {
                             onNavigateToConcern = { showConcernTab = true },
                             onNavigateToVip = { showVipTab = true },
                             onNavigateToSetting = { showSettingTab = true },
-                            onNavigateToHistory = { showHistoryTab = true }
+                            onNavigateToHistory = { showHistoryTab = true },
+                            onNavigateToCollect = { showCollectTab = true },
+                            onNavigateToPerson = { showPersonTab = true }
                         )  // 我的页面
                     }
                 }
