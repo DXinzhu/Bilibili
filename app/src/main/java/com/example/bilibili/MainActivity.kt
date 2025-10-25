@@ -20,6 +20,7 @@ import com.example.bilibili.view.CollectTab
 import com.example.bilibili.view.ConcernTab
 import com.example.bilibili.view.GameTab
 import com.example.bilibili.view.HistoryTab
+import com.example.bilibili.view.LoadTab
 import com.example.bilibili.view.MeTab
 import com.example.bilibili.view.PersonTab
 import com.example.bilibili.view.RecommendTab
@@ -52,14 +53,15 @@ fun MainScreen() {
     var showVideoTab by remember { mutableStateOf(false) }
     var showGameTab by remember { mutableStateOf(false) }
     var showPersonTab by remember { mutableStateOf(false) }
+    var showLoadTab by remember { mutableStateOf(false) }
     var currentVideoId by remember { mutableStateOf("") }
     var searchQuery by remember { mutableStateOf("") }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            // 只在不显示子页面时显示底部导航栏
-            if (!showConcernTab && !showVipTab && !showSettingTab && !showHistoryTab && !showCollectTab && !showSearchTab && !showVideoTab && !showGameTab && !showPersonTab) {
+            // 只在不显示子页面时���示底部导航栏
+            if (!showConcernTab && !showVipTab && !showSettingTab && !showHistoryTab && !showCollectTab && !showSearchTab && !showVideoTab && !showGameTab && !showPersonTab && !showLoadTab) {
                 NavigationBar(
                     containerColor = Color.White,
                     contentColor = Color.Gray
@@ -230,6 +232,12 @@ fun MainScreen() {
                         onNavigateBack = { showCollectTab = false }
                     )
                 }
+                showLoadTab -> {
+                    LoadTab(
+                        context = context,
+                        onNavigateBack = { showLoadTab = false }
+                    )
+                }
                 else -> {
                     when (selectedTab) {
                         0 -> RecommendTab(
@@ -249,7 +257,8 @@ fun MainScreen() {
                             onNavigateToSetting = { showSettingTab = true },
                             onNavigateToHistory = { showHistoryTab = true },
                             onNavigateToCollect = { showCollectTab = true },
-                            onNavigateToPerson = { showPersonTab = true }
+                            onNavigateToPerson = { showPersonTab = true },
+                            onNavigateToLoad = { showLoadTab = true }
                         )  // 我的页面
                     }
                 }

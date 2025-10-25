@@ -36,6 +36,7 @@ import com.example.bilibili.presenter.VideoPresenter
 /**
  * 视频播放页面
  * 包含视频播放区、标签栏、UP主信息、视频信息、互动按钮、推荐视频列表
+ * 支持简介/评论标签切换，无需跳转到独立页面
  */
 @Composable
 fun VideoTab(
@@ -44,9 +45,11 @@ fun VideoTab(
     onBack: () -> Unit = {}
 ) {
     val presenter = remember { VideoPresenter(context) }
+    val contentPresenter = remember { com.example.bilibili.presenter.ContentPresenter(context) }
     var video by remember { mutableStateOf<Video?>(null) }
     var upMaster by remember { mutableStateOf<UPMaster?>(null) }
     var recommendedVideos by remember { mutableStateOf<List<Video>>(emptyList()) }
+    var comments by remember { mutableStateOf<List<com.example.bilibili.model.Comment>>(emptyList()) }
     var selectedTab by remember { mutableStateOf("简介") }
 
     LaunchedEffect(videoId) {
@@ -55,6 +58,7 @@ fun VideoTab(
             upMaster = presenter.getUpMasterById(it.upMasterId)
             recommendedVideos = presenter.getRecommendedVideos(videoId)
         }
+        comments = contentPresenter.getCommentsByVideoId(videoId)
     }
 
     Column(
@@ -62,8 +66,8 @@ fun VideoTab(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        // 视频播放区域
-        VideoPlayerSection(
+        // 视频播放区域（与ContentTab共享）
+        VideoPlayerSharedSection(
             video = video,
             onBack = onBack
         )
@@ -79,62 +83,88 @@ fun VideoTab(
                 TabAndDanmakuSection(
                     selectedTab = selectedTab,
                     commentCount = video?.commentCount ?: 0,
-                    onTabSelected = { selectedTab = it }
+                    onTabSelected = { tab -> selectedTab = tab }
                 )
             }
 
-            // UP主信息区域
-            item {
-                video?.let { v ->
-                    upMaster?.let { up ->
-                        UpMasterInfoSection(
-                            upMaster = up,
+            // 根据选中的标签显示不同的内容
+            if (selectedTab == "简介") {
+                // UP主信息区域
+                item {
+                    video?.let { v ->
+                        upMaster?.let { up ->
+                            UpMasterInfoSection(
+                                upMaster = up,
+                                presenter = presenter
+                            )
+                        }
+                    }
+                }
+
+                // 视频标题和数据信息
+                item {
+                    video?.let { v ->
+                        VideoInfoSection(
+                            video = v,
                             presenter = presenter
                         )
                     }
                 }
-            }
 
-            // 视频标题和数据信息
-            item {
-                video?.let { v ->
-                    VideoInfoSection(
-                        video = v,
+                // 互动按钮区域
+                item {
+                    video?.let { v ->
+                        InteractionButtonsSection(
+                            video = v,
+                            presenter = presenter,
+                            onLike = { v.toggleLike() },
+                            onDislike = { v.toggleDislike() },
+                            onCoin = { v.addCoin() },
+                            onFavorite = { v.toggleFavorite() },
+                            onShare = { v.markAsShared() }
+                        )
+                    }
+                }
+
+                // 话题标签区域
+                item {
+                    video?.let { v ->
+                        if (v.tags.isNotEmpty()) {
+                            TagsSection(tags = v.tags)
+                        }
+                    }
+                }
+
+                // 推荐视频列表
+                items(recommendedVideos) { recommendedVideo ->
+                    RecommendedVideoItem(
+                        video = recommendedVideo,
                         presenter = presenter
                     )
                 }
-            }
+            } else {
+                // 评论内容区域
+                // 热门评论标题
+                item {
+                    HotCommentsHeader()
+                }
 
-            // 互动按钮区域
-            item {
-                video?.let { v ->
-                    InteractionButtonsSection(
-                        video = v,
-                        presenter = presenter,
-                        onLike = { v.toggleLike() },
-                        onDislike = { v.toggleDislike() },
-                        onCoin = { v.addCoin() },
-                        onFavorite = { v.toggleFavorite() },
-                        onShare = { v.markAsShared() }
+                // 评论列表
+                items(comments) { comment ->
+                    VideoCommentItem(
+                        comment = comment,
+                        presenter = contentPresenter,
+                        onReply = { /* TODO: 回复评论 */ },
+                        onLike = { updatedComment ->
+                            val index = comments.indexOf(comment)
+                            if (index != -1) {
+                                comments = comments.toMutableList().apply {
+                                    set(index, updatedComment)
+                                }
+                            }
+                        }
                     )
                 }
-            }
-
-            // 话题标签区域
-            item {
-                video?.let { v ->
-                    if (v.tags.isNotEmpty()) {
-                        TagsSection(tags = v.tags)
-                    }
-                }
-            }
-
-            // 推荐视频列表
-            items(recommendedVideos) { recommendedVideo ->
-                RecommendedVideoItem(
-                    video = recommendedVideo,
-                    presenter = presenter
-                )
             }
 
             // 底部空白
@@ -146,7 +176,154 @@ fun VideoTab(
 }
 
 /**
- * 视频播放区域
+ * 视频播放区域（共享组件，供VideoTab和ContentTab使用）
+ */
+@Composable
+fun VideoPlayerSharedSection(
+    video: Video?,
+    onBack: () -> Unit
+) {
+    val context = LocalContext.current
+    var isPlaying by remember { mutableStateOf(false) }
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(16f / 9f)
+            .background(Color.Black)
+    ) {
+        // VideoView视频播放器
+        video?.let { v ->
+            if (v.videoPath.isNotEmpty()) {
+                AndroidView(
+                    factory = { ctx ->
+                        VideoView(ctx).apply {
+                            val videoUri = Uri.parse("android.resource://${context.packageName}/raw/${v.videoPath.replace("video/", "").replace(".mp4", "")}")
+                            setVideoURI(videoUri)
+                            setOnPreparedListener { mediaPlayer ->
+                                mediaPlayer.isLooping = true
+                                start()
+                                isPlaying = true
+                            }
+                            setOnErrorListener { _, _, _ ->
+                                // 如果视频文件不存在，显示封面
+                                false
+                            }
+                        }
+                    },
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else if (v.coverImage.isNotEmpty()) {
+                // 如果没有视频路径，显示封面
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data("file:///android_asset/${v.coverImage}")
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = v.title,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+            }
+        }
+
+        // 顶部返回按钮和功能图标
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.TopStart)
+                .background(Color.Black.copy(alpha = 0.3f))
+                .padding(8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            // 返回按钮
+            Icon(
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = "返回",
+                tint = Color.White,
+                modifier = Modifier
+                    .size(32.dp)
+                    .clickable { onBack() }
+            )
+
+            // 右侧功能图标
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Home,
+                    contentDescription = "首页",
+                    tint = Color.White,
+                    modifier = Modifier.size(28.dp)
+                )
+                Icon(
+                    imageVector = Icons.Default.Headphones,
+                    contentDescription = "音频",
+                    tint = Color.White,
+                    modifier = Modifier.size(28.dp)
+                )
+                Icon(
+                    imageVector = Icons.Default.Cast,
+                    contentDescription = "投屏",
+                    tint = Color.White,
+                    modifier = Modifier.size(28.dp)
+                )
+                Icon(
+                    imageVector = Icons.Default.Tv,
+                    contentDescription = "电视",
+                    tint = Color.White,
+                    modifier = Modifier.size(28.dp)
+                )
+                Icon(
+                    imageVector = Icons.Default.MoreVert,
+                    contentDescription = "更多",
+                    tint = Color.White,
+                    modifier = Modifier.size(28.dp)
+                )
+            }
+        }
+
+        // 底部播放控制
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomStart)
+                .background(Color.Black.copy(alpha = 0.3f))
+                .padding(12.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // 播放/暂停按钮
+            Icon(
+                imageVector = Icons.Default.PlayArrow,
+                contentDescription = "播放",
+                tint = Color.White,
+                modifier = Modifier.size(32.dp)
+            )
+
+            // 时间和全屏
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "00:01/02:59",
+                    color = Color.White,
+                    fontSize = 12.sp
+                )
+                Icon(
+                    imageVector = Icons.Default.Fullscreen,
+                    contentDescription = "全屏",
+                    tint = Color.White,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+        }
+    }
+}
+
+/**
+ * 视频播放区域（旧版，保留用于兼容）
  */
 @Composable
 fun VideoPlayerSection(
@@ -906,4 +1083,22 @@ fun RecommendedVideoItem(
             )
         }
     }
+}
+
+/**
+ * 视频评论项（直接使用ContentTab的CommentItem组件）
+ */
+@Composable
+fun VideoCommentItem(
+    comment: com.example.bilibili.model.Comment,
+    presenter: com.example.bilibili.presenter.ContentPresenter,
+    onReply: (com.example.bilibili.model.Comment) -> Unit,
+    onLike: (com.example.bilibili.model.Comment) -> Unit
+) {
+    CommentItem(
+        comment = comment,
+        presenter = presenter,
+        onReply = onReply,
+        onLike = onLike
+    )
 }

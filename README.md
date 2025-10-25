@@ -45,7 +45,8 @@ app/src/main/java/com/example/bilibili/
 │   ├── TaskState.kt                   # 任务状态模型
 │   ├── HotSearch.kt                   # 热搜数据模型
 │   ├── SearchHistory.kt               # 搜索历史模型
-│   └── SearchDiscovery.kt             # 搜索发现模型
+│   ├── SearchDiscovery.kt             # 搜索发现模型
+│   └── CacheState.kt                  # 缓存状态模型
 ├── presenter/                         # 业务逻辑层
 │   ├── MePresenter.kt                 # "我的"页面业务逻辑
 │   ├── RecommendPresenter.kt          # 推荐页面业务逻辑
@@ -61,7 +62,9 @@ app/src/main/java/com/example/bilibili/
 │   ├── PersonPresenter.kt             # 个人主页页面业务逻辑
 │   ├── SearchPresenter.kt             # 搜索页面业务逻辑
 │   ├── VideoPresenter.kt              # 视频播放页面业务逻辑
-│   └── GamePresenter.kt               # 游戏搜索页面业务逻辑
+│   ├── GamePresenter.kt               # 游戏搜索页面业务逻辑
+│   ├── LoadPresenter.kt               # 离线缓存页面业务逻辑
+│   └── ContentPresenter.kt            # 内容页面业务逻辑
 ├── view/                              # 视图层
 │   ├── MeTab.kt                       # "我的"页面UI
 │   ├── RecommendTab.kt                # 推荐页面UI
@@ -77,7 +80,9 @@ app/src/main/java/com/example/bilibili/
 │   ├── PersonTab.kt                   # 个人主页页面UI
 │   ├── SearchTab.kt                   # 搜索页面UI
 │   ├── VideoTab.kt                    # 视频播放页面UI
-│   └── GameTab.kt                     # 游戏搜索页面UI
+│   ├── GameTab.kt                     # 游戏搜索页面UI
+│   ├── LoadTab.kt                     # 离线缓存页面UI
+│   └── ContentTab.kt                  # 内容页面UI（评论页）
 └── ui/theme/                          # 主题配置
     ├── Color.kt
     ├── Theme.kt
@@ -98,7 +103,8 @@ app/src/main/assets/
 │   ├── watch_history.json             # 观看历史
 │   ├── hot_searches.json              # 热搜数据
 │   ├── search_history.json            # 搜索历史数据
-│   └── search_discoveries.json        # 搜索发现数据
+│   ├── search_discoveries.json        # 搜索发现数据
+│   └── cache_videos.json              # 缓存视频数据
 ├── avatar/                            # 头像图片资源
 │   └── *.jpg                          # 各种头像图片
 ├── video/                             # 视频资源
@@ -764,6 +770,65 @@ app/src/main/assets/
 - 点击返回按钮返回"我的"页面
 - 进入个人主页时隐藏底部导航栏
 
+### 离线缓存页面 (LoadTab)
+
+#### 顶部标题栏（固定不滚动）
+- 返回箭头按钮
+- "离线缓存"标题（居中）
+- 右侧功能按钮：
+  - 搜索图标（TODO）
+  - 设置图标（TODO）
+
+#### 缓存视频列表（可滚动）
+- **缓存统计卡片**:
+  - 总大小：120MB（示例）
+  - 缓存个数：1个
+  - 已完成：1个
+  - 3个统计项水平排列
+
+- **缓存视频项**:
+  - 展示vid001：罗翔说刑法（封面: video/L1.png, UP主: up1）
+  - 与HistoryTab相同的视频卡片样式
+  - 显示缓存状态："已完成"
+  - 显示缓存大小："120MB"
+  - 显示缓存画质："1080P 高清"
+  - 显示观看进度条（75%已观看）
+  - 右上角画质标签
+
+每个缓存视频条目包含：
+- **左侧视频缩略图**:
+  - 尺寸：140dp × 90dp，圆角
+  - 显示视频封面图片（从videos.json获取coverImage）
+  - 底部显示观看进度条（粉色）
+  - 右上角画质标签（黑色半透明背景）
+
+- **右侧信息区域**:
+  - 视频标题（最多2行，超出省略）
+  - UP主名称（带人物图标）
+  - 缓存大小和状态信息（灰色小字）
+
+- **更多操作按钮**:
+  - 右上角三个点图标（TODO）
+
+#### 缓存数据
+包含1条缓存记录：
+- vid001: 罗翔说刑法 (封面: video/L1.png, UP主: up1)
+  - 缓存大小: 120MB
+  - 缓存画质: 1080P 高清
+  - 缓存状态: 已完成
+  - 观看进度: 75%
+
+#### 空状态提示
+- 当没有缓存视频时显示：
+  - 视频库图标（120dp）
+  - 提示文字："这里还什么都没有呢 ~"
+  - 副提示："快去发现你喜欢的内容并缓存吧"
+
+#### 导航
+- 从MeTab点击"离线缓存"快捷功能进入
+- 点击返回箭头返回MeTab
+- 进入LoadTab时隐藏底部导航栏
+
 ## 数据说明
 
 ### 用户数据 (user.json)
@@ -1045,6 +1110,8 @@ app/src/main/assets/
 - [x] HistoryTab - 历史记录页面（已完成）
 - [x] CollectTab - 收藏页面（已完成）
 - [x] PersonTab - 个人主页页面（已完成）
+- [x] LoadTab - 离线缓存页面（已完成）
+- [x] ContentTab - 内容页面/评论页（已完成）
 
 ## 注意事项
 
@@ -1054,6 +1121,51 @@ app/src/main/assets/
 4. 不需要申请任何特殊权限（网络、通知等）
 
 ## 版本历史
+
+### v1.18.0 (2025-10-25)
+- ✅ 重构VideoTab集成评论功能
+  - 移除独立的ContentTab页面导航
+  - 在VideoTab内部实现简介/评论标签切换
+  - 创建VideoPlayerSharedSection共享组件
+  - 集成ContentPresenter实现评论功能
+  - 视频继续播放，仅下方内容切换
+  - 实现无缝的用户体验
+- ✅ 修改VideoTab实现页面内标签切换
+  - 添加ContentPresenter支持评论功能
+  - 在LaunchedEffect中同时加载视频和评论数据
+  - 根据selectedTab条件渲染简介或评论内容
+  - 创建VideoCommentItem组件复用ContentTab的CommentItem
+- ✅ 清理MainActivity导航逻辑
+  - 移除showContentTab状态变量
+  - 移除ContentTab导航case
+  - 更新底部导航栏显示条件
+  - 移除ContentTab import
+  - 简化VideoTab参数（移除onNavigateToComments回调）
+- ✅ 成功构建项目，无编译错误
+
+### v1.17.0 (2025-10-25)
+- ✅ 完成内容页面 (ContentTab)
+  - 实现视频播放头部区域（简化版，显示封面和UP主信息）
+  - 实现广告区域（显示广告内容和播放量信息）
+  - 实现标签栏（简介/评论切换，默认选中"评论"，带弹幕按钮）
+  - 实现热门评论标题区域（带"按热度"排序选项）
+  - 实现评论列表（展示热门评论，支持点赞、点踩、更多操作）
+  - 实现评论项（包含用户头像、昵称、等级标识、评论内容、时间地点、互动按钮）
+  - 实现回复区域（展示评论的回复，支持展开查看更多）
+  - 实现底部评论输入框（带用户头像、输入框、表情按钮、发送按钮）
+- ✅ 创建ContentPresenter业务逻辑层
+  - 加载视频详情和评论数据
+  - 根据videoId筛选评论
+  - 格式化播放量、点赞数等数字显示
+  - 格式化相对时间（刚刚、N分钟前、N小时前、N天前等）
+  - 提供用户头像URL和等级信息
+  - 支持评论点赞状态切换
+- ✅ 更新评论数据
+  - 为vid001（罗翔说刑法）更新评论内容
+  - 添加4条与罗翔说刑法相关的评论
+  - 评论内容包含法律知识、张三案例等相关内容
+  - 更新评论者名称：法学小白、法律爱好者、刑法学渣、求知若渴、法律系学生
+- ✅ 成功构建项目，无编译错误
 
 ### v1.16.0 (2025-10-23)
 - ✅ 完成个人主页页面 (PersonTab)

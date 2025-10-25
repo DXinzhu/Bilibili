@@ -45,7 +45,8 @@ fun MeTab(
     onNavigateToSetting: () -> Unit = {},
     onNavigateToHistory: () -> Unit = {},
     onNavigateToCollect: () -> Unit = {},
-    onNavigateToPerson: () -> Unit = {}
+    onNavigateToPerson: () -> Unit = {},
+    onNavigateToLoad: () -> Unit = {}
 ) {
     val presenter = remember { MePresenter(context) }
     var user by remember { mutableStateOf<User?>(null) }
@@ -63,7 +64,7 @@ fun MeTab(
             user?.let { UserInfoSection(it, onNavigateToConcern, onNavigateToVip, onNavigateToPerson) }
 
             // 底部滚动列表
-            BottomServiceList(onNavigateToSetting, onNavigateToHistory, onNavigateToCollect)
+            BottomServiceList(onNavigateToSetting, onNavigateToHistory, onNavigateToCollect, onNavigateToLoad)
         }
     }
 }
@@ -358,7 +359,8 @@ fun QuickActionItem(icon: ImageVector, label: String, onClick: () -> Unit = {}) 
 fun BottomServiceList(
     onNavigateToSetting: () -> Unit = {},
     onNavigateToHistory: () -> Unit = {},
-    onNavigateToCollect: () -> Unit = {}
+    onNavigateToCollect: () -> Unit = {},
+    onNavigateToLoad: () -> Unit = {}
 ) {
     LazyColumn(
         modifier = Modifier
@@ -379,7 +381,7 @@ fun BottomServiceList(
                         .padding(16.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    QuickActionItem(icon = Icons.Default.Download, label = "离线缓存", onClick = { /* TODO */ })
+                    QuickActionItem(icon = Icons.Default.Download, label = "离线缓存", onClick = onNavigateToLoad)
                     QuickActionItem(icon = Icons.Default.History, label = "历史记录", onClick = onNavigateToHistory)
                     QuickActionItem(icon = Icons.Default.Star, label = "我的收藏", onClick = onNavigateToCollect)
                     QuickActionItem(icon = Icons.Default.WatchLater, label = "稍后再看", onClick = { /* TODO */ })

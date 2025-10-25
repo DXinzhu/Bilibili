@@ -1,0 +1,15 @@
+[
+  {
+    "cacheId": "cache001",
+    "videoId": "vid001",
+    "cacheSize": 125829120,
+    "cacheProgress": 1.0,
+    "cacheQuality": "1080P 高清",
+    "cacheStatus": "COMPLETED",
+    "cachePath": "/cache/video/vid001_1080p.mp4",
+    "downloadTime": 1729526100000,
+    "lastWatchTime": 1729612800000,
+    "isWatched": true,
+    "watchProgress": 0.75
+  }
+]
