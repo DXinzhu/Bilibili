@@ -135,13 +135,41 @@ class ContentPresenter(private val context: Context) {
      */
     fun getUserAvatarUrl(userId: String): String {
         // 这里可以扩展为从用户数据文件读取真实头像
+        // 使用avatar文件夹中实际存在的头像，避免使用已被其他界面使用的头像
+        // 已使用的头像: spring, autumn, fruit, cloud
         return when {
-            userId.contains("001") -> "avatar/law1.png"
-            userId.contains("002") -> "avatar/law2.png"
-            userId.contains("003") -> "avatar/law3.png"
-            userId.contains("004") -> "avatar/law4.png"
-            userId.contains("005") -> "avatar/law5.png"
-            else -> "avatar/default.png"
+            userId.contains("001") -> "avatar/summer.jpg"
+            userId.contains("002") -> "avatar/winter.jpg"
+            userId.contains("003") -> "avatar/farmer.jpg"
+            userId.contains("004") -> "avatar/photo.jpg"
+            userId.contains("005") -> "avatar/tea.jpg"
+            userId.contains("006") -> "avatar/sowing.jpg"
+            userId.contains("007") -> "avatar/tree.jpg"
+            userId.contains("008") -> "avatar/walk.jpg"
+            userId.contains("009") -> "avatar/flower.jpg"
+            userId.contains("010") -> "avatar/bird.jpg"
+            userId.contains("011") -> "avatar/gift.jpg"
+            userId.contains("012") -> "avatar/vege.jpg"
+            userId.contains("013") -> "avatar/teabuy.jpg"
+            userId.contains("014") -> "avatar/fire.jpg"
+            userId.contains("015") -> "avatar/folk.jpg"
+            userId.contains("016") -> "avatar/music.jpg"
+            userId.contains("017") -> "avatar/water.jpg"
+            userId.contains("018") -> "avatar/mon.jpg"
+            userId.contains("019") -> "avatar/min.jpg"
+            userId.contains("020") -> "avatar/bike.jpg"
+            userId.contains("021") -> "avatar/drink.jpg"
+            userId.contains("022") -> "avatar/ice.jpg"
+            userId.contains("023") -> "avatar/cul.jpg"
+            userId.contains("024") -> "avatar/dinner.jpg"
+            userId.contains("025") -> "avatar/corn.jpg"
+            userId.contains("026") -> "avatar/leaf.jpg"
+            userId.contains("027") -> "avatar/draw.jpg"
+            userId.contains("028") -> "avatar/wine.jpg"
+            userId.contains("029") -> "avatar/mark.jpg"
+            userId.contains("030") -> "avatar/food.jpg"
+            userId.contains("031") -> "avatar/hotel.jpg"
+            else -> "avatar/video.jpg"  // 默认头像
         }
     }
 

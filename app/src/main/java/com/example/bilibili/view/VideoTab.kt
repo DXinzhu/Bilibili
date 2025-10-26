@@ -185,6 +185,7 @@ fun VideoPlayerSharedSection(
 ) {
     val context = LocalContext.current
     var isPlaying by remember { mutableStateOf(false) }
+    var videoViewRef by remember { mutableStateOf<VideoView?>(null) }
 
     Box(
         modifier = Modifier
@@ -198,32 +199,64 @@ fun VideoPlayerSharedSection(
                 AndroidView(
                     factory = { ctx ->
                         VideoView(ctx).apply {
-                            val videoUri = Uri.parse("android.resource://${context.packageName}/raw/${v.videoPath.replace("video/", "").replace(".mp4", "")}")
-                            setVideoURI(videoUri)
-                            setOnPreparedListener { mediaPlayer ->
-                                mediaPlayer.isLooping = true
-                                start()
-                                isPlaying = true
+                            try {
+                                // 从 videoPath "video/1.mp4" 提取 "1" 并转换为 "video_1"
+                                val fileName = v.videoPath.replace("video/", "").replace(".mp4", "")
+                                val resourceName = "video_$fileName"
+                                val resId = context.resources.getIdentifier(resourceName, "raw", context.packageName)
+
+                                if (resId != 0) {
+                                    // 如果资源存在，使用资源URI
+                                    val videoUri = Uri.parse("android.resource://${context.packageName}/$resId")
+                                    setVideoURI(videoUri)
+
+                                    setOnPreparedListener { mediaPlayer ->
+                                        mediaPlayer.isLooping = true
+                                        start()
+                                        isPlaying = true
+                                    }
+
+                                    setOnErrorListener { _, what, extra ->
+                                        android.util.Log.e("VideoPlayer", "Error: what=$what, extra=$extra")
+                                        false
+                                    }
+                                } else {
+                                    // 资源不存在，记录错误
+                                    android.util.Log.e("VideoPlayer", "Video resource not found: $fileName")
+                                }
+                            } catch (e: Exception) {
+                                android.util.Log.e("VideoPlayer", "Error loading video", e)
                             }
-                            setOnErrorListener { _, _, _ ->
-                                // 如果视频文件不存在，显示封面
-                                false
-                            }
+                            videoViewRef = this
                         }
                     },
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
+                    update = { videoView ->
+                        videoViewRef = videoView
+                    }
                 )
             } else if (v.coverImage.isNotEmpty()) {
                 // 如果没有视频路径，显示封面
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data("file:///android_asset/${v.coverImage}")
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = v.title,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
+                Box(modifier = Modifier.fillMaxSize()) {
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data("file:///android_asset/${v.coverImage}")
+                            .crossfade(true)
+                            .build(),
+                        contentDescription = v.title,
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+                    // 播放按钮图标
+                    Icon(
+                        imageVector = Icons.Default.PlayCircle,
+                        contentDescription = "播放",
+                        tint = Color.White.copy(alpha = 0.8f),
+                        modifier = Modifier
+                            .size(64.dp)
+                            .align(Alignment.Center)
+                    )
+                }
             }
         }
 
@@ -332,6 +365,7 @@ fun VideoPlayerSection(
 ) {
     val context = LocalContext.current
     var isPlaying by remember { mutableStateOf(false) }
+    var videoViewRef by remember { mutableStateOf<VideoView?>(null) }
 
     Box(
         modifier = Modifier
@@ -345,32 +379,64 @@ fun VideoPlayerSection(
                 AndroidView(
                     factory = { ctx ->
                         VideoView(ctx).apply {
-                            val videoUri = Uri.parse("android.resource://${context.packageName}/raw/${v.videoPath.replace("video/", "").replace(".mp4", "")}")
-                            setVideoURI(videoUri)
-                            setOnPreparedListener { mediaPlayer ->
-                                mediaPlayer.isLooping = true
-                                start()
-                                isPlaying = true
+                            try {
+                                // 从 videoPath "video/1.mp4" 提取 "1" 并转换为 "video_1"
+                                val fileName = v.videoPath.replace("video/", "").replace(".mp4", "")
+                                val resourceName = "video_$fileName"
+                                val resId = context.resources.getIdentifier(resourceName, "raw", context.packageName)
+
+                                if (resId != 0) {
+                                    // 如果资源存在，使用资源URI
+                                    val videoUri = Uri.parse("android.resource://${context.packageName}/$resId")
+                                    setVideoURI(videoUri)
+
+                                    setOnPreparedListener { mediaPlayer ->
+                                        mediaPlayer.isLooping = true
+                                        start()
+                                        isPlaying = true
+                                    }
+
+                                    setOnErrorListener { _, what, extra ->
+                                        android.util.Log.e("VideoPlayer", "Error: what=$what, extra=$extra")
+                                        false
+                                    }
+                                } else {
+                                    // 资源不存在，记录错误
+                                    android.util.Log.e("VideoPlayer", "Video resource not found: $fileName")
+                                }
+                            } catch (e: Exception) {
+                                android.util.Log.e("VideoPlayer", "Error loading video", e)
                             }
-                            setOnErrorListener { _, _, _ ->
-                                // 如果视频文件不存在，显示封面
-                                false
-                            }
+                            videoViewRef = this
                         }
                     },
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
+                    update = { videoView ->
+                        videoViewRef = videoView
+                    }
                 )
             } else if (v.coverImage.isNotEmpty()) {
                 // 如果没有视频路径，显示封面
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data("file:///android_asset/${v.coverImage}")
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = v.title,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
+                Box(modifier = Modifier.fillMaxSize()) {
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data("file:///android_asset/${v.coverImage}")
+                            .crossfade(true)
+                            .build(),
+                        contentDescription = v.title,
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+                    // 播放按钮图标
+                    Icon(
+                        imageVector = Icons.Default.PlayCircle,
+                        contentDescription = "播放",
+                        tint = Color.White.copy(alpha = 0.8f),
+                        modifier = Modifier
+                            .size(64.dp)
+                            .align(Alignment.Center)
+                    )
+                }
             }
         }
 
