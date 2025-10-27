@@ -1,7 +1,11 @@
 package com.example.bilibili.view
 
+import android.app.Activity
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.net.Uri
+import android.view.View
+import android.view.WindowManager
 import android.widget.VideoView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,6 +31,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.bilibili.model.UPMaster
@@ -186,6 +193,31 @@ fun VideoPlayerSharedSection(
     val context = LocalContext.current
     var isPlaying by remember { mutableStateOf(false) }
     var videoViewRef by remember { mutableStateOf<VideoView?>(null) }
+    var isFullScreen by remember { mutableStateOf(false) }
+
+    // 全屏切换函数
+    val toggleFullScreen: () -> Unit = {
+        val activity = context as? Activity
+        activity?.let {
+            isFullScreen = !isFullScreen
+            if (isFullScreen) {
+                // 进入全屏模式
+                it.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                val window = it.window
+                val insetsController = WindowCompat.getInsetsController(window, window.decorView)
+                insetsController?.apply {
+                    hide(WindowInsetsCompat.Type.statusBars() or WindowInsetsCompat.Type.navigationBars())
+                    systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                }
+            } else {
+                // 退出全屏模式
+                it.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                val window = it.window
+                val insetsController = WindowCompat.getInsetsController(window, window.decorView)
+                insetsController?.show(WindowInsetsCompat.Type.statusBars() or WindowInsetsCompat.Type.navigationBars())
+            }
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -328,10 +360,22 @@ fun VideoPlayerSharedSection(
         ) {
             // 播放/暂停按钮
             Icon(
-                imageVector = Icons.Default.PlayArrow,
-                contentDescription = "播放",
+                imageVector = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
+                contentDescription = if (isPlaying) "暂停" else "播放",
                 tint = Color.White,
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier
+                    .size(32.dp)
+                    .clickable {
+                        videoViewRef?.let { videoView ->
+                            if (isPlaying) {
+                                videoView.pause()
+                                isPlaying = false
+                            } else {
+                                videoView.start()
+                                isPlaying = true
+                            }
+                        }
+                    }
             )
 
             // 时间和全屏
@@ -345,10 +389,12 @@ fun VideoPlayerSharedSection(
                     fontSize = 12.sp
                 )
                 Icon(
-                    imageVector = Icons.Default.Fullscreen,
-                    contentDescription = "全屏",
+                    imageVector = if (isFullScreen) Icons.Default.FullscreenExit else Icons.Default.Fullscreen,
+                    contentDescription = if (isFullScreen) "退出全屏" else "全屏",
                     tint = Color.White,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable { toggleFullScreen() }
                 )
             }
         }
@@ -366,6 +412,31 @@ fun VideoPlayerSection(
     val context = LocalContext.current
     var isPlaying by remember { mutableStateOf(false) }
     var videoViewRef by remember { mutableStateOf<VideoView?>(null) }
+    var isFullScreen by remember { mutableStateOf(false) }
+
+    // 全屏切换函数
+    val toggleFullScreen: () -> Unit = {
+        val activity = context as? Activity
+        activity?.let {
+            isFullScreen = !isFullScreen
+            if (isFullScreen) {
+                // 进入全屏模式
+                it.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                val window = it.window
+                val insetsController = WindowCompat.getInsetsController(window, window.decorView)
+                insetsController?.apply {
+                    hide(WindowInsetsCompat.Type.statusBars() or WindowInsetsCompat.Type.navigationBars())
+                    systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                }
+            } else {
+                // 退出全屏模式
+                it.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                val window = it.window
+                val insetsController = WindowCompat.getInsetsController(window, window.decorView)
+                insetsController?.show(WindowInsetsCompat.Type.statusBars() or WindowInsetsCompat.Type.navigationBars())
+            }
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -508,10 +579,22 @@ fun VideoPlayerSection(
         ) {
             // 播放/暂停按钮
             Icon(
-                imageVector = Icons.Default.PlayArrow,
-                contentDescription = "播放",
+                imageVector = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
+                contentDescription = if (isPlaying) "暂停" else "播放",
                 tint = Color.White,
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier
+                    .size(32.dp)
+                    .clickable {
+                        videoViewRef?.let { videoView ->
+                            if (isPlaying) {
+                                videoView.pause()
+                                isPlaying = false
+                            } else {
+                                videoView.start()
+                                isPlaying = true
+                            }
+                        }
+                    }
             )
 
             // 时间和全屏
@@ -525,10 +608,12 @@ fun VideoPlayerSection(
                     fontSize = 12.sp
                 )
                 Icon(
-                    imageVector = Icons.Default.Fullscreen,
-                    contentDescription = "全屏",
+                    imageVector = if (isFullScreen) Icons.Default.FullscreenExit else Icons.Default.Fullscreen,
+                    contentDescription = if (isFullScreen) "退出全屏" else "全屏",
                     tint = Color.White,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable { toggleFullScreen() }
                 )
             }
         }
