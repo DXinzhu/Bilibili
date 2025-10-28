@@ -34,7 +34,8 @@ import com.example.bilibili.presenter.ConcernPresenter
 @Composable
 fun ConcernTab(
     context: Context,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onNavigateToUp: (String) -> Unit = {}
 ) {
     val presenter = remember { ConcernPresenter(context) }
     var upMasters by remember { mutableStateOf<List<UPMaster>>(emptyList()) }
@@ -71,7 +72,8 @@ fun ConcernTab(
         // 关注列表区域 - 可滚动
         ConcernList(
             upMasters = upMasters,
-            followedCount = presenter.getFollowedCount()
+            followedCount = presenter.getFollowedCount(),
+            onUpMasterClick = onNavigateToUp
         )
     }
 }
@@ -223,7 +225,7 @@ fun ConcernSearchBar(searchQuery: String, onSearchQueryChange: (String) -> Unit)
  * 关注列表
  */
 @Composable
-fun ConcernList(upMasters: List<UPMaster>, followedCount: Int) {
+fun ConcernList(upMasters: List<UPMaster>, followedCount: Int, onUpMasterClick: (String) -> Unit) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -275,7 +277,7 @@ fun ConcernList(upMasters: List<UPMaster>, followedCount: Int) {
 
         // UP主列表
         items(upMasters) { upMaster ->
-            UPMasterItem(upMaster)
+            UPMasterItem(upMaster = upMaster, onClick = { onUpMasterClick(upMaster.upMasterId) })
             HorizontalDivider(
                 modifier = Modifier.padding(start = 72.dp),
                 color = Color.LightGray,
@@ -294,11 +296,11 @@ fun ConcernList(upMasters: List<UPMaster>, followedCount: Int) {
  * UP主列表项
  */
 @Composable
-fun UPMasterItem(upMaster: UPMaster) {
+fun UPMasterItem(upMaster: UPMaster, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { /* TODO: 进入UP主主页 */ }
+            .clickable(onClick = onClick)
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

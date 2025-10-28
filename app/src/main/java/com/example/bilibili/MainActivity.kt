@@ -26,6 +26,7 @@ import com.example.bilibili.view.PersonTab
 import com.example.bilibili.view.RecommendTab
 import com.example.bilibili.view.SearchTab
 import com.example.bilibili.view.SettingTab
+import com.example.bilibili.view.UpTab
 import com.example.bilibili.view.VideoTab
 import com.example.bilibili.view.VipTab
 
@@ -54,14 +55,16 @@ fun MainScreen() {
     var showGameTab by remember { mutableStateOf(false) }
     var showPersonTab by remember { mutableStateOf(false) }
     var showLoadTab by remember { mutableStateOf(false) }
+    var showUpTab by remember { mutableStateOf(false) }
     var currentVideoId by remember { mutableStateOf("") }
+    var currentUpMasterId by remember { mutableStateOf("") }
     var searchQuery by remember { mutableStateOf("") }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             // 只在不显示子页面时���示底部导航栏
-            if (!showConcernTab && !showVipTab && !showSettingTab && !showHistoryTab && !showCollectTab && !showSearchTab && !showVideoTab && !showGameTab && !showPersonTab && !showLoadTab) {
+            if (!showConcernTab && !showVipTab && !showSettingTab && !showHistoryTab && !showCollectTab && !showSearchTab && !showVideoTab && !showGameTab && !showPersonTab && !showLoadTab && !showUpTab) {
                 NavigationBar(
                     containerColor = Color.White,
                     contentColor = Color.Gray
@@ -202,10 +205,21 @@ fun MainScreen() {
                         }
                     )
                 }
+                showUpTab -> {
+                    UpTab(
+                        context = context,
+                        upMasterId = currentUpMasterId,
+                        onBack = { showUpTab = false }
+                    )
+                }
                 showConcernTab -> {
                     ConcernTab(
                         context = context,
-                        onBack = { showConcernTab = false }
+                        onBack = { showConcernTab = false },
+                        onNavigateToUp = { upMasterId ->
+                            currentUpMasterId = upMasterId
+                            showUpTab = true
+                        }
                     )
                 }
                 showVipTab -> {

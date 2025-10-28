@@ -1,8 +1,10 @@
 package com.example.bilibili.view
 
 import android.content.Context
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -37,8 +39,9 @@ fun HistoryTab(
     val presenter = remember { HistoryPresenter(context) }
     var historyItems by remember { mutableStateOf<List<HistoryPresenter.HistoryItem>>(emptyList()) }
     var selectedCategory by remember { mutableStateOf("全部") }
+    var refreshTrigger by remember { mutableStateOf(0) }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(refreshTrigger) {
         historyItems = presenter.getHistoryItems()
     }
 
@@ -62,7 +65,11 @@ fun HistoryTab(
         // 历史记录列表
         HistoryList(
             items = filteredItems,
-            presenter = presenter
+            presenter = presenter,
+            onDeleteItem = {
+                // 刷新列表
+                historyItems = presenter.getHistoryItems()
+            }
         )
     }
 }
@@ -182,8 +189,13 @@ fun CategoryItem(
 @Composable
 fun HistoryList(
     items: List<HistoryPresenter.HistoryItem>,
-    presenter: HistoryPresenter
+    presenter: HistoryPresenter,
+    onDeleteItem: () -> Unit = {}
 ) {
+    // 要删除的历史记录状态
+    var historyToDelete by remember { mutableStateOf<HistoryPresenter.HistoryItem?>(null) }
+    var showDeleteDialog by remember { mutableStateOf(false) }
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -209,7 +221,11 @@ fun HistoryList(
         items(items) { item ->
             HistoryListItem(
                 item = item,
-                presenter = presenter
+                presenter = presenter,
+                onLongClick = {
+                    historyToDelete = item
+                    showDeleteDialog = true
+                }
             )
             HorizontalDivider(
                 modifier = Modifier.padding(horizontal = 16.dp),
@@ -223,20 +239,42 @@ fun HistoryList(
             Spacer(modifier = Modifier.height(80.dp))
         }
     }
+
+    // 删除确认对话框
+    if (showDeleteDialog && historyToDelete != null) {
+        DeleteConfirmDialog(
+            videoTitle = historyToDelete!!.history.videoTitle,
+            onConfirm = {
+                presenter.deleteHistoryItem(historyToDelete!!.history.historyId)
+                showDeleteDialog = false
+                historyToDelete = null
+                onDeleteItem() // 通知父组件刷新列表
+            },
+            onDismiss = {
+                showDeleteDialog = false
+                historyToDelete = null
+            }
+        )
+    }
 }
 
 /**
  * 历史记录列表项
  */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HistoryListItem(
     item: HistoryPresenter.HistoryItem,
-    presenter: HistoryPresenter
+    presenter: HistoryPresenter,
+    onLongClick: () -> Unit = {}
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { /* TODO: 点击播放视频 */ }
+            .combinedClickable(
+                onClick = { /* TODO: 点击播放视频 */ },
+                onLongClick = onLongClick
+            )
             .background(Color.White)
             .padding(16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -373,4 +411,54 @@ fun HistoryListItem(
             )
         }
     }
+}
+
+/**
+ * 删除确认对话框
+ */
+@Composable
+fun DeleteConfirmDialog(
+    videoTitle: String,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                text = "删除观看记录",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
+        },
+        text = {
+            Text(
+                text = "确定要删除「$videoTitle」的观看记录吗？",
+                fontSize = 14.sp,
+                color = Color.Gray
+            )
+        },
+        confirmButton = {
+            TextButton(
+                onClick = onConfirm,
+                colors = ButtonDefaults.textButtonColors(
+                    contentColor = Color(0xFFFF6699)
+                )
+            ) {
+                Text("删除")
+            }
+        },
+        dismissButton = {
+            TextButton(
+                onClick = onDismiss,
+                colors = ButtonDefaults.textButtonColors(
+                    contentColor = Color.Gray
+                )
+            ) {
+                Text("取消")
+            }
+        },
+        containerColor = Color.White,
+        shape = RoundedCornerShape(12.dp)
+    )
 }

@@ -15,6 +15,9 @@ class HistoryPresenter(private val context: Context) {
 
     private val gson = Gson()
 
+    // 内存中维护的历史记录列表（支持删除操作）
+    private var historyItemsCache: MutableList<HistoryItem>? = null
+
     /**
      * 历史记录与视频信息的合并数据类
      */
@@ -58,6 +61,11 @@ class HistoryPresenter(private val context: Context) {
      * 按观看时间倒序排列（最新的在前）
      */
     fun getHistoryItems(): List<HistoryItem> {
+        // 如果缓存存在，直接返回缓存
+        if (historyItemsCache != null) {
+            return historyItemsCache!!
+        }
+
         val histories = loadWatchHistory()
         val videos = loadVideos()
 
@@ -65,12 +73,49 @@ class HistoryPresenter(private val context: Context) {
         val videoMap = videos.associateBy { it.videoId }
 
         // 合并历史记录和视频信息
-        return histories.map { history ->
+        historyItemsCache = histories.map { history ->
             HistoryItem(
                 history = history,
                 video = videoMap[history.videoId]
             )
-        }.sortedByDescending { it.history.watchTime } // 按观看时间倒序
+        }.sortedByDescending { it.history.watchTime }.toMutableList() // 按观看时间倒序
+
+        return historyItemsCache!!
+    }
+
+    /**
+     * 删除指定的历史记录
+     * @param historyId 要删除的历史记录ID
+     * @return 删除成功返回true，否则返回false
+     */
+    fun deleteHistoryItem(historyId: String): Boolean {
+        val cache = historyItemsCache ?: return false
+        val itemToRemove = cache.find { it.history.historyId == historyId } ?: return false
+        return cache.remove(itemToRemove)
+    }
+
+    /**
+     * 批量删除历史记录
+     * @param historyIds 要删除的历史记录ID列表
+     * @return 成功删除的数量
+     */
+    fun deleteHistoryItems(historyIds: List<String>): Int {
+        val cache = historyItemsCache ?: return 0
+        var deletedCount = 0
+        historyIds.forEach { historyId ->
+            val itemToRemove = cache.find { it.history.historyId == historyId }
+            if (itemToRemove != null && cache.remove(itemToRemove)) {
+                deletedCount++
+            }
+        }
+        return deletedCount
+    }
+
+    /**
+     * 清空所有历史记录
+     */
+    fun clearAllHistory() {
+        historyItemsCache?.clear()
     }
 
     /**
