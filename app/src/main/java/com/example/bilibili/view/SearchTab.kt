@@ -40,7 +40,7 @@ fun SearchTab(
     onNavigateToGame: (String) -> Unit = {}
 ) {
     val presenter = remember { SearchPresenter(context) }
-    var searchText by remember { mutableStateOf("B站") }
+    var searchText by remember { mutableStateOf("") }
     var hotSearches by remember { mutableStateOf<List<HotSearch>>(emptyList()) }
     var searchHistory by remember { mutableStateOf<List<SearchHistory>>(emptyList()) }
     var searchDiscoveries by remember { mutableStateOf<List<SearchDiscovery>>(emptyList()) }
@@ -62,7 +62,7 @@ fun SearchTab(
             onSearchTextChange = { searchText = it },
             onBack = onBack,
             onSearch = {
-                if (searchText == "游戏解说") {
+                if (searchText.contains("游戏") || searchText.contains("解说")) {
                     onNavigateToGame(searchText)
                 } else {
                     presenter.search(searchText)

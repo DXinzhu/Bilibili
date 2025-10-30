@@ -10,7 +10,13 @@
       "Bash(.gradlew --stop)",
       "Bash(find:*)",
       "Bash(cat:*)",
-      "Bash(gradlew.bat build:*)"
+      "Bash(gradlew.bat build:*)",
+      "Bash(adb:*)",
+      "Bash(cmd /c gradlew.bat:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(cmd /c:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

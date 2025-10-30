@@ -58,6 +58,9 @@ fun VideoTab(
     var recommendedVideos by remember { mutableStateOf<List<Video>>(emptyList()) }
     var comments by remember { mutableStateOf<List<com.example.bilibili.model.Comment>>(emptyList()) }
     var selectedTab by remember { mutableStateOf("简介") }
+    var commentText by remember { mutableStateOf("") }
+    var replyingTo by remember { mutableStateOf<com.example.bilibili.model.Comment?>(null) }
+    var isFullScreen by remember { mutableStateOf(false) }
 
     LaunchedEffect(videoId) {
         video = presenter.getVideoById(videoId)
@@ -68,6 +71,17 @@ fun VideoTab(
         comments = contentPresenter.getCommentsByVideoId(videoId)
     }
 
+    // 全屏模式下只显示视频播放器
+    if (isFullScreen) {
+        VideoPlayerSharedSection(
+            video = video,
+            onBack = onBack,
+            isFullScreen = isFullScreen,
+            onFullScreenChange = { isFullScreen = it }
+        )
+        return
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -76,13 +90,15 @@ fun VideoTab(
         // 视频播放区域（与ContentTab共享）
         VideoPlayerSharedSection(
             video = video,
-            onBack = onBack
+            onBack = onBack,
+            isFullScreen = isFullScreen,
+            onFullScreenChange = { isFullScreen = it }
         )
 
         // 滚动内容区域
         LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
+                .weight(1f)
                 .background(Color(0xFFF5F5F5))
         ) {
             // 标签栏（简介/评论）+ 弹幕按钮
@@ -161,7 +177,10 @@ fun VideoTab(
                     VideoCommentItem(
                         comment = comment,
                         presenter = contentPresenter,
-                        onReply = { /* TODO: 回复评论 */ },
+                        onReply = { replyComment ->
+                            replyingTo = replyComment
+                            selectedTab = "评论"
+                        },
                         onLike = { updatedComment ->
                             val index = comments.indexOf(comment)
                             if (index != -1) {
@@ -174,10 +193,50 @@ fun VideoTab(
                 }
             }
 
-            // 底部空白
+            // 底部空白（为输入框留出空间）
             item {
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(80.dp))
             }
+        }
+
+        // 底部评论输入框（仅在评论标签页显示）
+        if (selectedTab == "评论") {
+            VideoBottomCommentInput(
+                commentText = commentText,
+                replyingTo = replyingTo,
+                onCommentTextChange = { commentText = it },
+                onSendComment = {
+                    if (commentText.isNotBlank()) {
+                        if (replyingTo != null) {
+                            // 发布回复
+                            val reply = contentPresenter.addReply(replyingTo!!, videoId, commentText)
+                            // 将回复添加到父评论的回复列表
+                            val index = comments.indexOfFirst { it.commentId == replyingTo!!.commentId }
+                            if (index != -1) {
+                                comments = comments.toMutableList().apply {
+                                    val updatedComment = get(index)
+                                    updatedComment.replyList.add(reply)
+                                    set(index, updatedComment.copy(replyList = updatedComment.replyList))
+                                }
+                            }
+                            replyingTo = null
+                        } else {
+                            // 发布新评论
+                            val newComment = contentPresenter.addComment(videoId, commentText)
+                            comments = comments.toMutableList().apply {
+                                add(0, newComment)
+                            }
+                            // 更新视频评论数
+                            video = video?.copy(commentCount = (video?.commentCount ?: 0) + 1)
+                        }
+                        commentText = ""
+                    }
+                },
+                onCancelReply = {
+                    replyingTo = null
+                    commentText = ""
+                }
+            )
         }
     }
 }
@@ -188,19 +247,22 @@ fun VideoTab(
 @Composable
 fun VideoPlayerSharedSection(
     video: Video?,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    isFullScreen: Boolean = false,
+    onFullScreenChange: (Boolean) -> Unit = {}
 ) {
     val context = LocalContext.current
     var isPlaying by remember { mutableStateOf(false) }
     var videoViewRef by remember { mutableStateOf<VideoView?>(null) }
-    var isFullScreen by remember { mutableStateOf(false) }
 
     // 全屏切换函数
     val toggleFullScreen: () -> Unit = {
         val activity = context as? Activity
         activity?.let {
-            isFullScreen = !isFullScreen
-            if (isFullScreen) {
+            val newFullScreenState = !isFullScreen
+            android.util.Log.d("VideoPlayer", "toggleFullScreen: $isFullScreen -> $newFullScreenState")
+
+            if (newFullScreenState) {
                 // 进入全屏模式
                 it.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
                 val window = it.window
@@ -216,14 +278,23 @@ fun VideoPlayerSharedSection(
                 val insetsController = WindowCompat.getInsetsController(window, window.decorView)
                 insetsController?.show(WindowInsetsCompat.Type.statusBars() or WindowInsetsCompat.Type.navigationBars())
             }
+
+            // 最后更新状态
+            onFullScreenChange(newFullScreenState)
         }
     }
 
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .aspectRatio(16f / 9f)
-            .background(Color.Black)
+        modifier = if (isFullScreen) {
+            Modifier
+                .fillMaxSize()
+                .background(Color.Black)
+        } else {
+            Modifier
+                .fillMaxWidth()
+                .aspectRatio(16f / 9f)
+                .background(Color.Black)
+        }
     ) {
         // VideoView视频播放器
         video?.let { v ->
@@ -308,7 +379,15 @@ fun VideoPlayerSharedSection(
                 tint = Color.White,
                 modifier = Modifier
                     .size(32.dp)
-                    .clickable { onBack() }
+                    .clickable {
+                        if (isFullScreen) {
+                            // 如果当前是全屏模式,先退出全屏
+                            toggleFullScreen()
+                        } else {
+                            // 否则返回上一页
+                            onBack()
+                        }
+                    }
             )
 
             // 右侧功能图标
@@ -402,7 +481,7 @@ fun VideoPlayerSharedSection(
 }
 
 /**
- * 视频播放区域（旧版，保留用于兼容）
+ * 视频播放区域（旧版,保留用于兼容）
  */
 @Composable
 fun VideoPlayerSection(
@@ -629,6 +708,9 @@ fun TabAndDanmakuSection(
     commentCount: Int,
     onTabSelected: (String) -> Unit
 ) {
+    // 弹幕开关状态
+    var isDanmakuEnabled by remember { mutableStateOf(true) }
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -699,13 +781,19 @@ fun TabAndDanmakuSection(
                     )
                 }
 
+                // 弹幕开关按钮 - 带开关功能
                 Surface(
                     modifier = Modifier
                         .size(32.dp)
-                        .clickable { /* TODO: 弹幕开关 */ },
+                        .clickable {
+                            isDanmakuEnabled = !isDanmakuEnabled
+                        },
                     shape = CircleShape,
-                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFFF6699)),
-                    color = Color.White
+                    border = androidx.compose.foundation.BorderStroke(
+                        width = 1.dp,
+                        color = if (isDanmakuEnabled) Color(0xFFFF6699) else Color(0xFFCCCCCC)
+                    ),
+                    color = if (isDanmakuEnabled) Color.White else Color(0xFFF5F5F5)
                 ) {
                     Box(
                         contentAlignment = Alignment.Center,
@@ -714,7 +802,7 @@ fun TabAndDanmakuSection(
                         Text(
                             text = "弹",
                             fontSize = 12.sp,
-                            color = Color(0xFFFF6699),
+                            color = if (isDanmakuEnabled) Color(0xFFFF6699) else Color(0xFFCCCCCC),
                             fontWeight = FontWeight.Bold
                         )
                     }
@@ -732,6 +820,9 @@ fun UpMasterInfoSection(
     upMaster: UPMaster,
     presenter: VideoPresenter
 ) {
+    var isFollowed by remember { mutableStateOf(upMaster.isFollowed) }
+    var fansCount by remember { mutableStateOf(upMaster.fansCount) }
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -772,7 +863,7 @@ fun UpMasterInfoSection(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "${presenter.formatFansCount(upMaster.fansCount)}  ${upMaster.videoCount}视频",
+                    text = "${presenter.formatFansCount(fansCount)}  ${upMaster.videoCount}视频",
                     fontSize = 12.sp,
                     color = Color.Gray
                 )
@@ -780,25 +871,29 @@ fun UpMasterInfoSection(
 
             // 关注按钮
             Surface(
-                modifier = Modifier.clickable { /* TODO: 关注UP主 */ },
+                modifier = Modifier.clickable {
+                    upMaster.toggleFollow()
+                    isFollowed = upMaster.isFollowed
+                    fansCount = upMaster.fansCount
+                },
                 shape = RoundedCornerShape(16.dp),
-                color = Color(0xFFFF6699)
+                color = if (isFollowed) Color(0xFFE0E0E0) else Color(0xFFFF6699)
             ) {
                 Row(
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = "关注",
-                        tint = Color.White,
+                        imageVector = if (isFollowed) Icons.Default.Check else Icons.Default.Add,
+                        contentDescription = if (isFollowed) "已关注" else "关注",
+                        tint = if (isFollowed) Color.Gray else Color.White,
                         modifier = Modifier.size(16.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "关注",
+                        text = if (isFollowed) "已关注" else "关注",
                         fontSize = 13.sp,
-                        color = Color.White,
+                        color = if (isFollowed) Color.Gray else Color.White,
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -1252,4 +1347,154 @@ fun VideoCommentItem(
         onReply = onReply,
         onLike = onLike
     )
+}
+
+/**
+ * 视频页底部评论输入框
+ */
+@Composable
+fun VideoBottomCommentInput(
+    commentText: String,
+    replyingTo: com.example.bilibili.model.Comment?,
+    onCommentTextChange: (String) -> Unit,
+    onSendComment: () -> Unit,
+    onCancelReply: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White)
+    ) {
+        // 如果正在回复，显示回复提示
+        if (replyingTo != null) {
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFFF8F8F8)),
+                color = Color(0xFFF8F8F8)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp, vertical = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Reply,
+                            contentDescription = "回复",
+                            tint = Color(0xFF6B8EFF),
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "回复 ${replyingTo.authorName}",
+                            fontSize = 12.sp,
+                            color = Color(0xFF666666)
+                        )
+                    }
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = "取消回复",
+                        tint = Color.Gray,
+                        modifier = Modifier
+                            .size(20.dp)
+                            .clickable { onCancelReply() }
+                    )
+                }
+            }
+        }
+
+        // 输入框区域
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                // 头像
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data("file:///android_asset/avatar/spring.jpg")
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = "用户头像",
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+
+                // 输入框
+                Surface(
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(20.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFE0E0E0)),
+                    color = Color(0xFFF8F8F8)
+                ) {
+                    TextField(
+                        value = commentText,
+                        onValueChange = onCommentTextChange,
+                        placeholder = {
+                            Text(
+                                text = if (replyingTo != null) "回复 ${replyingTo.authorName}" else "发一条友善的评论",
+                                fontSize = 14.sp,
+                                color = Color.Gray
+                            )
+                        },
+                        colors = TextFieldDefaults.colors(
+                            unfocusedContainerColor = Color.Transparent,
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 12.dp, vertical = 4.dp)
+                    )
+                }
+
+                // 表情按钮
+                Icon(
+                    imageVector = Icons.Default.Face,
+                    contentDescription = "表情",
+                    tint = Color.Gray,
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable { /* TODO: 表情选择 */ }
+                )
+
+                // 发送按钮
+                Surface(
+                    modifier = Modifier
+                        .clickable(enabled = commentText.isNotBlank()) { onSendComment() }
+                        .background(
+                            if (commentText.isNotBlank()) Color(0xFF6B8EFF) else Color(0xFFE0E0E0),
+                            CircleShape
+                        )
+                        .size(32.dp),
+                    color = Color.Transparent
+                ) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Send,
+                            contentDescription = "发送",
+                            tint = Color.White,
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+                }
+            }
+        }
+    }
 }

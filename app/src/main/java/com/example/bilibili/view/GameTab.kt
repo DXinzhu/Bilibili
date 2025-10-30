@@ -36,7 +36,8 @@ import com.example.bilibili.presenter.GamePresenter
 fun GameTab(
     context: Context,
     searchQuery: String = "游戏解说",
-    onBack: () -> Unit = {}
+    onBack: () -> Unit = {},
+    onNavigateToVideo: (String) -> Unit = {}
 ) {
     val presenter = remember { GamePresenter(context) }
     var videos by remember { mutableStateOf<List<Video>>(emptyList()) }
@@ -82,7 +83,8 @@ fun GameTab(
                 VideoItemWithComment(
                     video = video,
                     comments = presenter.getCommentsForVideo(video.videoId, allComments),
-                    presenter = presenter
+                    presenter = presenter,
+                    onClick = { onNavigateToVideo(video.videoId) }
                 )
                 Spacer(modifier = Modifier.height(12.dp))
             }
@@ -271,12 +273,14 @@ fun CategoryTab(
 fun VideoItemWithComment(
     video: Video,
     comments: List<Comment>,
-    presenter: GamePresenter
+    presenter: GamePresenter,
+    onClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White, RoundedCornerShape(8.dp))
+            .clickable { onClick() }
             .padding(12.dp)
     ) {
         // 视频主体部分

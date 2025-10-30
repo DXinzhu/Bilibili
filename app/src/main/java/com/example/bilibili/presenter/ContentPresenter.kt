@@ -196,4 +196,48 @@ class ContentPresenter(private val context: Context) {
         newComment.toggleLike()
         return newComment
     }
+
+    /**
+     * 发布新评论
+     */
+    fun addComment(videoId: String, content: String): Comment {
+        // 生成新的评论ID
+        val commentId = "comment_${System.currentTimeMillis()}"
+
+        // 创建新评论对象
+        return Comment(
+            commentId = commentId,
+            videoId = videoId,
+            content = content,
+            authorId = "user_current", // 当前用户ID
+            authorName = "春季养生者",  // 当前用户名称
+            publishTime = System.currentTimeMillis(),
+            likeCount = 0,
+            parentCommentId = null,
+            replyList = mutableListOf(),
+            isLiked = false
+        )
+    }
+
+    /**
+     * 回复评论
+     */
+    fun addReply(parentComment: Comment, videoId: String, content: String): Comment {
+        // 生成新的回复ID
+        val replyId = "reply_${System.currentTimeMillis()}"
+
+        // 创建新回复对象
+        return Comment(
+            commentId = replyId,
+            videoId = videoId,
+            content = content,
+            authorId = "user_current", // 当前用户ID
+            authorName = "春季养生者",  // 当前用户名称
+            publishTime = System.currentTimeMillis(),
+            likeCount = 0,
+            parentCommentId = parentComment.commentId,
+            replyList = mutableListOf(),
+            isLiked = false
+        )
+    }
 }

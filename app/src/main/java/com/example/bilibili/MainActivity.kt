@@ -185,7 +185,12 @@ fun MainScreen() {
                     GameTab(
                         context = context,
                         searchQuery = searchQuery,
-                        onBack = { showGameTab = false }
+                        onBack = { showGameTab = false },
+                        onNavigateToVideo = { videoId ->
+                            currentVideoId = videoId
+                            showGameTab = false
+                            showVideoTab = true
+                        }
                     )
                 }
                 showVideoTab -> {

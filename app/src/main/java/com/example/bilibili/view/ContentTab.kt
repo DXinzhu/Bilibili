@@ -465,6 +465,7 @@ fun CommentItem(
 ) {
     var isLiked by remember { mutableStateOf(comment.isLiked) }
     var likeCount by remember { mutableStateOf(comment.likeCount) }
+    var isExpanded by remember { mutableStateOf(false) }
 
     Surface(
         modifier = Modifier
@@ -566,6 +567,13 @@ fun CommentItem(
                                 fontSize = 12.sp,
                                 color = Color.Gray
                             )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = "回复",
+                                fontSize = 12.sp,
+                                color = Color(0xFF6B8EFF),
+                                modifier = Modifier.clickable { onReply(comment) }
+                            )
                         }
 
                         Row(
@@ -632,24 +640,32 @@ fun CommentItem(
                             color = Color.Transparent
                         ) {
                             Column {
-                                comment.replyList.take(2).forEach { reply ->
+                                // 显示回复列表：如果已展开显示全部，否则只显示前2条
+                                val repliesToShow = if (isExpanded) comment.replyList else comment.replyList.take(2)
+
+                                repliesToShow.forEachIndexed { index, reply ->
                                     ReplyItem(
                                         reply = reply,
                                         presenter = presenter,
                                         onReply = { onReply(comment) }
                                     )
-                                    if (reply != comment.replyList.last()) {
+                                    if (index < repliesToShow.size - 1) {
                                         Spacer(modifier = Modifier.height(6.dp))
                                     }
                                 }
 
+                                // 展开/收起按钮
                                 if (comment.replyList.size > 2) {
                                     Spacer(modifier = Modifier.height(6.dp))
                                     Text(
-                                        text = "查看更多${comment.replyList.size - 2}条回复 >",
+                                        text = if (isExpanded) {
+                                            "收起回复 ^"
+                                        } else {
+                                            "查看更多${comment.replyList.size - 2}条回复 >"
+                                        },
                                         fontSize = 12.sp,
                                         color = Color(0xFF6B8EFF),
-                                        modifier = Modifier.clickable { onReply(comment) }
+                                        modifier = Modifier.clickable { isExpanded = !isExpanded }
                                     )
                                 }
                             }
