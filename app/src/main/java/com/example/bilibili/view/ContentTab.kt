@@ -46,6 +46,7 @@ fun ContentTab(
     var comments by remember { mutableStateOf<List<Comment>>(emptyList()) }
     var selectedTab by remember { mutableStateOf("评论") }
     var commentText by remember { mutableStateOf("") }
+    var replyingTo by remember { mutableStateOf<Comment?>(null) }
 
     LaunchedEffect(videoId) {
         video = presenter.getVideoById(videoId)
@@ -92,7 +93,10 @@ fun ContentTab(
                     CommentItem(
                         comment = comment,
                         presenter = presenter,
-                        onReply = { /* TODO: 回复评论 */ },
+                        onReply = { replyComment ->
+                            replyingTo = replyComment
+                            selectedTab = "评论"
+                        },
                         onLike = { updatedComment ->
                             // 更新评论状态
                             val index = comments.indexOf(comment)
@@ -115,9 +119,34 @@ fun ContentTab(
         // 底部评论输入框
         BottomCommentInput(
             commentText = commentText,
+            replyingTo = replyingTo,
             onCommentTextChange = { commentText = it },
             onSendComment = {
-                // TODO: 发送评论
+                if (commentText.isNotBlank()) {
+                    if (replyingTo != null) {
+                        // 发布回复
+                        val reply = presenter.addReply(replyingTo!!, videoId, commentText)
+                        // 将回复添加到父评论的回复列表
+                        val index = comments.indexOfFirst { it.commentId == replyingTo!!.commentId }
+                        if (index != -1) {
+                            val parentComment = comments[index]
+                            parentComment.replyList.add(reply)
+                            // 触发UI更新
+                            comments = comments.toMutableList()
+                        }
+                        replyingTo = null
+                    } else {
+                        // 发布新评论
+                        val newComment = presenter.addComment(videoId, commentText)
+                        comments = listOf(newComment) + comments
+                        // 更新视频评论数
+                        video = video?.copy(commentCount = (video?.commentCount ?: 0) + 1)
+                    }
+                    commentText = ""
+                }
+            },
+            onCancelReply = {
+                replyingTo = null
                 commentText = ""
             }
         )
@@ -783,93 +812,144 @@ fun ReplyItem(
 @Composable
 fun BottomCommentInput(
     commentText: String,
+    replyingTo: Comment?,
     onCommentTextChange: (String) -> Unit,
-    onSendComment: () -> Unit
+    onSendComment: () -> Unit,
+    onCancelReply: () -> Unit
 ) {
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White)
-            .padding(12.dp)
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            // 头像
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data("file:///android_asset/avatar/spring.jpg")
-                    .crossfade(true)
-                    .build(),
-                contentDescription = "用户头像",
-                modifier = Modifier
-                    .size(32.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop
-            )
-
-            // 输入框
+        // 如果正在回复，显示回复提示
+        if (replyingTo != null) {
             Surface(
-                modifier = Modifier.weight(1f),
-                shape = RoundedCornerShape(20.dp),
-                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFE0E0E0)),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFFF8F8F8)),
                 color = Color(0xFFF8F8F8)
             ) {
-                TextField(
-                    value = commentText,
-                    onValueChange = onCommentTextChange,
-                    placeholder = {
-                        Text(
-                            text = "发一条友善的评论",
-                            fontSize = 14.sp,
-                            color = Color.Gray
-                        )
-                    },
-                    colors = TextFieldDefaults.colors(
-                        unfocusedContainerColor = Color.Transparent,
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent
-                    ),
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 12.dp, vertical = 4.dp)
-                )
-            }
-
-            // 表情按钮
-            Icon(
-                imageVector = Icons.Default.Face,
-                contentDescription = "表情",
-                tint = Color.Gray,
-                modifier = Modifier
-                    .size(24.dp)
-                    .clickable { /* TODO: 表情选择 */ }
-            )
-
-            // 发送按钮
-            Surface(
-                modifier = Modifier
-                    .clickable(enabled = commentText.isNotBlank()) { onSendComment() }
-                    .background(
-                        if (commentText.isNotBlank()) Color(0xFF6B8EFF) else Color(0xFFE0E0E0),
-                        CircleShape
-                    )
-                    .size(32.dp),
-                color = Color.Transparent
-            ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
+                        .padding(horizontal = 12.dp, vertical = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Reply,
+                            contentDescription = "回复",
+                            tint = Color(0xFF6B8EFF),
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "回复 ${replyingTo.authorName}",
+                            fontSize = 12.sp,
+                            color = Color(0xFF666666)
+                        )
+                    }
                     Icon(
-                        imageVector = Icons.Default.Send,
-                        contentDescription = "发送",
-                        tint = Color.White,
-                        modifier = Modifier.size(16.dp)
+                        imageVector = Icons.Default.Close,
+                        contentDescription = "取消回复",
+                        tint = Color.Gray,
+                        modifier = Modifier
+                            .size(20.dp)
+                            .clickable { onCancelReply() }
                     )
+                }
+            }
+        }
+
+        // 输入框区域
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                // 头像
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data("file:///android_asset/avatar/spring.jpg")
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = "用户头像",
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+
+                // 输入框
+                Surface(
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(20.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFE0E0E0)),
+                    color = Color(0xFFF8F8F8)
+                ) {
+                    TextField(
+                        value = commentText,
+                        onValueChange = onCommentTextChange,
+                        placeholder = {
+                            Text(
+                                text = if (replyingTo != null) "回复 ${replyingTo.authorName}" else "发一条友善的评论",
+                                fontSize = 14.sp,
+                                color = Color.Gray
+                            )
+                        },
+                        colors = TextFieldDefaults.colors(
+                            unfocusedContainerColor = Color.Transparent,
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 12.dp, vertical = 4.dp)
+                    )
+                }
+
+                // 表情按钮
+                Icon(
+                    imageVector = Icons.Default.Face,
+                    contentDescription = "表情",
+                    tint = Color.Gray,
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable { /* TODO: 表情选择 */ }
+                )
+
+                // 发送按钮
+                Surface(
+                    modifier = Modifier
+                        .clickable(enabled = commentText.isNotBlank()) { onSendComment() }
+                        .background(
+                            if (commentText.isNotBlank()) Color(0xFF6B8EFF) else Color(0xFFE0E0E0),
+                            CircleShape
+                        )
+                        .size(32.dp),
+                    color = Color.Transparent
+                ) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Send,
+                            contentDescription = "发送",
+                            tint = Color.White,
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
                 }
             }
         }

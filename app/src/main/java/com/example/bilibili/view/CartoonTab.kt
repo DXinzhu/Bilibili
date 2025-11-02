@@ -35,7 +35,10 @@ import com.example.bilibili.presenter.CartoonPresenter
  * 按照MVP模式实现，展示番剧内容
  */
 @Composable
-fun CartoonTab(context: Context) {
+fun CartoonTab(
+    context: Context,
+    onTabSelected: (String) -> Unit = {}
+) {
     val presenter = remember { CartoonPresenter(context) }
     var user by remember { mutableStateOf<User?>(null) }
     var featuredCartoon by remember { mutableStateOf<Video?>(null) }
@@ -50,7 +53,7 @@ fun CartoonTab(context: Context) {
 
     Column(modifier = Modifier.fillMaxSize()) {
         // 顶部工具栏（固定）
-        user?.let { TopBar(it, selectedTab = "动画") }
+        user?.let { TopBar(it, selectedTab = "动画", onTabSelected = onTabSelected) }
 
         // 底部滚动内容
         LazyColumn(

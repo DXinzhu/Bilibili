@@ -35,7 +35,10 @@ import com.example.bilibili.presenter.LivePresenter
  * 按照MVP模式实现，展示直播内容
  */
 @Composable
-fun LiveTab(context: Context) {
+fun LiveTab(
+    context: Context,
+    onTabSelected: (String) -> Unit = {}
+) {
     val presenter = remember { LivePresenter(context) }
     var user by remember { mutableStateOf<User?>(null) }
     var tmallLive by remember { mutableStateOf<LiveStream?>(null) }
@@ -53,7 +56,7 @@ fun LiveTab(context: Context) {
 
     Column(modifier = Modifier.fillMaxSize()) {
         // 顶部工具栏（固定，直播tab选中）
-        user?.let { LiveTopBar(it) }
+        user?.let { LiveTopBar(it, onTabSelected = onTabSelected) }
 
         // 底部滚动内容
         LazyColumn(
@@ -107,7 +110,10 @@ fun LiveTab(context: Context) {
  * 顶部工具栏（直播页选中状态）
  */
 @Composable
-fun LiveTopBar(user: User) {
+fun LiveTopBar(
+    user: User,
+    onTabSelected: (String) -> Unit = {}
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -220,12 +226,12 @@ fun LiveTopBar(user: User) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            TabItem(text = "直播", isSelected = true)
-            TabItem(text = "推荐", isSelected = false)
-            TabItem(text = "热门", isSelected = false)
-            TabItem(text = "动画", isSelected = false)
-            TabItem(text = "影视", isSelected = false)
-            TabItem(text = "S15", isSelected = false)
+            TabItem(text = "直播", isSelected = true, onClick = { onTabSelected("直播") })
+            TabItem(text = "推荐", isSelected = false, onClick = { onTabSelected("推荐") })
+            TabItem(text = "热门", isSelected = false, onClick = { onTabSelected("热门") })
+            TabItem(text = "动画", isSelected = false, onClick = { onTabSelected("动画") })
+            TabItem(text = "影视", isSelected = false, onClick = { onTabSelected("影视") })
+            TabItem(text = "S15", isSelected = false, onClick = { onTabSelected("S15") })
             Icon(
                 imageVector = Icons.Default.MoreHoriz,
                 contentDescription = "更多",

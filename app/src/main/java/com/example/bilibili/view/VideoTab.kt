@@ -31,6 +31,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -213,21 +215,16 @@ fun VideoTab(
                             // 将回复添加到父评论的回复列表
                             val index = comments.indexOfFirst { it.commentId == replyingTo!!.commentId }
                             if (index != -1) {
-                                comments = comments.toMutableList().apply {
-                                    val updatedComment = get(index)
-                                    updatedComment.replyList.add(reply)
-                                    set(index, updatedComment.copy(replyList = updatedComment.replyList))
-                                }
+                                val parentComment = comments[index]
+                                parentComment.replyList.add(reply)
+                                // 触发UI更新
+                                comments = comments.toMutableList()
                             }
                             replyingTo = null
                         } else {
                             // 发布新评论
                             val newComment = contentPresenter.addComment(videoId, commentText)
-                            comments = comments.toMutableList().apply {
-                                add(0, newComment)
-                            }
-                            // 更新视频评论数
-                            video = video?.copy(commentCount = (video?.commentCount ?: 0) + 1)
+                            comments = listOf(newComment) + comments
                         }
                         commentText = ""
                     }
@@ -254,6 +251,24 @@ fun VideoPlayerSharedSection(
     val context = LocalContext.current
     var isPlaying by remember { mutableStateOf(false) }
     var videoViewRef by remember { mutableStateOf<VideoView?>(null) }
+    var currentPosition by remember { mutableStateOf(0) }
+    var duration by remember { mutableStateOf(0) }
+    var isUserSeeking by remember { mutableStateOf(false) }
+
+    // 定期更新播放进度
+    LaunchedEffect(isPlaying, videoViewRef) {
+        while (isActive && isPlaying && videoViewRef != null) {
+            videoViewRef?.let { videoView ->
+                if (!isUserSeeking) {
+                    currentPosition = videoView.currentPosition
+                    if (duration == 0) {
+                        duration = videoView.duration
+                    }
+                }
+            }
+            delay(100) // 每100ms更新一次
+        }
+    }
 
     // 全屏切换函数
     val toggleFullScreen: () -> Unit = {
@@ -428,45 +443,76 @@ fun VideoPlayerSharedSection(
         }
 
         // 底部播放控制
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.BottomStart)
                 .background(Color.Black.copy(alpha = 0.3f))
-                .padding(12.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+                .padding(horizontal = 12.dp, vertical = 8.dp)
         ) {
-            // 播放/暂停按钮
-            Icon(
-                imageVector = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
-                contentDescription = if (isPlaying) "暂停" else "播放",
-                tint = Color.White,
-                modifier = Modifier
-                    .size(32.dp)
-                    .clickable {
-                        videoViewRef?.let { videoView ->
-                            if (isPlaying) {
-                                videoView.pause()
-                                isPlaying = false
-                            } else {
-                                videoView.start()
-                                isPlaying = true
-                            }
-                        }
-                    }
-            )
+            // 进度条
+            if (duration > 0) {
+                Slider(
+                    value = currentPosition.toFloat(),
+                    onValueChange = { newValue ->
+                        isUserSeeking = true
+                        currentPosition = newValue.toInt()
+                    },
+                    onValueChangeFinished = {
+                        videoViewRef?.seekTo(currentPosition)
+                        isUserSeeking = false
+                    },
+                    valueRange = 0f..duration.toFloat(),
+                    colors = SliderDefaults.colors(
+                        thumbColor = Color(0xFFFF6699),
+                        activeTrackColor = Color(0xFFFF6699),
+                        inactiveTrackColor = Color.White.copy(alpha = 0.3f)
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(20.dp)
+                )
+            }
 
-            // 时间和全屏
+            // 播放控制行
             Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "00:01/02:59",
-                    color = Color.White,
-                    fontSize = 12.sp
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    // 播放/暂停按钮
+                    Icon(
+                        imageVector = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
+                        contentDescription = if (isPlaying) "暂停" else "播放",
+                        tint = Color.White,
+                        modifier = Modifier
+                            .size(32.dp)
+                            .clickable {
+                                videoViewRef?.let { videoView ->
+                                    if (isPlaying) {
+                                        videoView.pause()
+                                        isPlaying = false
+                                    } else {
+                                        videoView.start()
+                                        isPlaying = true
+                                    }
+                                }
+                            }
+                    )
+
+                    // 时间显示
+                    Text(
+                        text = "${formatTime(currentPosition)} / ${formatTime(duration)}",
+                        color = Color.White,
+                        fontSize = 12.sp
+                    )
+                }
+
+                // 全屏按钮
                 Icon(
                     imageVector = if (isFullScreen) Icons.Default.FullscreenExit else Icons.Default.Fullscreen,
                     contentDescription = if (isFullScreen) "退出全屏" else "全屏",
@@ -900,6 +946,17 @@ fun UpMasterInfoSection(
             }
         }
     }
+}
+
+/**
+ * 格式化时间（毫秒转换为 mm:ss 格式）
+ */
+fun formatTime(timeMs: Int): String {
+    if (timeMs <= 0) return "00:00"
+    val totalSeconds = timeMs / 1000
+    val minutes = totalSeconds / 60
+    val seconds = totalSeconds % 60
+    return String.format("%02d:%02d", minutes, seconds)
 }
 
 /**

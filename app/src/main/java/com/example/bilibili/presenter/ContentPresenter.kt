@@ -138,6 +138,7 @@ class ContentPresenter(private val context: Context) {
         // 使用avatar文件夹中实际存在的头像，避免使用已被其他界面使用的头像
         // 已使用的头像: spring, autumn, fruit, cloud
         return when {
+            userId == "user_current" -> "avatar/spring.jpg"  // 当前用户使用spring头像
             userId.contains("001") -> "avatar/summer.jpg"
             userId.contains("002") -> "avatar/winter.jpg"
             userId.contains("003") -> "avatar/farmer.jpg"
@@ -210,7 +211,7 @@ class ContentPresenter(private val context: Context) {
             videoId = videoId,
             content = content,
             authorId = "user_current", // 当前用户ID
-            authorName = "春季养生者",  // 当前用户名称
+            authorName = "小明",  // 当前用户名称
             publishTime = System.currentTimeMillis(),
             likeCount = 0,
             parentCommentId = null,
@@ -232,7 +233,7 @@ class ContentPresenter(private val context: Context) {
             videoId = videoId,
             content = content,
             authorId = "user_current", // 当前用户ID
-            authorName = "春季养生者",  // 当前用户名称
+            authorName = "小明",  // 当前用户名称
             publishTime = System.currentTimeMillis(),
             likeCount = 0,
             parentCommentId = parentComment.commentId,

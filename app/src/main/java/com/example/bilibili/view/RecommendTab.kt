@@ -60,8 +60,8 @@ fun RecommendTab(
 
     // 根据选中的标签显示不同内容
     when (currentTab) {
-        "直播" -> LiveTab(context)
-        "动画" -> CartoonTab(context)
+        "直播" -> LiveTab(context, onTabSelected = { selectedTab -> currentTab = selectedTab })
+        "动画" -> CartoonTab(context, onTabSelected = { selectedTab -> currentTab = selectedTab })
         else -> {
             Column(modifier = Modifier.fillMaxSize()) {
                 // 顶部工具栏（固定）
