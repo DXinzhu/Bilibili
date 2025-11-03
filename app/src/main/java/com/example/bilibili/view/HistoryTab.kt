@@ -1,6 +1,7 @@
 package com.example.bilibili.view
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -36,6 +37,11 @@ fun HistoryTab(
     context: Context,
     onNavigateBack: () -> Unit = {}
 ) {
+    // 记录日志：用户进入历史记录页面
+    LaunchedEffect(Unit) {
+        Log.d("BilibiliAutoTest", "HISTORY_TAB_VIEWED")
+    }
+
     val presenter = remember { HistoryPresenter(context) }
     var historyItems by remember { mutableStateOf<List<HistoryPresenter.HistoryItem>>(emptyList()) }
     var selectedCategory by remember { mutableStateOf("全部") }
@@ -43,6 +49,8 @@ fun HistoryTab(
 
     LaunchedEffect(refreshTrigger) {
         historyItems = presenter.getHistoryItems()
+        // 记录日志：历史记录数据加载完成
+        Log.d("BilibiliAutoTest", "HISTORY_DATA_LOADED:${historyItems.size}")
     }
 
     // 根据选中的分类筛选历史记录
