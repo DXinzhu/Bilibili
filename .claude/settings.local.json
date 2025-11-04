@@ -16,7 +16,9 @@
       "Bash(netstat:*)",
       "Bash(findstr:*)",
       "Bash(cmd /c:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Read(//d/**)",
+      "Bash(python D:AndroidStudioProjectbilibiliandroid_templateAutoTestfix_encoding.py)"
     ],
     "deny": [],
     "ask": []

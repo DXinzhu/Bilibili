@@ -1,6 +1,7 @@
 package com.example.bilibili.view
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -53,6 +54,11 @@ fun MeTab(
 
     LaunchedEffect(Unit) {
         user = presenter.loadUserData()
+        // 记录日志：用户数据加载完成
+        if (user != null) {
+            Log.d("BilibiliAutoTest", "VIP_STATUS_VIEWED")
+            Log.d("BilibiliAutoTest", "VIP_DATA_LOADED:${user!!.getVipStatusText()}")
+        }
     }
 
     Box(modifier = Modifier.fillMaxSize()) {

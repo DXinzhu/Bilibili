@@ -1,6 +1,7 @@
 package com.example.bilibili.view
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -51,6 +52,8 @@ fun GameTab(
     LaunchedEffect(Unit) {
         videos = presenter.loadGameVideos()
         allComments = presenter.loadComments()
+        // 记录游戏搜索结果页面加载成功
+        Log.d("BilibiliAutoTest", "GAME_SEARCH_PAGE_LOADED: $searchQuery")
     }
 
     Column(

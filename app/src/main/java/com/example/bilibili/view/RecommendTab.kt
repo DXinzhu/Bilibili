@@ -1,6 +1,7 @@
 package com.example.bilibili.view
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -230,7 +231,10 @@ fun TopBar(
             TabItem(text = "直播", isSelected = selectedTab == "直播", onClick = { onTabSelected("直播") })
             TabItem(text = "推荐", isSelected = selectedTab == "推荐", onClick = { onTabSelected("推荐") })
             TabItem(text = "热门", isSelected = selectedTab == "热门", onClick = { onTabSelected("热门") })
-            TabItem(text = "动画", isSelected = selectedTab == "动画", onClick = { onTabSelected("动画") })
+            TabItem(text = "动画", isSelected = selectedTab == "动画", onClick = {
+                Log.d("BilibiliAutoTest", "CHANNEL_ICON_CLICKED: 动画")
+                onTabSelected("动画")
+            })
             TabItem(text = "影视", isSelected = selectedTab == "影视", onClick = { onTabSelected("影视") })
             TabItem(text = "S15", isSelected = selectedTab == "S15", onClick = { onTabSelected("S15") })
             Icon(

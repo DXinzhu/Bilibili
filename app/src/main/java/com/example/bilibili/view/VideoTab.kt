@@ -3,6 +3,7 @@ package com.example.bilibili.view
 import android.app.Activity
 import android.content.Context
 import android.content.pm.ActivityInfo
+import android.util.Log
 import android.net.Uri
 import android.view.View
 import android.view.WindowManager
@@ -71,6 +72,8 @@ fun VideoTab(
             recommendedVideos = presenter.getRecommendedVideos(videoId)
         }
         comments = contentPresenter.getCommentsByVideoId(videoId)
+        // 记录视频播放页打开
+        Log.d("BilibiliAutoTest", "VIDEO_PLAYER_OPENED: $videoId")
     }
 
     // 全屏模式下只显示视频播放器
@@ -1095,9 +1098,11 @@ fun InteractionButtonsSection(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.clickable {
+                    Log.d("BilibiliAutoTest", "LIKE_BUTTON_CLICKED")
                     onLike()
                     isLiked = !isLiked
                     likeCount = if (isLiked) likeCount + 1 else maxOf(0, likeCount - 1)
+                    Log.d("BilibiliAutoTest", "LIKE_STATUS_CHANGED: liked=$isLiked")
                 }
             ) {
                 Icon(

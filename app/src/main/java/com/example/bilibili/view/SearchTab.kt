@@ -1,6 +1,7 @@
 package com.example.bilibili.view
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -63,9 +64,11 @@ fun SearchTab(
             onBack = onBack,
             onSearch = {
                 if (searchText.contains("游戏") || searchText.contains("解说")) {
+                    Log.d("BilibiliAutoTest", "SEARCH_RESULTS_LOADED: $searchText")
                     onNavigateToGame(searchText)
                 } else {
                     presenter.search(searchText)
+                    Log.d("BilibiliAutoTest", "SEARCH_RESULTS_LOADED: $searchText")
                 }
             }
         )
@@ -162,7 +165,13 @@ fun SearchBar(
                     Spacer(modifier = Modifier.width(8.dp))
                     BasicTextField(
                         value = searchText,
-                        onValueChange = onSearchTextChange,
+                        onValueChange = { newText ->
+                            onSearchTextChange(newText)
+                            // 输入日志
+                            if (newText.isNotEmpty()) {
+                                Log.d("BilibiliAutoTest", "SEARCH_INPUT: $newText")
+                            }
+                        },
                         modifier = Modifier.weight(1f),
                         textStyle = androidx.compose.ui.text.TextStyle(
                             fontSize = 15.sp,
@@ -181,7 +190,10 @@ fun SearchBar(
                 fontSize = 15.sp,
                 color = Color(0xFFFF6699),
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.clickable { onSearch() }
+                modifier = Modifier.clickable {
+                    Log.d("BilibiliAutoTest", "SEARCH_BUTTON_CLICKED")
+                    onSearch()
+                }
             )
         }
     }

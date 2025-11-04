@@ -1,6 +1,7 @@
 package com.example.bilibili.view
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -49,6 +50,10 @@ fun CartoonTab(
         user = presenter.loadUserData()
         featuredCartoon = presenter.getFeaturedCartoon()
         rankingCartoons = presenter.getRankingCartoons()
+        // 记录进入动画频道页面
+        Log.d("BilibiliAutoTest", "ANIMATION_CHANNEL_ENTERED")
+        // 记录频道内容加载完成
+        Log.d("BilibiliAutoTest", "CHANNEL_CONTENT_LOADED")
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
