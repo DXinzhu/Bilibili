@@ -1,6 +1,7 @@
 package com.example.bilibili.view
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -41,7 +42,14 @@ fun CollectTab(
     var selectedSubTab by remember { mutableStateOf("视频") }
 
     LaunchedEffect(Unit) {
+        // 记录进入收藏页面
+        Log.d("BilibiliAutoTest", "FAVORITE_PAGE_ENTERED")
+
+        // 加载收藏视频数据
         collectedVideos = presenter.getCollectedVideos()
+
+        // 记录数据加载完成
+        Log.d("BilibiliAutoTest", "FAVORITE_DATA_LOADED")
     }
 
     Column(

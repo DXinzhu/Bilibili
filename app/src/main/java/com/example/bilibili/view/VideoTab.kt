@@ -1166,9 +1166,11 @@ fun InteractionButtonsSection(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.clickable {
+                    Log.d("BilibiliAutoTest", "FAVORITE_BUTTON_CLICKED")
                     onFavorite()
                     isFavorited = !isFavorited
                     favoriteCount = if (isFavorited) favoriteCount + 1 else maxOf(0, favoriteCount - 1)
+                    Log.d("BilibiliAutoTest", "FAVORITE_STATUS_CHANGED: favorited=$isFavorited")
                 }
             ) {
                 Icon(

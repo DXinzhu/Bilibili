@@ -389,7 +389,10 @@ fun BottomServiceList(
                 ) {
                     QuickActionItem(icon = Icons.Default.Download, label = "离线缓存", onClick = onNavigateToLoad)
                     QuickActionItem(icon = Icons.Default.History, label = "历史记录", onClick = onNavigateToHistory)
-                    QuickActionItem(icon = Icons.Default.Star, label = "我的收藏", onClick = onNavigateToCollect)
+                    QuickActionItem(icon = Icons.Default.Star, label = "我的收藏", onClick = {
+                        Log.d("BilibiliAutoTest", "FAVORITE_TAB_CLICKED")
+                        onNavigateToCollect()
+                    })
                     QuickActionItem(icon = Icons.Default.WatchLater, label = "稍后再看", onClick = { /* TODO */ })
                 }
             }
