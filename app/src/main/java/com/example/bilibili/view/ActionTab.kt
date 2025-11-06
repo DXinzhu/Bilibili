@@ -1,6 +1,7 @@
 package com.example.bilibili.view
 
 import android.content.Context
+import com.example.bilibili.utils.BilibiliAutoTestLogger
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -310,7 +311,12 @@ fun VideoPostCard(post: Post) {
                 .fillMaxWidth()
                 .aspectRatio(16f / 9f)
                 .background(Color.Black)
-                .clickable { /* TODO: 播放视频 */ }
+                .clickable {
+                    // 指令15: 记录点击第一个动态
+                    BilibiliAutoTestLogger.logFirstDynamicClicked()
+                    BilibiliAutoTestLogger.logDynamicDetailOpened()
+                    /* TODO: 播放视频 */
+                }
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)

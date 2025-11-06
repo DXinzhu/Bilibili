@@ -13,6 +13,7 @@ data class User(
     var hardCoins: Int = 0,                 // 硬币数量
     var isVip: Boolean = false,             // 是否为正式会员
     var vipLevel: Int = 0,                  // 会员等级（0-普通，1-月度大会员，2-年度大会员）
+    var vipExpireDate: String? = null,      // 会员有效期（格式：yyyy-MM-dd）
     var dynamicCount: Int = 0,              // 动态数量
     var followingCount: Int = 0,            // 关注数量
     var fansCount: Int = 0,                 // 粉丝数量

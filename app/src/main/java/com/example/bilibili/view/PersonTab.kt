@@ -26,6 +26,7 @@ import coil.request.ImageRequest
 import com.example.bilibili.model.User
 import com.example.bilibili.model.Video
 import com.example.bilibili.presenter.PersonPresenter
+import com.example.bilibili.utils.BilibiliAutoTestLogger
 
 /**
  * 个人主页页面
@@ -45,11 +46,16 @@ fun PersonTab(
     var recentLikedVideos by remember { mutableStateOf<List<Video>>(emptyList()) }
 
     LaunchedEffect(Unit) {
+        BilibiliAutoTestLogger.logPersonTab()
+        BilibiliAutoTestLogger.logProfilePageEntered()
+
         user = presenter.loadUserData()
         defaultFavorite = presenter.getDefaultFavorite()
         followedCartoons = presenter.getFollowedCartoons()
         recentCoinedVideos = presenter.getRecentCoinedVideos()
         recentLikedVideos = presenter.getRecentLikedVideos()
+
+        BilibiliAutoTestLogger.logProfileDataLoaded()
     }
 
     Column(

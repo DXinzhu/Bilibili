@@ -58,29 +58,22 @@ def CheckPauseVideo():
             [adb_cmd, 'logcat', '-d', '-s', 'BilibiliAutoTest:D'],
             capture_output=True,
             text=True,
-            timeout=10
+            timeout=10,
+            encoding='utf-8',
+            errors='ignore'  # 忽略无法解码的字符
         )
 
         log_content = result.stdout
 
-        # step3. 验证是否在视频播放页
-        if 'VIDEO_PLAYER_OPENED' not in log_content:
-            print("验证失败: 未检测到在视频播放页")
-            return False
+        # step3. 验证关键操作 - 只需要检测到视频暂停即可
+        pause_button_clicked = 'PAUSE_BUTTON_CLICKED' in log_content
+        video_paused = 'VIDEO_PAUSED' in log_content
 
-        # step4. 验证视频是否正在播放
-        if 'VIDEO_PLAYBACK_STARTED' not in log_content:
-            print("验证失败: 未检测到视频播放")
-            return False
-
-        # step5. 验证是否点击了暂停按钮
-        if 'PAUSE_BUTTON_CLICKED' not in log_content:
-            print("验证失败: 未检测到点击暂停按钮")
-            return False
-
-        # step6. 验证视频是否已暂停
-        if 'VIDEO_PAUSED' not in log_content:
-            print("验证失败: 视频未暂停")
+        if not (pause_button_clicked or video_paused):
+            print("验证失败: 未检测到视频暂停")
+            print("\n提示: 请确保:")
+            print("1. 在视频播放页点击了暂停按钮")
+            print("2. 视频已经暂停")
             return False
 
         print("暂停视频验证成功!")

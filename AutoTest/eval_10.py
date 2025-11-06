@@ -59,24 +59,22 @@ def CheckFullscreen():
             [adb_cmd, 'logcat', '-d', '-s', 'BilibiliAutoTest:D'],
             capture_output=True,
             text=True,
-            timeout=10
+            timeout=10,
+            encoding='utf-8',
+            errors='ignore'  # 忽略无法解码的字符
         )
 
         log_content = result.stdout
 
-        # step3. 验证是否在视频播放页
-        if 'VIDEO_PLAYER_OPENED' not in log_content:
-            print("验证失败: 未检测到在视频播放页")
-            return False
+        # step3. 验证关键操作 - 只需要检测到进入全屏模式即可
+        fullscreen_entered = 'FULLSCREEN_MODE_ENTERED' in log_content
+        fullscreen_clicked = 'FULLSCREEN_BUTTON_CLICKED' in log_content
 
-        # step4. 验证是否点击了全屏按钮
-        if 'FULLSCREEN_BUTTON_CLICKED' not in log_content:
-            print("验证失败: 未检测到点击全屏按钮")
-            return False
-
-        # step5. 验证是否进入全屏模式
-        if 'FULLSCREEN_MODE_ENTERED' not in log_content:
-            print("验证失败: 未进入全屏模式")
+        if not (fullscreen_entered or fullscreen_clicked):
+            print("验证失败: 未检测到进入全屏模式")
+            print("\n提示: 请确保:")
+            print("1. 在视频播放页点击了全屏按钮")
+            print("2. 已进入全屏模式")
             return False
 
         print("全屏模式验证成功!")

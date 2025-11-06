@@ -8,6 +8,7 @@ import android.net.Uri
 import android.view.View
 import android.view.WindowManager
 import android.widget.VideoView
+import com.example.bilibili.utils.BilibiliAutoTestLogger
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -72,8 +73,8 @@ fun VideoTab(
             recommendedVideos = presenter.getRecommendedVideos(videoId)
         }
         comments = contentPresenter.getCommentsByVideoId(videoId)
-        // 记录视频播放页打开
-        Log.d("BilibiliAutoTest", "VIDEO_PLAYER_OPENED: $videoId")
+        // 指令9,17,18,21,22,23: 记录视频播放页打开
+        BilibiliAutoTestLogger.logVideoPlayerOpened(videoId)
     }
 
     // 全屏模式下只显示视频播放器
@@ -212,6 +213,10 @@ fun VideoTab(
                 onCommentTextChange = { commentText = it },
                 onSendComment = {
                     if (commentText.isNotBlank()) {
+                        // 指令17: 记录评论输入和发送
+                        BilibiliAutoTestLogger.logCommentInputText(commentText)
+                        BilibiliAutoTestLogger.logSendButtonClicked()
+
                         if (replyingTo != null) {
                             // 发布回复
                             val reply = contentPresenter.addReply(replyingTo!!, videoId, commentText)
@@ -229,6 +234,9 @@ fun VideoTab(
                             val newComment = contentPresenter.addComment(videoId, commentText)
                             comments = listOf(newComment) + comments
                         }
+
+                        // 指令17: 记录评论发送成功
+                        BilibiliAutoTestLogger.logCommentSentSuccess()
                         commentText = ""
                     }
                 },
@@ -335,6 +343,8 @@ fun VideoPlayerSharedSection(
                                         mediaPlayer.isLooping = true
                                         start()
                                         isPlaying = true
+                                        // 指令9,22,23: 记录视频开始播放
+                                        BilibiliAutoTestLogger.logVideoPlaybackStarted()
                                     }
 
                                     setOnErrorListener { _, what, extra ->
@@ -497,11 +507,15 @@ fun VideoPlayerSharedSection(
                             .clickable {
                                 videoViewRef?.let { videoView ->
                                     if (isPlaying) {
+                                        // 指令14,21,22: 记录暂停操作
+                                        BilibiliAutoTestLogger.logPauseButtonClicked()
                                         videoView.pause()
                                         isPlaying = false
+                                        BilibiliAutoTestLogger.logVideoPaused()
                                     } else {
                                         videoView.start()
                                         isPlaying = true
+                                        BilibiliAutoTestLogger.logVideoPlaybackStarted()
                                     }
                                 }
                             }
@@ -522,7 +536,16 @@ fun VideoPlayerSharedSection(
                     tint = Color.White,
                     modifier = Modifier
                         .size(24.dp)
-                        .clickable { toggleFullScreen() }
+                        .clickable {
+                            if (!isFullScreen) {
+                                // 指令11: 记录进入全屏
+                                BilibiliAutoTestLogger.logFullscreenButtonClicked()
+                            }
+                            toggleFullScreen()
+                            if (isFullScreen) {
+                                BilibiliAutoTestLogger.logFullscreenModeEntered()
+                            }
+                        }
                 )
             }
         }
@@ -593,6 +616,8 @@ fun VideoPlayerSection(
                                         mediaPlayer.isLooping = true
                                         start()
                                         isPlaying = true
+                                        // 指令9,22,23: 记录视频开始播放
+                                        BilibiliAutoTestLogger.logVideoPlaybackStarted()
                                     }
 
                                     setOnErrorListener { _, what, extra ->
@@ -806,7 +831,11 @@ fun TabAndDanmakuSection(
                     fontSize = 15.sp,
                     fontWeight = if (selectedTab == "评论") FontWeight.Bold else FontWeight.Normal,
                     color = if (selectedTab == "评论") Color(0xFFFF6699) else Color.Gray,
-                    modifier = Modifier.clickable { onTabSelected("评论") }
+                    modifier = Modifier.clickable {
+                        // 指令17,20,29: 记录进入评论页面
+                        BilibiliAutoTestLogger.logCommentPageEntered()
+                        onTabSelected("评论")
+                    }
                 )
             }
 
@@ -921,9 +950,12 @@ fun UpMasterInfoSection(
             // 关注按钮
             Surface(
                 modifier = Modifier.clickable {
+                    // 指令18: 记录关注按钮点击
+                    BilibiliAutoTestLogger.logFollowButtonClicked()
                     upMaster.toggleFollow()
                     isFollowed = upMaster.isFollowed
                     fansCount = upMaster.fansCount
+                    BilibiliAutoTestLogger.logFollowStatusChanged(isFollowed)
                 },
                 shape = RoundedCornerShape(16.dp),
                 color = if (isFollowed) Color(0xFFE0E0E0) else Color(0xFFFF6699)
@@ -1098,11 +1130,12 @@ fun InteractionButtonsSection(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.clickable {
-                    Log.d("BilibiliAutoTest", "LIKE_BUTTON_CLICKED")
+                    // 指令6,23: 记录点赞按钮点击
+                    BilibiliAutoTestLogger.logLikeButtonClicked()
                     onLike()
                     isLiked = !isLiked
                     likeCount = if (isLiked) likeCount + 1 else maxOf(0, likeCount - 1)
-                    Log.d("BilibiliAutoTest", "LIKE_STATUS_CHANGED: liked=$isLiked")
+                    BilibiliAutoTestLogger.logLikeStatusChanged(isLiked)
                 }
             ) {
                 Icon(
@@ -1166,11 +1199,12 @@ fun InteractionButtonsSection(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.clickable {
-                    Log.d("BilibiliAutoTest", "FAVORITE_BUTTON_CLICKED")
+                    // 指令8: 记录收藏按钮点击
+                    BilibiliAutoTestLogger.logFavoriteButtonClicked()
                     onFavorite()
                     isFavorited = !isFavorited
                     favoriteCount = if (isFavorited) favoriteCount + 1 else maxOf(0, favoriteCount - 1)
-                    Log.d("BilibiliAutoTest", "FAVORITE_STATUS_CHANGED: favorited=$isFavorited")
+                    BilibiliAutoTestLogger.logFavoriteStatusChanged(isFavorited)
                 }
             ) {
                 Icon(

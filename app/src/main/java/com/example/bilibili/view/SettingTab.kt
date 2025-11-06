@@ -1,6 +1,7 @@
 package com.example.bilibili.view
 
 import android.content.Context
+import com.example.bilibili.utils.BilibiliAutoTestLogger
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -31,6 +32,11 @@ fun SettingTab(
 ) {
     val presenter = remember { SettingPresenter(context) }
     val settingGroups = remember { presenter.getSettingGroups() }
+
+    // 指令30: 记录进入设置页面
+    LaunchedEffect(Unit) {
+        BilibiliAutoTestLogger.logSettingsPageEntered()
+    }
 
     Column(
         modifier = Modifier
@@ -126,7 +132,14 @@ fun SettingItemRow(item: SettingItem) {
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White)
-            .clickable { /* TODO: 进入详情页 */ }
+            .clickable {
+                // 指令30: 检测定时关闭选项
+                if (item.title.contains("定时") || item.title.contains("关闭")) {
+                    BilibiliAutoTestLogger.logTimerShutdownOptionFound()
+                    BilibiliAutoTestLogger.logTimerShutdownClicked()
+                }
+                /* TODO: 进入详情页 */
+            }
             .padding(horizontal = 16.dp, vertical = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically

@@ -60,7 +60,9 @@ def CheckLiveViewerCount():
             [adb_cmd, 'logcat', '-d', '-s', 'BilibiliAutoTest:D'],
             capture_output=True,
             text=True,
-            timeout=10
+            timeout=10,
+            encoding='utf-8',
+            errors='ignore'  # 忽略无法解码的字符
         )
 
         log_content = result.stdout
@@ -68,21 +70,25 @@ def CheckLiveViewerCount():
         # step3. 验证是否进入直播标签页
         if 'LIVE_TAB_ENTERED' not in log_content:
             print("验证失败: 未检测到进入直播标签页")
+            print(f"日志内容:\n{log_content}")
             return False
 
         # step4. 验证是否成功加载直播推荐列表
         if 'LIVE_RECOMMEND_LOADED' not in log_content:
             print("验证失败: 未检测到直播推荐列表加载")
+            print(f"日志内容:\n{log_content}")
             return False
 
         # step5. 验证是否找到第一个直播
         if 'FIRST_LIVE_FOUND' not in log_content:
             print("验证失败: 未检测到第一个直播")
+            print(f"日志内容:\n{log_content}")
             return False
 
         # step6. 验证是否显示在线观看人数
         if 'LIVE_VIEWER_COUNT_DISPLAYED' not in log_content:
             print("验证失败: 未检测到在线观看人数显示")
+            print(f"日志内容:\n{log_content}")
             return False
 
         # step7. 提取并验证观看人数是否>0
@@ -91,6 +97,7 @@ def CheckLiveViewerCount():
 
         if not count_match:
             print("验证失败: 无法提取观看人数")
+            print(f"日志内容:\n{log_content}")
             return False
 
         viewer_count_str = count_match.group(1)
@@ -98,11 +105,13 @@ def CheckLiveViewerCount():
         # step8. 验证人数格式是否正确
         if not re.match(r'^\d+(?:\.\d+)?[万千]?$', viewer_count_str):
             print("验证失败: 观看人数格式不正确")
+            print(f"日志内容:\n{log_content}")
             return False
 
         # 简单验证是否>0
         if viewer_count_str.startswith('0') and '.' not in viewer_count_str:
             print("验证失败: 观看人数为0")
+            print(f"日志内容:\n{log_content}")
             return False
 
         print(f"在线观看人数: {viewer_count_str}")

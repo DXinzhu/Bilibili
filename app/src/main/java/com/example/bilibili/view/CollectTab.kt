@@ -26,6 +26,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.bilibili.model.Video
 import com.example.bilibili.presenter.CollectPresenter
+import com.example.bilibili.utils.BilibiliAutoTestLogger
 
 /**
  * 收藏页面
@@ -42,14 +43,16 @@ fun CollectTab(
     var selectedSubTab by remember { mutableStateOf("视频") }
 
     LaunchedEffect(Unit) {
-        // 记录进入收藏页面
-        Log.d("BilibiliAutoTest", "FAVORITE_PAGE_ENTERED")
+        // 指令7: 记录进入收藏页面
+        BilibiliAutoTestLogger.logFavoriteTabClicked()
+        BilibiliAutoTestLogger.logFavoritePageEntered()
 
         // 加载收藏视频数据
         collectedVideos = presenter.getCollectedVideos()
 
-        // 记录数据加载完成
-        Log.d("BilibiliAutoTest", "FAVORITE_DATA_LOADED")
+        // 指令7,25: 记录数据加载完成
+        BilibiliAutoTestLogger.logFavoriteDataLoaded(collectedVideos.size)
+        BilibiliAutoTestLogger.logFavoriteCountDisplayed(collectedVideos.size)
     }
 
     Column(

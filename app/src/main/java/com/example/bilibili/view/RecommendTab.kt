@@ -2,6 +2,7 @@ package com.example.bilibili.view
 
 import android.content.Context
 import android.util.Log
+import com.example.bilibili.utils.BilibiliAutoTestLogger
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -57,6 +58,8 @@ fun RecommendTab(
     LaunchedEffect(Unit) {
         user = presenter.loadUserData()
         videos = presenter.getRecommendedVideos()
+        // 指令20,29: 记录首页激活
+        BilibiliAutoTestLogger.logHomePageActive()
     }
 
     // 根据选中的标签显示不同内容
@@ -91,7 +94,13 @@ fun RecommendTab(
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             items(videos) { video ->
-                                VideoCard(video, onClick = { onNavigateToVideo(video.videoId) })
+                                VideoCard(video, onClick = {
+                                    // 指令29: 记录点击第一个视频
+                                    if (videos.indexOf(video) == 0) {
+                                        BilibiliAutoTestLogger.logFirstVideoClicked()
+                                    }
+                                    onNavigateToVideo(video.videoId)
+                                })
                             }
                         }
                     }
@@ -232,6 +241,8 @@ fun TopBar(
             TabItem(text = "推荐", isSelected = selectedTab == "推荐", onClick = { onTabSelected("推荐") })
             TabItem(text = "热门", isSelected = selectedTab == "热门", onClick = { onTabSelected("热门") })
             TabItem(text = "动画", isSelected = selectedTab == "动画", onClick = {
+                // 指令5: 记录点击动画频道
+                BilibiliAutoTestLogger.logAnimationChannelClicked()
                 Log.d("BilibiliAutoTest", "CHANNEL_ICON_CLICKED: 动画")
                 onTabSelected("动画")
             })

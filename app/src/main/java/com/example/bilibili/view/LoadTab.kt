@@ -1,6 +1,7 @@
 package com.example.bilibili.view
 
 import android.content.Context
+import com.example.bilibili.utils.BilibiliAutoTestLogger
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -39,6 +40,10 @@ fun LoadTab(
 
     LaunchedEffect(Unit) {
         cacheItems = presenter.loadCacheVideos()
+        // 指令13: 记录进入离线缓存页面
+        BilibiliAutoTestLogger.logOfflineCachePageEntered()
+        // 记录缓存列表加载完成
+        BilibiliAutoTestLogger.logCacheListLoaded()
     }
 
     Column(

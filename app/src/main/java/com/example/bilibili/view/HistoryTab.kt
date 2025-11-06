@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.bilibili.presenter.HistoryPresenter
+import com.example.bilibili.utils.BilibiliAutoTestLogger
 
 /**
  * 历史记录页面
@@ -39,7 +40,8 @@ fun HistoryTab(
 ) {
     // 记录日志：用户进入历史记录页面
     LaunchedEffect(Unit) {
-        Log.d("BilibiliAutoTest", "HISTORY_TAB_VIEWED")
+        BilibiliAutoTestLogger.logHistoryPageEntered()
+        BilibiliAutoTestLogger.logHistoryTabViewed()
     }
 
     val presenter = remember { HistoryPresenter(context) }
@@ -50,7 +52,7 @@ fun HistoryTab(
     LaunchedEffect(refreshTrigger) {
         historyItems = presenter.getHistoryItems()
         // 记录日志：历史记录数据加载完成
-        Log.d("BilibiliAutoTest", "HISTORY_DATA_LOADED:${historyItems.size}")
+        BilibiliAutoTestLogger.logHistoryDataLoaded(historyItems.size)
     }
 
     // 根据选中的分类筛选历史记录
@@ -231,6 +233,7 @@ fun HistoryList(
                 item = item,
                 presenter = presenter,
                 onLongClick = {
+                    BilibiliAutoTestLogger.logHistoryItemLongPressed()
                     historyToDelete = item
                     showDeleteDialog = true
                 }
@@ -253,10 +256,14 @@ fun HistoryList(
         DeleteConfirmDialog(
             videoTitle = historyToDelete!!.history.videoTitle,
             onConfirm = {
+                BilibiliAutoTestLogger.logDeleteButtonClicked()
                 presenter.deleteHistoryItem(historyToDelete!!.history.historyId)
                 showDeleteDialog = false
                 historyToDelete = null
                 onDeleteItem() // 通知父组件刷新列表
+                // 删除后重新获取列表并记录剩余数量
+                val remainingCount = presenter.getHistoryItems().size
+                BilibiliAutoTestLogger.logHistoryItemDeleted(remainingCount)
             },
             onDismiss = {
                 showDeleteDialog = false

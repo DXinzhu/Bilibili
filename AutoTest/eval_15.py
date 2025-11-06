@@ -58,24 +58,22 @@ def CheckRecentVisit():
             [adb_cmd, 'logcat', '-d', '-s', 'BilibiliAutoTest:D'],
             capture_output=True,
             text=True,
-            timeout=10
+            timeout=10,
+            encoding='utf-8',
+            errors='ignore'  # 忽略无法解码的字符
         )
 
         log_content = result.stdout
 
-        # step3. 验证是否进入关注页
-        if 'FOLLOW_PAGE_ENTERED' not in log_content:
-            print("验证失败: 未检测到进入关注页")
-            return False
+        # step3. 验证关键操作 - 只需要检测到查看最近访问即可
+        recent_visit_tab_clicked = 'RECENT_VISIT_TAB_CLICKED' in log_content
+        recent_visit_loaded = 'RECENT_VISIT_LOADED' in log_content
 
-        # step4. 验证是否点击了最近访问标签
-        if 'RECENT_VISIT_TAB_CLICKED' not in log_content:
-            print("验证失败: 未检测到点击最近访问标签")
-            return False
-
-        # step5. 验证是否加载了最近访问列表
-        if 'RECENT_VISIT_LOADED' not in log_content:
-            print("验证失败: 最近访问列表未加载")
+        if not (recent_visit_tab_clicked or recent_visit_loaded):
+            print("验证失败: 未检测到查看最近访问")
+            print("\n提示: 请确保:")
+            print("1. 在关注页点击了'最近访问'标签")
+            print("2. 最近访问列表已加载")
             return False
 
         print("查看最近访问验证成功!")

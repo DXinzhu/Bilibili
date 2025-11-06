@@ -24,10 +24,10 @@ def find_adb():
 
     return None
 
-def CheckSearchResultCount():
+def CheckSearchGame():
     """
-    检验逻辑:在搜索游戏解说后页面，查看本次搜索共找到多少个结果
-    验证用户是否查看了搜索结果数量
+    检验逻辑:在首页搜索框输入游戏解说，点击搜索按钮
+    验证用户是否完成搜索操作
     """
     try:
         adb_cmd = find_adb()
@@ -46,8 +46,8 @@ def CheckSearchResultCount():
         print("=" * 60)
         print("请在虚拟机中执行以下操作:")
         print("1. 打开bilibili APP")
-        print("2. 搜索'游戏解说'")
-        print("3. 在搜索结果页面查看结果数量")
+        print("2. 在首页搜索框输入'游戏解说'")
+        print("3. 点击搜索按钮")
         print("=" * 60)
 
         input("\n完成上述操作后，按回车键继续验证...")
@@ -58,36 +58,41 @@ def CheckSearchResultCount():
             [adb_cmd, 'logcat', '-d', '-s', 'BilibiliAutoTest:D'],
             capture_output=True,
             text=True,
-            timeout=10
+            timeout=10,
+            encoding='utf-8',
+            errors='ignore'  # 忽略无法解码的字符
         )
 
         log_content = result.stdout
 
-        # step3. 验证是否完成了搜索
-        if 'SEARCH_COMPLETED' not in log_content or '游戏解说' not in log_content:
-            print("验证失败: 未检测到完成搜索")
+        # step3. 验证是否输入了搜索内容
+        if 'SEARCH_INPUT' not in log_content or '游戏解说' not in log_content:
+            print("验证失败: 未检测到输入'游戏解说'")
+            print(f"日志内容:\n{log_content}")
             return False
 
-        # step4. 验证是否进入搜索结果页面
-        if 'SEARCH_RESULTS_PAGE_ENTERED' not in log_content:
-            print("验证失败: 未进入搜索结果页面")
+        # step4. 验证是否点击了搜索按钮
+        if 'SEARCH_BUTTON_CLICKED' not in log_content:
+            print("验证失败: 未检测到点击搜索按钮")
+            print(f"日志内容:\n{log_content}")
             return False
 
-        # step5. 验证是否显示了结果数量
-        if 'SEARCH_RESULTS_COUNT_DISPLAYED' not in log_content:
-            print("验证失败: 结果数量未显示")
+        # step5. 验证是否成功跳转到游戏搜索结果页面
+        if 'GAME_SEARCH_PAGE_LOADED' not in log_content:
+            print("验证失败: 未成功跳转到游戏搜索结果页面")
+            print(f"日志内容:\n{log_content}")
             return False
 
-        print("查看搜索结果数量验证成功!")
+        print("搜索操作验证成功!")
         return True
 
     except subprocess.TimeoutExpired:
         print("验证失败: 读取日志超时")
         return False
     except Exception as e:
-        print(f"检查搜索结果数量时发生错误: {str(e)}")
+        print(f"检查搜索操作时发生错误: {str(e)}")
         return False
 
 if __name__ == "__main__":
-    result = CheckSearchResultCount()
+    result = CheckSearchGame()
     print(result)

@@ -2,6 +2,7 @@ package com.example.bilibili.view
 
 import android.content.Context
 import android.util.Log
+import com.example.bilibili.utils.BilibiliAutoTestLogger
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -64,11 +65,12 @@ fun SearchTab(
             onBack = onBack,
             onSearch = {
                 if (searchText.contains("游戏") || searchText.contains("解说")) {
-                    Log.d("BilibiliAutoTest", "SEARCH_RESULTS_LOADED: $searchText")
+                    // 指令4,21,23: 记录搜索完成
+                    BilibiliAutoTestLogger.logSearchCompleted(searchText)
                     onNavigateToGame(searchText)
                 } else {
                     presenter.search(searchText)
-                    Log.d("BilibiliAutoTest", "SEARCH_RESULTS_LOADED: $searchText")
+                    BilibiliAutoTestLogger.logSearchCompleted(searchText)
                 }
             }
         )
@@ -167,9 +169,9 @@ fun SearchBar(
                         value = searchText,
                         onValueChange = { newText ->
                             onSearchTextChange(newText)
-                            // 输入日志
+                            // 指令4,21,23: 输入日志
                             if (newText.isNotEmpty()) {
-                                Log.d("BilibiliAutoTest", "SEARCH_INPUT: $newText")
+                                BilibiliAutoTestLogger.logSearchInput(newText)
                             }
                         },
                         modifier = Modifier.weight(1f),
@@ -191,7 +193,8 @@ fun SearchBar(
                 color = Color(0xFFFF6699),
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.clickable {
-                    Log.d("BilibiliAutoTest", "SEARCH_BUTTON_CLICKED")
+                    // 指令4,21,23: 记录搜索按钮点击
+                    BilibiliAutoTestLogger.logSearchButtonClicked()
                     onSearch()
                 }
             )

@@ -1,6 +1,7 @@
 package com.example.bilibili.view
 
 import android.content.Context
+import com.example.bilibili.utils.BilibiliAutoTestLogger
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -48,6 +49,13 @@ fun UpTab(
     LaunchedEffect(upMasterId) {
         upMaster = presenter.getUPMasterById(upMasterId)
         videos = presenter.getUPMasterVideos(upMasterId)
+        // 指令12,19: 记录进入UP主主页
+        upMaster?.let {
+            BilibiliAutoTestLogger.logUploaderPageEntered(it.name)
+            BilibiliAutoTestLogger.logUploaderDataLoaded()
+            // 指令12: 记录显示粉丝数
+            BilibiliAutoTestLogger.logFansCountDisplayed(presenter.formatCount(it.fansCount))
+        }
     }
 
     upMaster?.let { up ->

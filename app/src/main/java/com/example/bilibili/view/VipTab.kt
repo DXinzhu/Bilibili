@@ -31,6 +31,7 @@ import com.example.bilibili.model.User
 import com.example.bilibili.model.Video
 import com.example.bilibili.presenter.VipPresenter
 import com.example.bilibili.presenter.VipPrivilege
+import com.example.bilibili.utils.BilibiliAutoTestLogger
 
 /**
  * 会员中心页面
@@ -49,9 +50,22 @@ fun VipTab(
     var agreeToTerms by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
+        BilibiliAutoTestLogger.logVipPageEntered()
         user = presenter.loadUserData()
         vipContent = presenter.getVipExclusiveContent()
         vipPrivileges = presenter.getVipPrivileges()
+
+        // 指令3: 加载会员数据并记录
+        user?.let {
+            val vipStatus = if (it.isVip) it.getVipStatusText() else "未开通"
+            BilibiliAutoTestLogger.logVipDataLoaded(vipStatus)
+            BilibiliAutoTestLogger.logVipStatusViewed()
+
+            // 指令27: 如果有会员有效期,记录有效期
+            if (it.isVip && it.vipExpireDate != null) {
+                BilibiliAutoTestLogger.logVipExpireDateDisplayed(it.vipExpireDate!!)
+            }
+        }
     }
 
     Column(

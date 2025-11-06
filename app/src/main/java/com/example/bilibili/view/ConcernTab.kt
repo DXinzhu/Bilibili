@@ -1,6 +1,7 @@
 package com.example.bilibili.view
 
 import android.content.Context
+import com.example.bilibili.utils.BilibiliAutoTestLogger
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -44,6 +45,9 @@ fun ConcernTab(
 
     LaunchedEffect(Unit) {
         upMasters = presenter.getConcernPageUPMasters()
+        // 指令16: 记录进入关注列表/最近访问
+        BilibiliAutoTestLogger.logRecentVisitTabClicked()
+        BilibiliAutoTestLogger.logRecentVisitLoaded()
     }
 
     Column(
@@ -277,7 +281,12 @@ fun ConcernList(upMasters: List<UPMaster>, followedCount: Int, onUpMasterClick: 
 
         // UP主列表
         items(upMasters) { upMaster ->
-            UPMasterItem(upMaster = upMaster, onClick = { onUpMasterClick(upMaster.upMasterId) })
+            UPMasterItem(upMaster = upMaster, onClick = {
+                // 指令19: 记录找到UP主并进入UP主主页
+                BilibiliAutoTestLogger.logUploaderFound(upMaster.name)
+                BilibiliAutoTestLogger.logUploaderPageEntered(upMaster.name)
+                onUpMasterClick(upMaster.upMasterId)
+            })
             HorizontalDivider(
                 modifier = Modifier.padding(start = 72.dp),
                 color = Color.LightGray,

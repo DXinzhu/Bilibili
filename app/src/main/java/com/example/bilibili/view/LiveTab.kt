@@ -1,6 +1,7 @@
 package com.example.bilibili.view
 
 import android.content.Context
+import com.example.bilibili.utils.BilibiliAutoTestLogger
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -52,6 +53,14 @@ fun LiveTab(
         followedLives = presenter.getFollowedLiveStreams()
         recommendedLives = presenter.getRecommendedLiveStreams()
         followedLiveCount = presenter.getFollowedLiveCount()
+        // 指令31: 记录进入直播标签页
+        BilibiliAutoTestLogger.logLiveTabEntered()
+        // 记录直播推荐列表加载完成
+        BilibiliAutoTestLogger.logLiveRecommendLoaded()
+        // 记录找到第一个直播
+        if (recommendedLives.isNotEmpty()) {
+            BilibiliAutoTestLogger.logFirstLiveFound()
+        }
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -93,7 +102,10 @@ fun LiveTab(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(recommendedLives) { live ->
-                        LiveStreamCard(live)
+                        LiveStreamCard(live, onViewerCountDisplay = {
+                            // 指令31: 记录显示直播观看人数
+                            BilibiliAutoTestLogger.logLiveViewerCountDisplayed(live.getFormattedViewerCount())
+                        })
                     }
                 }
             }
@@ -507,7 +519,12 @@ fun RecommendedLiveHeader() {
  * 直播卡片
  */
 @Composable
-fun LiveStreamCard(liveStream: LiveStream) {
+fun LiveStreamCard(liveStream: LiveStream, onViewerCountDisplay: () -> Unit = {}) {
+    LaunchedEffect(Unit) {
+        // 当卡片显示时记录观看人数
+        onViewerCountDisplay()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()

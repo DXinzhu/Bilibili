@@ -59,7 +59,9 @@ def CheckDanmakuToggle():
             [adb_cmd, 'logcat', '-d', '-s', 'BilibiliAutoTest:D'],
             capture_output=True,
             text=True,
-            timeout=10
+            timeout=10,
+            encoding='utf-8',
+            errors='ignore'  # 忽略无法解码的字符
         )
 
         log_content = result.stdout
@@ -67,11 +69,13 @@ def CheckDanmakuToggle():
         # step3. 验证是否在视频播放页
         if 'VIDEO_PLAYER_OPENED' not in log_content:
             print("验证失败: 未检测到进入视频播放页")
+            print(f"日志内容:\n{log_content}")
             return False
 
         # step4. 验证初始弹幕状态
         if 'DANMAKU_INITIAL_STATE' not in log_content or 'on' not in log_content:
             print("验证失败: 未检测到初始弹幕状态")
+            print(f"日志内容:\n{log_content}")
             return False
 
         # step5. 验证是否点击弹幕开关(第一次)
@@ -83,6 +87,7 @@ def CheckDanmakuToggle():
         # step6. 验证弹幕是否关闭
         if 'DANMAKU_STATUS_CHANGED' not in log_content or 'off' not in log_content:
             print("验证失败: 未检测到弹幕关闭")
+            print(f"日志内容:\n{log_content}")
             return False
 
         # step7. 验证弹幕是否重新打开
@@ -97,6 +102,7 @@ def CheckDanmakuToggle():
 
         if len(status_changes) < 2 or status_changes[-2:] != ['off', 'on']:
             print("验证失败: 弹幕开关状态变化不正确")
+            print(f"日志内容:\n{log_content}")
             return False
 
         print("弹幕开关验证成功!")

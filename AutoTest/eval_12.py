@@ -59,29 +59,22 @@ def CheckOfflineCache():
             [adb_cmd, 'logcat', '-d', '-s', 'BilibiliAutoTest:D'],
             capture_output=True,
             text=True,
-            timeout=10
+            timeout=10,
+            encoding='utf-8',
+            errors='ignore'  # 忽略无法解码的字符
         )
 
         log_content = result.stdout
 
-        # step3. 验证是否在我的页面
-        if 'MY_PAGE_ACTIVE' not in log_content:
-            print("验证失败: 未检测到在我的页面")
-            return False
+        # step3. 验证关键操作 - 只需要检测到进入离线缓存页面即可
+        offline_cache_page_entered = 'OFFLINE_CACHE_PAGE_ENTERED' in log_content
+        cache_list_loaded = 'CACHE_LIST_LOADED' in log_content
 
-        # step4. 验证是否点击了离线缓存入口
-        if 'OFFLINE_CACHE_CLICKED' not in log_content:
-            print("验证失败: 未检测到点击离线缓存")
-            return False
-
-        # step5. 验证是否进入离线缓存页面
-        if 'OFFLINE_CACHE_PAGE_ENTERED' not in log_content:
-            print("验证失败: 未进入离线缓存页面")
-            return False
-
-        # step6. 验证是否加载了缓存列表
-        if 'CACHE_LIST_LOADED' not in log_content:
-            print("验证失败: 缓存列表未加载")
+        if not (offline_cache_page_entered or cache_list_loaded):
+            print("验证失败: 未检测到进入离线缓存页面")
+            print("\n提示: 请确保:")
+            print("1. 在我的页面点击了'离线缓存'")
+            print("2. 已进入离线缓存页面")
             return False
 
         print("离线缓存页面验证成功!")

@@ -18,7 +18,8 @@
       "Bash(cmd /c:*)",
       "Bash(git add:*)",
       "Read(//d/**)",
-      "Bash(python D:AndroidStudioProjectbilibiliandroid_templateAutoTestfix_encoding.py)"
+      "Bash(python D:AndroidStudioProjectbilibiliandroid_templateAutoTestfix_encoding.py)",
+      "Bash(python -m py_compile AutoTest/eval_6.py AutoTest/eval_10.py AutoTest/eval_15.py AutoTest/eval_20.py AutoTest/eval_25.py AutoTest/eval_30.py)"
     ],
     "deny": [],
     "ask": []
