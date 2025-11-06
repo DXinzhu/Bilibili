@@ -785,6 +785,11 @@ fun TabAndDanmakuSection(
     // 弹幕开关状态
     var isDanmakuEnabled by remember { mutableStateOf(true) }
 
+    // 指令26: 记录弹幕初始状态（仅首次）
+    LaunchedEffect(Unit) {
+        BilibiliAutoTestLogger.logDanmakuInitialState(isDanmakuEnabled)
+    }
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -864,7 +869,11 @@ fun TabAndDanmakuSection(
                     modifier = Modifier
                         .size(32.dp)
                         .clickable {
+                            // 指令26: 记录弹幕开关点击
+                            BilibiliAutoTestLogger.logDanmakuSwitchClicked()
                             isDanmakuEnabled = !isDanmakuEnabled
+                            // 指令26: 记录弹幕状态改变
+                            BilibiliAutoTestLogger.logDanmakuStatusChanged(isDanmakuEnabled)
                         },
                     shape = CircleShape,
                     border = androidx.compose.foundation.BorderStroke(

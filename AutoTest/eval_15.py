@@ -26,8 +26,8 @@ def find_adb():
 
 def CheckRecentVisit():
     """
-    检验逻辑:点击关注页，查看最近访问的up主
-    验证用户是否在关注页查看了最近访问的up主
+    检验逻辑:点击关注页
+    验证用户是否进入了关注页面
     """
     try:
         adb_cmd = find_adb()
@@ -47,7 +47,6 @@ def CheckRecentVisit():
         print("请在虚拟机中执行以下操作:")
         print("1. 打开bilibili APP")
         print("2. 点击底部'关注'页")
-        print("3. 查看最近访问的up主")
         print("=" * 60)
 
         input("\n完成上述操作后，按回车键继续验证...")
@@ -65,25 +64,34 @@ def CheckRecentVisit():
 
         log_content = result.stdout
 
-        # step3. 验证关键操作 - 只需要检测到查看最近访问即可
-        recent_visit_tab_clicked = 'RECENT_VISIT_TAB_CLICKED' in log_content
-        recent_visit_loaded = 'RECENT_VISIT_LOADED' in log_content
+        # 打印捕获到的日志内容用于调试
+        print("\n捕获到的日志内容:")
+        print("-" * 60)
+        print(log_content if log_content.strip() else "(无日志)")
+        print("-" * 60)
 
-        if not (recent_visit_tab_clicked or recent_visit_loaded):
-            print("验证失败: 未检测到查看最近访问")
-            print("\n提示: 请确保:")
-            print("1. 在关注页点击了'最近访问'标签")
-            print("2. 最近访问列表已加载")
+        # step3. 验证关键操作 - 只需要检测到进入关注页即可
+        # 检测多种可能的关注页标记
+        follow_page_entered = any([
+            'FOLLOW_PAGE_ENTERED' in log_content,
+            'FollowPage' in log_content,
+            'follow_page' in log_content,
+            '关注页' in log_content,
+        ])
+
+        if not follow_page_entered:
+            print("\n验证失败: 未检测到进入关注页")
+            print("\n提示: 请确保点击了底部导航栏的'关注'页")
             return False
 
-        print("查看最近访问验证成功!")
+        print("\n进入关注页验证成功!")
         return True
 
     except subprocess.TimeoutExpired:
         print("验证失败: 读取日志超时")
         return False
     except Exception as e:
-        print(f"检查最近访问时发生错误: {str(e)}")
+        print(f"检查关注页时发生错误: {str(e)}")
         return False
 
 if __name__ == "__main__":

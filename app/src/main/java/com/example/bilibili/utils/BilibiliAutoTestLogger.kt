@@ -157,6 +157,13 @@ object BilibiliAutoTestLogger {
     // ==================== 关注相关 ====================
 
     /**
+     * 指令14,15: 进入关注页
+     */
+    fun logFollowPageEntered() {
+        Log.d(TAG, "FOLLOW_PAGE_ENTERED")
+    }
+
+    /**
      * 指令19: 进入关注列表
      */
     fun logFollowListEntered() {
@@ -194,6 +201,13 @@ object BilibiliAutoTestLogger {
     }
 
     // ==================== 动态相关 ====================
+
+    /**
+     * 指令14: 动态列表加载完成
+     */
+    fun logDynamicListLoaded() {
+        Log.d(TAG, "DYNAMIC_LIST_LOADED")
+    }
 
     /**
      * 指令15: 点击第一个动态

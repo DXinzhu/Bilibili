@@ -46,6 +46,10 @@ fun ActionTab(context: Context) {
     LaunchedEffect(Unit) {
         frequentUPMasters = presenter.getFrequentlyVisitedUPMasters()
         posts = presenter.getPosts()
+        // 指令14,15: 记录进入关注页
+        BilibiliAutoTestLogger.logFollowPageEntered()
+        // 指令15: 记录动态列表加载完成
+        BilibiliAutoTestLogger.logDynamicListLoaded()
     }
 
     Column(modifier = Modifier.fillMaxSize()) {

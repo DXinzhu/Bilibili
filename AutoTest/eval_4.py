@@ -66,19 +66,19 @@ def CheckAnimationChannel():
         log_content = result.stdout
 
         # step3. 验证是否点击了动画频道图标
-        if 'CHANNEL_ICON_CLICKED' not in log_content or '动画' not in log_content:
+        if 'ANIMATION_CHANNEL_CLICKED' not in log_content:
             print("验证失败: 未检测到点击动画频道图标")
             print(f"日志内容:\n{log_content}")
             return False
 
         # step4. 验证是否进入动画频道页面
-        if 'ANIMATION_CHANNEL_ENTERED' not in log_content:
+        if 'ANIMATION_CHANNEL_PAGE_ENTERED' not in log_content:
             print("验证失败: 未进入动画频道页面")
             print(f"日志内容:\n{log_content}")
             return False
 
         # step5. 验证是否加载了频道内容
-        if 'CHANNEL_CONTENT_LOADED' not in log_content:
+        if 'ANIMATION_CHANNEL_DATA_LOADED' not in log_content:
             print("验证失败: 频道内容未加载")
             print(f"日志内容:\n{log_content}")
             return False

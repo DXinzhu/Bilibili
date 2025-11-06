@@ -45,6 +45,8 @@ fun ConcernTab(
 
     LaunchedEffect(Unit) {
         upMasters = presenter.getConcernPageUPMasters()
+        // 指令14,15: 记录进入关注页
+        BilibiliAutoTestLogger.logFollowPageEntered()
         // 指令16: 记录进入关注列表/最近访问
         BilibiliAutoTestLogger.logRecentVisitTabClicked()
         BilibiliAutoTestLogger.logRecentVisitLoaded()
