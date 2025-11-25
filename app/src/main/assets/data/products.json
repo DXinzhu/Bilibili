@@ -1,0 +1,50 @@
+[
+  {
+    "productId": "prod001",
+    "name": "bilibili 2233娘手办模型",
+    "imageUrl": "1.jpg",
+    "price": 99.9,
+    "originalPrice": 149.9,
+    "salesCount": 1200,
+    "description": "bilibili官方正版2233娘手办",
+    "tag": "热销",
+    "isFavorite": false,
+    "lastUpdateTime": 1729180800000
+  },
+  {
+    "productId": "prod002",
+    "name": "bilibili会员周边抱枕",
+    "imageUrl": "2.jpg",
+    "price": 59.9,
+    "originalPrice": 0.0,
+    "salesCount": 856,
+    "description": "柔软舒适抱枕",
+    "tag": "",
+    "isFavorite": false,
+    "lastUpdateTime": 1729180800000
+  },
+  {
+    "productId": "prod003",
+    "name": "bilibili潮流文化衫",
+    "imageUrl": "3.jpg",
+    "price": 79.9,
+    "originalPrice": 99.9,
+    "salesCount": 2340,
+    "description": "夏季新款纯棉T恤",
+    "tag": "新品",
+    "isFavorite": false,
+    "lastUpdateTime": 1729180800000
+  },
+  {
+    "productId": "prod004",
+    "name": "bilibili周边徽章套装",
+    "imageUrl": "4.jpg",
+    "price": 29.9,
+    "originalPrice": 0.0,
+    "salesCount": 567,
+    "description": "收藏必备徽章套装",
+    "tag": "",
+    "isFavorite": false,
+    "lastUpdateTime": 1729180800000
+  }
+]

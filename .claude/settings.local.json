@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(gradlew.bat clean:*)",
+      "Bash(./gradlew:*)",
+      "Bash(./gradlew.bat:*)",
+      "Bash(.gradlew.bat assembleDebug)",
+      "Bash(gradlew.bat assembleDebug:*)",
+      "Bash(.gradlew --stop)",
+      "Bash(find:*)",
+      "Bash(cat:*)",
+      "Bash(gradlew.bat build:*)",
+      "Bash(adb:*)",
+      "Bash(cmd /c gradlew.bat:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(cmd /c:*)",
+      "Bash(git add:*)",
+      "Read(//d/**)",
+      "Bash(python D:AndroidStudioProjectbilibiliandroid_templateAutoTestfix_encoding.py)",
+      "Bash(python -m py_compile AutoTest/eval_6.py AutoTest/eval_10.py AutoTest/eval_15.py AutoTest/eval_20.py AutoTest/eval_25.py AutoTest/eval_30.py)",
+      "Bash(python:*)",
+      "Bash(where:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
