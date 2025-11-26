@@ -10,6 +10,7 @@ import java.time.temporal.ChronoUnit
  */
 data class User(
     val userId: String,                     // 用户唯一标识
+    val uid: Long = 0,                      // 用户UID
     val name: String,                       // 用户昵称
     val avatarUrl: String = "",             // 头像URL
     val level: Int = 1,                     // 用户等级（1-6）

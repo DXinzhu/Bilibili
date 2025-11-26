@@ -21,6 +21,10 @@ data class Post(
     var commentCount: Int = 0,              // 评论数
     var likeCount: Int = 0,                 // 点赞数
     var isLiked: Boolean = false,           // 是否已点赞
+    var collectCount: Int = 0,              // 收藏数
+    var isCollected: Boolean = false,       // 是否已收藏
+    var coinCount: Int = 0,                 // 投币数
+    var isCoined: Boolean = false,          // 是否已投币
     var lastUpdateTime: Long = System.currentTimeMillis()
 ) {
     /**
@@ -50,6 +54,30 @@ data class Post(
     fun addForward() {
         forwardCount++
         lastUpdateTime = System.currentTimeMillis()
+    }
+
+    /**
+     * 切换收藏状态
+     */
+    fun toggleCollect() {
+        isCollected = !isCollected
+        if (isCollected) {
+            collectCount++
+        } else {
+            collectCount = maxOf(0, collectCount - 1)
+        }
+        lastUpdateTime = System.currentTimeMillis()
+    }
+
+    /**
+     * 投币（一次投一个币）
+     */
+    fun addCoin() {
+        if (!isCoined) {
+            isCoined = true
+            coinCount++
+            lastUpdateTime = System.currentTimeMillis()
+        }
     }
 }
 

@@ -294,6 +294,8 @@ fun FrequentUPMasterItem(upMaster: UPMaster) {
  */
 @Composable
 fun VideoPostCard(post: Post) {
+    var currentPost by remember { mutableStateOf(post) }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -302,9 +304,9 @@ fun VideoPostCard(post: Post) {
     ) {
         // UP主信息行
         PostHeader(
-            avatarUrl = post.upMasterAvatar,
-            name = post.upMasterName,
-            time = post.publishTime
+            avatarUrl = currentPost.upMasterAvatar,
+            name = currentPost.upMasterName,
+            time = currentPost.publishTime
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -324,10 +326,10 @@ fun VideoPostCard(post: Post) {
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data("file:///android_asset/video/${post.videoCover}")
+                    .data("file:///android_asset/video/${currentPost.videoCover}")
                     .crossfade(true)
                     .build(),
-                contentDescription = post.content,
+                contentDescription = currentPost.content,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
@@ -340,7 +342,7 @@ fun VideoPostCard(post: Post) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = post.videoDuration,
+                    text = currentPost.videoDuration,
                     color = Color.White,
                     fontSize = 12.sp,
                     modifier = Modifier
@@ -349,7 +351,7 @@ fun VideoPostCard(post: Post) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = post.videoPlayCount,
+                    text = currentPost.videoPlayCount,
                     color = Color.White,
                     fontSize = 12.sp,
                     modifier = Modifier
@@ -363,7 +365,7 @@ fun VideoPostCard(post: Post) {
 
         // 视频标题
         Text(
-            text = post.content,
+            text = currentPost.content,
             fontSize = 15.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black,
@@ -376,10 +378,23 @@ fun VideoPostCard(post: Post) {
 
         // 互动按钮行
         PostActionBar(
-            forwardCount = post.forwardCount,
-            commentCount = post.commentCount,
-            likeCount = post.likeCount,
-            isLiked = post.isLiked
+            forwardCount = currentPost.forwardCount,
+            commentCount = currentPost.commentCount,
+            likeCount = currentPost.likeCount,
+            isLiked = currentPost.isLiked,
+            collectCount = currentPost.collectCount,
+            isCollected = currentPost.isCollected,
+            coinCount = currentPost.coinCount,
+            isCoined = currentPost.isCoined,
+            onLikeClick = {
+                currentPost = currentPost.copy().apply { toggleLike() }
+            },
+            onCollectClick = {
+                currentPost = currentPost.copy().apply { toggleCollect() }
+            },
+            onCoinClick = {
+                currentPost = currentPost.copy().apply { addCoin() }
+            }
         )
     }
 
@@ -391,6 +406,8 @@ fun VideoPostCard(post: Post) {
  */
 @Composable
 fun TextPostCard(post: Post) {
+    var currentPost by remember { mutableStateOf(post) }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -399,16 +416,16 @@ fun TextPostCard(post: Post) {
     ) {
         // UP主信息行
         PostHeader(
-            avatarUrl = post.upMasterAvatar,
-            name = post.upMasterName,
-            time = post.publishTime
+            avatarUrl = currentPost.upMasterAvatar,
+            name = currentPost.upMasterName,
+            time = currentPost.publishTime
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
         // 文字内容
         Text(
-            text = post.content,
+            text = currentPost.content,
             fontSize = 15.sp,
             color = Color.Black,
             modifier = Modifier.padding(horizontal = 16.dp),
@@ -418,10 +435,10 @@ fun TextPostCard(post: Post) {
         Spacer(modifier = Modifier.height(12.dp))
 
         // 配图(如果有)
-        if (post.images.isNotEmpty()) {
+        if (currentPost.images.isNotEmpty()) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data("file:///android_asset/avatar/${post.images[0]}")
+                    .data("file:///android_asset/avatar/${currentPost.images[0]}")
                     .crossfade(true)
                     .build(),
                 contentDescription = "配图",
@@ -439,10 +456,23 @@ fun TextPostCard(post: Post) {
 
         // 互动按钮行
         PostActionBar(
-            forwardCount = post.forwardCount,
-            commentCount = post.commentCount,
-            likeCount = post.likeCount,
-            isLiked = post.isLiked
+            forwardCount = currentPost.forwardCount,
+            commentCount = currentPost.commentCount,
+            likeCount = currentPost.likeCount,
+            isLiked = currentPost.isLiked,
+            collectCount = currentPost.collectCount,
+            isCollected = currentPost.isCollected,
+            coinCount = currentPost.coinCount,
+            isCoined = currentPost.isCoined,
+            onLikeClick = {
+                currentPost = currentPost.copy().apply { toggleLike() }
+            },
+            onCollectClick = {
+                currentPost = currentPost.copy().apply { toggleCollect() }
+            },
+            onCoinClick = {
+                currentPost = currentPost.copy().apply { addCoin() }
+            }
         )
     }
 
@@ -505,14 +535,21 @@ fun PostHeader(avatarUrl: String, name: String, time: String) {
 }
 
 /**
- * 互动按钮行(转发、评论、点赞)
+ * 互动按钮行(转发、评论、点赞、收藏、投币)
  */
 @Composable
 fun PostActionBar(
     forwardCount: Int,
     commentCount: Int,
     likeCount: Int,
-    isLiked: Boolean
+    isLiked: Boolean,
+    collectCount: Int,
+    isCollected: Boolean,
+    coinCount: Int,
+    isCoined: Boolean,
+    onLikeClick: () -> Unit = {},
+    onCollectClick: () -> Unit = {},
+    onCoinClick: () -> Unit = {}
 ) {
     Row(
         modifier = Modifier
@@ -539,7 +576,23 @@ fun PostActionBar(
             icon = if (isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
             count = likeCount,
             tint = if (isLiked) Color(0xFFFF6699) else Color.Gray,
-            onClick = { /* TODO */ }
+            onClick = onLikeClick
+        )
+
+        // 收藏
+        ActionButton(
+            icon = if (isCollected) Icons.Default.Star else Icons.Default.StarBorder,
+            count = collectCount,
+            tint = if (isCollected) Color(0xFFFFB800) else Color.Gray,
+            onClick = onCollectClick
+        )
+
+        // 投币
+        ActionButton(
+            icon = Icons.Default.MonetizationOn,
+            count = coinCount,
+            tint = if (isCoined) Color(0xFFFFB800) else Color.Gray,
+            onClick = onCoinClick
         )
     }
 }

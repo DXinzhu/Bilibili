@@ -66,6 +66,7 @@ fun PersonTab(
         // 顶部导航栏
         PersonTopBar(
             userName = user?.name ?: "小明",
+            uid = user?.uid ?: 0,
             onNavigateBack = onNavigateBack
         )
 
@@ -132,6 +133,7 @@ fun PersonTab(
 @Composable
 fun PersonTopBar(
     userName: String,
+    uid: Long,
     onNavigateBack: () -> Unit = {}
 ) {
     Surface(
@@ -154,13 +156,25 @@ fun PersonTopBar(
                 )
             }
 
-            // 中间用户名
-            Text(
-                text = userName,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
-            )
+            // 中间用户名和UID
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = userName,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+                if (uid > 0) {
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = "UID: $uid",
+                        fontSize = 12.sp,
+                        color = Color.Gray
+                    )
+                }
+            }
 
             // 右侧功能按钮
             Row {
