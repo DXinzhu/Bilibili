@@ -56,7 +56,7 @@ class RecommendPresenter(private val context: Context) {
      * 获取推荐视频列表（用于首页展示）
      */
     fun getRecommendedVideos(): List<Video> {
-        // 获取指定的4个视频：vid001, vid003, vid011, vid012
-        return loadVideosByIds(listOf("vid001", "vid003", "vid011", "vid012"))
+        // 返回所有视频
+        return loadAllVideos()
     }
 }
