@@ -23,7 +23,8 @@
       "Bash(python:*)",
       "Bash(where:*)",
       "Bash(copy video_3.mp4 video_4.mp4)",
-      "Bash(copy:*)"
+      "Bash(copy:*)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "ask": []
