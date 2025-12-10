@@ -1,3 +1,262 @@
 <resources>
+    <!-- App Name -->
     <string name="app_name">Bilibili</string>
+
+    <!-- Common Buttons -->
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="retry">Retry</string>
+    <string name="loading">Loading…</string>
+    <string name="error">Error</string>
+    <string name="back">Back</string>
+    <string name="more">More</string>
+    <string name="search">Search</string>
+    <string name="share">Share</string>
+    <string name="delete">Delete</string>
+    <string name="send">Send</string>
+
+    <!-- Navigation Bar -->
+    <string name="nav_home">Home</string>
+    <string name="nav_following">Following</string>
+    <string name="nav_publish">Publish</string>
+    <string name="nav_shop">Shop</string>
+    <string name="nav_me">Me</string>
+
+    <!-- Common Messages -->
+    <string name="empty_state">No data available</string>
+    <string name="network_error">Network error, please check your connection</string>
+    <string name="unknown_error">An unknown error occurred</string>
+    <string name="placeholder_developing">%s\n(Under Development)</string>
+
+    <!-- Action/Dynamic Module -->
+    <string name="action_following">Following</string>
+    <string name="action_frequently_visited">Frequently Visited</string>
+    <string name="action_all">All</string>
+    <string name="action_video">Video</string>
+    <string name="action_publish_dynamic">Publish Dynamic</string>
+    <string name="action_with_image">With Image</string>
+
+    <!-- Buy/Shop Module -->
+    <string name="buy_shop">Shop</string>
+    <string name="buy_search_hint">Search</string>
+    <string name="buy_price_prefix">¥</string>
+    <string name="buy_purchase_count">%s purchased</string>
+
+    <!-- Cartoon/Anime Module -->
+    <string name="cartoon_hot_ranking">Hot Ranking</string>
+    <string name="cartoon_more_rankings">More Rankings</string>
+
+    <!-- Collect Module -->
+    <string name="collect_title">Collection</string>
+    <string name="collect_following_updates">Following Updates</string>
+    <string name="collect_video">Video</string>
+    <string name="collect_audio">Audio</string>
+    <string name="collect_article">Article</string>
+    <string name="collect_column">Column</string>
+    <string name="collect_series">Series</string>
+    <string name="collect_upmaster">UP Master</string>
+    <string name="collect_play_count">%s plays</string>
+    <string name="collect_comment_count">%s comments</string>
+
+    <!-- Concern Module -->
+    <string name="concern_following">Following</string>
+    <string name="concern_fans">Fans</string>
+    <string name="concern_fans_video">%s · Video</string>
+    <string name="concern_followed">Followed</string>
+
+    <!-- Content/Video Detail Module -->
+    <string name="content_ad_area">Advertisement Area</string>
+    <string name="content_ad">Ad</string>
+    <string name="content_play">Play</string>
+    <string name="content_intro">Intro</string>
+    <string name="content_comment_count">%d Comments</string>
+    <string name="content_danmaku_hint">Tap to send danmaku</string>
+    <string name="content_danmaku_count">%s</string>
+    <string name="content_hot_comments">Hot Comments</string>
+    <string name="content_sort_by_hot">By Popularity</string>
+    <string name="content_reply">Reply</string>
+    <string name="content_original_comment">Original Comment</string>
+    <string name="content_user_level">LV%d</string>
+    <string name="content_location">From %s</string>
+    <string name="content_cancel_reply">Cancel Reply</string>
+    <string name="content_user_avatar">User Avatar</string>
+    <string name="content_emoji">Emoji</string>
+    <string name="content_like">Like</string>
+    <string name="content_dislike">Dislike</string>
+    <string name="content_sort_option">Sort Options</string>
+
+    <!-- Game Module -->
+    <string name="game_banner">Game Recommendation Banner</string>
+    <string name="game_play_like">%s plays · %s likes</string>
+    <string name="game_search_hint">Enter search content</string>
+    <string name="game_search">Search</string>
+
+    <!-- History Module -->
+    <string name="history_title">History</string>
+    <string name="history_empty">No viewing history</string>
+    <string name="history_no_history">No history</string>
+    <string name="history_delete_dialog_title">Delete History Record</string>
+    <string name="history_delete_dialog_message">Are you sure you want to delete this history record?</string>
+    <string name="history_delete">Delete</string>
+    <string name="history_cancel">Cancel</string>
+
+    <!-- Live Module -->
+    <string name="live_my_following">My Following</string>
+    <string name="live_streaming">Live</string>
+    <string name="live_watching">%s watching</string>
+    <string name="live_grid">Grid</string>
+    <string name="live_list">List</string>
+    <string name="live_volume">Volume</string>
+
+    <!-- Load/Cache Module -->
+    <string name="load_offline_cache">Offline Cache</string>
+    <string name="load_no_cache">No cache</string>
+    <string name="load_all">All</string>
+    <string name="load_video">Video</string>
+    <string name="load_anime">Anime</string>
+    <string name="load_course">Course</string>
+    <string name="load_sort_method">Sort By</string>
+    <string name="load_sort_time">By Time</string>
+    <string name="load_sort_size">By Size</string>
+
+    <!-- Me Module -->
+    <string name="me_offline_cache">Offline Cache</string>
+    <string name="me_history">History</string>
+    <string name="me_collection">My Collection</string>
+    <string name="me_watch_later">Watch Later</string>
+    <string name="me_up">UP</string>
+    <string name="me_publish_first_video">Publish your first video</string>
+    <string name="me_reward_publish">Win limited avatar frame and event rewards</string>
+    <string name="me_reward_activity">Reward Activity</string>
+    <string name="me_game_center">Game Center</string>
+    <string name="me_my_games">My Games</string>
+    <string name="me_my_reservations">My Reservations</string>
+    <string name="me_find_games">Find Games</string>
+    <string name="me_game_rankings">Game Rankings</string>
+    <string name="me_my_services">My Services</string>
+    <string name="me_my_courses">My Courses</string>
+    <string name="me_free_data">Free Data Service</string>
+    <string name="me_custom_theme">Custom Theme</string>
+    <string name="me_my_wallet">My Wallet</string>
+    <string name="me_shop">Shop</string>
+    <string name="me_my_live">My Live</string>
+    <string name="me_comic">Comic</string>
+    <string name="me_promotion">Promotion</string>
+    <string name="me_creator_center">Creator Center</string>
+    <string name="me_community_center">Community Center</string>
+    <string name="me_charity">Bilibili Charity</string>
+    <string name="me_workshop">Workshop</string>
+    <string name="me_energy_station">Energy Station</string>
+    <string name="me_more_services">More Services</string>
+    <string name="me_contact_support">Contact Support</string>
+    <string name="me_audio_mode">Audio Mode</string>
+    <string name="me_youth_mode">Youth Protection</string>
+    <string name="me_settings">Settings</string>
+    <string name="me_user_level">LV%d</string>
+    <string name="me_currency_info">B Coins: %d  Coins: %d</string>
+    <string name="me_vip_center">VIP Center</string>
+    <string name="me_dynamic">Dynamic</string>
+    <string name="me_following">Following</string>
+    <string name="me_fans">Fans</string>
+    <string name="me_edit">Edit</string>
+    <string name="me_goto_space">Go to Space</string>
+    <string name="me_vip">VIP</string>
+    <string name="me_scan">Scan</string>
+    <string name="me_skin">Skin</string>
+    <string name="me_night_mode">Night Mode</string>
+    <string name="me_connect">Connect</string>
+
+    <!-- Person Space Module -->
+    <string name="person_intro">Personal Intro</string>
+    <string name="person_lazy_description">This person is lazy and left nothing</string>
+    <string name="person_default_collection">Default Collection</string>
+    <string name="person_content_count">%d items</string>
+    <string name="person_tab_home">Home</string>
+    <string name="person_tab_dynamic">Dynamic</string>
+    <string name="person_tab_videos">Videos</string>
+    <string name="person_uid">UID: %s</string>
+    <string name="person_back">Back</string>
+    <string name="person_share">Share</string>
+    <string name="person_play_count">%s plays</string>
+
+    <!-- Recommend Module -->
+    <string name="recommend_live">Live</string>
+    <string name="recommend_title">Recommend</string>
+    <string name="recommend_hot">Hot</string>
+    <string name="recommend_anime">Anime</string>
+    <string name="recommend_movies">Movies</string>
+    <string name="recommend_dance">Dance</string>
+    <string name="recommend_notification_badge">99+</string>
+
+    <!-- Search Module -->
+    <string name="search_feedback">Feedback</string>
+    <string name="search_bilibili_hot">Bilibili Hot Search</string>
+    <string name="search_hot_badge">Hot</string>
+    <string name="search_discovery">Search Discovery</string>
+    <string name="search_history">Search History</string>
+    <string name="search_clear_history">Clear History</string>
+    <string name="search_hint">Enter search content</string>
+    <string name="search_button">Search</string>
+
+    <!-- Setting Module -->
+    <string name="setting_title">Settings</string>
+    <string name="setting_switch_account">Switch Account</string>
+    <string name="setting_logout">Logout</string>
+    <string name="setting_enter">Enter</string>
+
+    <!-- UP Master Module -->
+    <string name="up_fans">Fans</string>
+    <string name="up_following">Following</string>
+    <string name="up_likes">Likes</string>
+    <string name="up_charge_supporters">%d supporters charged</string>
+    <string name="up_charge">Charge</string>
+    <string name="up_shop">Shop</string>
+    <string name="up_charge_users">Charge Users</string>
+    <string name="up_live_badge">LIVE</string>
+    <string name="up_annual_member">Annual Member</string>
+    <string name="up_certification">Bilibili UP Master Certification: Well-known UP Master</string>
+    <string name="up_details">Details</string>
+    <string name="up_cooperation_info">Official cooperation welcome: Hi-Fi &amp; Auto &amp; Professional audio listening, Chinese music, collaboration…</string>
+    <string name="up_ip_location">IP Location: %s</string>
+    <string name="up_verified">Verified</string>
+    <string name="up_education">Communication University of China</string>
+    <string name="up_play_all">Play All</string>
+    <string name="up_latest">Latest</string>
+    <string name="up_sort">Sort</string>
+
+    <!-- Video Module -->
+    <string name="video_hot_comments">Hot Comments</string>
+    <string name="video_dislike">Dislike</string>
+    <string name="video_coin">Coin</string>
+    <string name="video_favorite">Favorite</string>
+    <string name="video_share">Share</string>
+    <string name="video_topic">Topic</string>
+    <string name="video_view_more">View More</string>
+    <string name="video_online">%s online</string>
+    <string name="video_hot">Hot</string>
+    <string name="video_play">Play</string>
+
+    <!-- VIP Module -->
+    <string name="vip_ad_banner">VIP Advertisement</string>
+    <string name="vip_annual_subscription">Annual Subscription</string>
+    <string name="vip_auto_renew_note">Auto-renewal can be canceled anytime</string>
+    <string name="vip_discount_countdown">Limited discount ends in 23:59:49</string>
+    <string name="vip_payment">Confirm agreement and pay ¥148</string>
+    <string name="vip_agreement_note">Please read the "VIP Service Agreement" and "VIP Auto-Renewal Service Rules" before activation</string>
+    <string name="vip_produced_by">Produced by</string>
+    <string name="vip_documentary">Documentary</string>
+    <string name="vip_exclusive">VIP Exclusive</string>
+    <string name="vip_privileges">Get %d privileges by activating VIP</string>
+    <string name="vip_view_more">View More</string>
+    <string name="vip_center">VIP Center</string>
+    <string name="vip_weather">Weather</string>
+    <string name="vip_scan">Scan</string>
+    <string name="vip_mascot">VIP Mascot</string>
+
+    <!-- Price Format -->
+    <string name="price_format">¥%1$.2f</string>
+
+    <!-- UP Master Label -->
+    <string name="upmaster_label">UP Master</string>
 </resources>

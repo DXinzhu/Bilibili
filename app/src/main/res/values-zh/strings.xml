@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name -->
+    <string name="app_name">哔哩哔哩</string>
+
+    <!-- Common Buttons -->
+    <string name="confirm">确认</string>
+    <string name="cancel">取消</string>
+    <string name="ok">确定</string>
+    <string name="retry">重试</string>
+    <string name="loading">加载中…</string>
+    <string name="error">错误</string>
+    <string name="back">返回</string>
+    <string name="more">更多</string>
+    <string name="search">搜索</string>
+    <string name="share">分享</string>
+    <string name="delete">删除</string>
+    <string name="send">发送</string>
+
+    <!-- Navigation Bar -->
+    <string name="nav_home">首页</string>
+    <string name="nav_following">关注</string>
+    <string name="nav_publish">发布</string>
+    <string name="nav_shop">会员购</string>
+    <string name="nav_me">我的</string>
+
+    <!-- Common Messages -->
+    <string name="empty_state">暂无数据</string>
+    <string name="network_error">网络错误，请检查您的网络连接</string>
+    <string name="unknown_error">发生未知错误</string>
+    <string name="placeholder_developing">%s\n(待开发)</string>
+
+    <!-- Action/Dynamic Module -->
+    <string name="action_following">关注</string>
+    <string name="action_frequently_visited">最常访问</string>
+    <string name="action_all">全部</string>
+    <string name="action_video">视频</string>
+    <string name="action_publish_dynamic">发布动态</string>
+    <string name="action_with_image">配图</string>
+
+    <!-- Buy/Shop Module -->
+    <string name="buy_shop">会员购</string>
+    <string name="buy_search_hint">搜索</string>
+    <string name="buy_price_prefix">¥</string>
+    <string name="buy_purchase_count">%s人购买</string>
+
+    <!-- Cartoon/Anime Module -->
+    <string name="cartoon_hot_ranking">热门排行榜</string>
+    <string name="cartoon_more_rankings">更多榜单</string>
+
+    <!-- Collect Module -->
+    <string name="collect_title">收藏</string>
+    <string name="collect_following_updates">追更</string>
+    <string name="collect_video">视频</string>
+    <string name="collect_audio">音频</string>
+    <string name="collect_article">文章</string>
+    <string name="collect_column">专栏</string>
+    <string name="collect_series">合集</string>
+    <string name="collect_upmaster">UP主</string>
+    <string name="collect_play_count">%s播放</string>
+    <string name="collect_comment_count">%s评论</string>
+
+    <!-- Concern Module -->
+    <string name="concern_following">关注</string>
+    <string name="concern_fans">粉丝</string>
+    <string name="concern_fans_video">%s · 视频</string>
+    <string name="concern_followed">已关注</string>
+
+    <!-- Content/Video Detail Module -->
+    <string name="content_ad_area">广告内容展示区域</string>
+    <string name="content_ad">广告</string>
+    <string name="content_play">播放</string>
+    <string name="content_intro">简介</string>
+    <string name="content_comment_count">评论 %d</string>
+    <string name="content_danmaku_hint">点我发弹幕</string>
+    <string name="content_danmaku_count">弹 %s</string>
+    <string name="content_hot_comments">热门评论</string>
+    <string name="content_sort_by_hot">按热度</string>
+    <string name="content_reply">回复</string>
+    <string name="content_original_comment">原评论</string>
+    <string name="content_user_level">LV%d</string>
+    <string name="content_location">来自%s</string>
+    <string name="content_cancel_reply">取消回复</string>
+    <string name="content_user_avatar">用户头像</string>
+    <string name="content_emoji">表情</string>
+    <string name="content_like">点赞</string>
+    <string name="content_dislike">点踩</string>
+    <string name="content_sort_option">排序选项</string>
+
+    <!-- Game Module -->
+    <string name="game_banner">游戏推荐轮播图</string>
+    <string name="game_play_like">%s播放 · %s点赞</string>
+    <string name="game_search_hint">请输入搜索内容</string>
+    <string name="game_search">搜索</string>
+
+    <!-- History Module -->
+    <string name="history_title">历史记录</string>
+    <string name="history_empty">暂无观看历史</string>
+    <string name="history_no_history">暂无历史</string>
+    <string name="history_delete_dialog_title">删除历史记录</string>
+    <string name="history_delete_dialog_message">确定要删除这条历史记录吗？</string>
+    <string name="history_delete">删除</string>
+    <string name="history_cancel">取消</string>
+
+    <!-- Live Module -->
+    <string name="live_my_following">我的关注</string>
+    <string name="live_streaming">直播中</string>
+    <string name="live_watching">%s观看</string>
+    <string name="live_grid">网格</string>
+    <string name="live_list">列表</string>
+    <string name="live_volume">音量</string>
+
+    <!-- Load/Cache Module -->
+    <string name="load_offline_cache">离线缓存</string>
+    <string name="load_no_cache">暂无缓存</string>
+    <string name="load_all">全部</string>
+    <string name="load_video">视频</string>
+    <string name="load_anime">番剧</string>
+    <string name="load_course">课程</string>
+    <string name="load_sort_method">排序方式</string>
+    <string name="load_sort_time">时间排序</string>
+    <string name="load_sort_size">大小排序</string>
+
+    <!-- Me Module -->
+    <string name="me_offline_cache">离线缓存</string>
+    <string name="me_history">历史记录</string>
+    <string name="me_collection">我的收藏</string>
+    <string name="me_watch_later">稍后再看</string>
+    <string name="me_up">UP</string>
+    <string name="me_publish_first_video">发布你的第一个视频</string>
+    <string name="me_reward_publish">领限定头像挂件，赢活动奖金</string>
+    <string name="me_reward_activity">有奖发布</string>
+    <string name="me_game_center">游戏中心</string>
+    <string name="me_my_games">我的游戏</string>
+    <string name="me_my_reservations">我的预约</string>
+    <string name="me_find_games">找游戏</string>
+    <string name="me_game_rankings">游戏排行榜</string>
+    <string name="me_my_services">我的服务</string>
+    <string name="me_my_courses">我的课程</string>
+    <string name="me_free_data">免流量服务</string>
+    <string name="me_custom_theme">个性装扮</string>
+    <string name="me_my_wallet">我的钱包</string>
+    <string name="me_shop">会员购</string>
+    <string name="me_my_live">我的直播</string>
+    <string name="me_comic">漫画</string>
+    <string name="me_promotion">必火推广</string>
+    <string name="me_creator_center">创作中心</string>
+    <string name="me_community_center">社区中心</string>
+    <string name="me_charity">哔哩哔哩公益</string>
+    <string name="me_workshop">工房</string>
+    <string name="me_energy_station">能量加油站</string>
+    <string name="me_more_services">更多服务</string>
+    <string name="me_contact_support">联系客服</string>
+    <string name="me_audio_mode">听视频</string>
+    <string name="me_youth_mode">未成年人守护</string>
+    <string name="me_settings">设置</string>
+    <string name="me_user_level">LV%d</string>
+    <string name="me_currency_info">B币: %d  硬币: %d</string>
+    <string name="me_vip_center">会员中心</string>
+    <string name="me_dynamic">动态</string>
+    <string name="me_following">关注</string>
+    <string name="me_fans">粉丝</string>
+    <string name="me_edit">编辑</string>
+    <string name="me_goto_space">前往空间</string>
+    <string name="me_vip">会员</string>
+    <string name="me_scan">扫一扫</string>
+    <string name="me_skin">皮肤</string>
+    <string name="me_night_mode">夜间模式</string>
+    <string name="me_connect">互连</string>
+
+    <!-- Person Space Module -->
+    <string name="person_intro">个人简介</string>
+    <string name="person_lazy_description">这个人很懒，什么都没有留下</string>
+    <string name="person_default_collection">默认收藏夹</string>
+    <string name="person_content_count">%d个内容</string>
+    <string name="person_tab_home">主页</string>
+    <string name="person_tab_dynamic">动态</string>
+    <string name="person_tab_videos">投稿</string>
+    <string name="person_uid">UID: %s</string>
+    <string name="person_back">返回</string>
+    <string name="person_share">分享</string>
+    <string name="person_play_count">%s播放</string>
+
+    <!-- Recommend Module -->
+    <string name="recommend_live">直播</string>
+    <string name="recommend_title">推荐</string>
+    <string name="recommend_hot">热门</string>
+    <string name="recommend_anime">动画</string>
+    <string name="recommend_movies">影视</string>
+    <string name="recommend_dance">舞蹈</string>
+    <string name="recommend_notification_badge">99+</string>
+
+    <!-- Search Module -->
+    <string name="search_feedback">反馈</string>
+    <string name="search_bilibili_hot">bilibili热搜</string>
+    <string name="search_hot_badge">热</string>
+    <string name="search_discovery">搜索发现</string>
+    <string name="search_history">搜索历史</string>
+    <string name="search_clear_history">清空历史</string>
+    <string name="search_hint">请输入搜索内容</string>
+    <string name="search_button">搜索</string>
+
+    <!-- Setting Module -->
+    <string name="setting_title">设置</string>
+    <string name="setting_switch_account">账号切换</string>
+    <string name="setting_logout">退出登录</string>
+    <string name="setting_enter">进入</string>
+
+    <!-- UP Master Module -->
+    <string name="up_fans">粉丝</string>
+    <string name="up_following">关注</string>
+    <string name="up_likes">获赞</string>
+    <string name="up_charge_supporters">等%d人为TA充电</string>
+    <string name="up_charge">充电</string>
+    <string name="up_shop">小店</string>
+    <string name="up_charge_users">充电用户</string>
+    <string name="up_live_badge">LIVE</string>
+    <string name="up_annual_member">年度大会友</string>
+    <string name="up_certification">bilibili UP主认证：bilibili 知名UP主</string>
+    <string name="up_details">详情</string>
+    <string name="up_cooperation_info">找我官方合作 欢迎Hi-Fi&amp;汽车&amp;专业音响试听、国乐、合…</string>
+    <string name="up_ip_location">IP属地：%s</string>
+    <string name="up_verified">已实名</string>
+    <string name="up_education">中国传媒大学</string>
+    <string name="up_play_all">播放全部</string>
+    <string name="up_latest">最新发布</string>
+    <string name="up_sort">排序</string>
+
+    <!-- Video Module -->
+    <string name="video_hot_comments">热门评论</string>
+    <string name="video_dislike">不喜欢</string>
+    <string name="video_coin">投币</string>
+    <string name="video_favorite">收藏</string>
+    <string name="video_share">分享</string>
+    <string name="video_topic">话题</string>
+    <string name="video_view_more">查看更多</string>
+    <string name="video_online">%s在线</string>
+    <string name="video_hot">热门</string>
+    <string name="video_play">播放</string>
+
+    <!-- VIP Module -->
+    <string name="vip_ad_banner">会员广告</string>
+    <string name="vip_annual_subscription">连续包年</string>
+    <string name="vip_auto_renew_note">自动续费可随时取消</string>
+    <string name="vip_discount_countdown">优惠限时23:59:49</string>
+    <string name="vip_payment">确认协议并支付¥148</string>
+    <string name="vip_agreement_note">开通前请阅读《大会员服务协议》《大会员自动续费服务规则》</string>
+    <string name="vip_produced_by">出品</string>
+    <string name="vip_documentary">纪录片</string>
+    <string name="vip_exclusive">大会员专享</string>
+    <string name="vip_privileges">开通大会员获得以下%d项特权</string>
+    <string name="vip_view_more">查看更多</string>
+    <string name="vip_center">会员中心</string>
+    <string name="vip_weather">天气</string>
+    <string name="vip_scan">扫描</string>
+    <string name="vip_mascot">会员吉祥物</string>
+
+    <!-- Price Format -->
+    <string name="price_format">¥%1$.2f</string>
+
+    <!-- UP Master Label -->
+    <string name="upmaster_label">UP主</string>
+</resources>

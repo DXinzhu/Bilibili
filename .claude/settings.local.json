@@ -28,7 +28,10 @@
       "Bash(rm:*)",
       "Bash(nul)",
       "Bash(mkdir:*)",
-      "Bash(del \".\\nul\")"
+      "Bash(del \".\\nul\")",
+      "Bash(for module in action buy cartoon collect concern content game history live load me person recommend search setting up video vip)",
+      "Bash(do )",
+      "Bash(done)"
     ],
     "deny": [],
     "ask": []

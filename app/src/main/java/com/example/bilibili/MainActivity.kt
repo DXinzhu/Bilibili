@@ -14,21 +14,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.example.bilibili.ui.theme.BilibiliTheme
-import com.example.bilibili.view.ActionTab
-import com.example.bilibili.view.BuyTab
-import com.example.bilibili.view.CollectTab
-import com.example.bilibili.view.ConcernTab
-import com.example.bilibili.view.GameTab
-import com.example.bilibili.view.HistoryTab
-import com.example.bilibili.view.LoadTab
-import com.example.bilibili.view.MeTab
-import com.example.bilibili.view.PersonTab
-import com.example.bilibili.view.RecommendTab
-import com.example.bilibili.view.SearchTab
-import com.example.bilibili.view.SettingTab
-import com.example.bilibili.view.UpTab
-import com.example.bilibili.view.VideoTab
-import com.example.bilibili.view.VipTab
+import com.example.bilibili.presentation.action.ActionTab
+import com.example.bilibili.presentation.buy.BuyTab
+import com.example.bilibili.presentation.collect.CollectTab
+import com.example.bilibili.presentation.concern.ConcernTab
+import com.example.bilibili.presentation.game.GameTab
+import com.example.bilibili.presentation.history.HistoryTab
+import com.example.bilibili.presentation.load.LoadTab
+import com.example.bilibili.presentation.me.MeTab
+import com.example.bilibili.presentation.person.PersonTab
+import com.example.bilibili.presentation.recommend.RecommendTab
+import com.example.bilibili.presentation.search.SearchTab
+import com.example.bilibili.presentation.setting.SettingTab
+import com.example.bilibili.presentation.up.UpTab
+import com.example.bilibili.presentation.video.VideoTab
+import com.example.bilibili.presentation.vip.VipTab
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
