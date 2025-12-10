@@ -24,7 +24,11 @@
       "Bash(where:*)",
       "Bash(copy video_3.mp4 video_4.mp4)",
       "Bash(copy:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(rm:*)",
+      "Bash(nul)",
+      "Bash(mkdir:*)",
+      "Bash(del \".\\nul\")"
     ],
     "deny": [],
     "ask": []
