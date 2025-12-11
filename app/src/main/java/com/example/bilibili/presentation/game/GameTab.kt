@@ -50,8 +50,8 @@ fun GameTab(
     // 分类列表
     val categories = listOf("综合", "番剧", "直播", "用户", "影视", "图文")
 
-    LaunchedEffect(Unit) {
-        videos = presenter.loadGameVideos()
+    LaunchedEffect(searchQuery) {
+        videos = presenter.loadGameVideos(searchQuery)
         allComments = presenter.loadComments()
         // 记录游戏搜索结果页面加载成功
         Log.d("BilibiliAutoTest", "GAME_SEARCH_PAGE_LOADED: $searchQuery")
@@ -66,7 +66,13 @@ fun GameTab(
         GameTopBar(
             searchText = searchText,
             onSearchTextChange = { searchText = it },
-            onBack = onBack
+            onBack = onBack,
+            onSearch = {
+                // 根据搜索框中的文本重新搜索
+                if (searchText.isNotBlank()) {
+                    videos = presenter.loadGameVideos(searchText)
+                }
+            }
         )
 
         // 分类标签栏
@@ -75,9 +81,6 @@ fun GameTab(
             selectedCategory = selectedCategory,
             onCategorySelected = { selectedCategory = it }
         )
-
-        // 轮播图区域
-        GameBannerSection()
 
         // 视频列表
         LazyColumn(

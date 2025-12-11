@@ -16,17 +16,27 @@ class GamePresenter(private val context: Context) {
     private val gson = Gson()
 
     /**
-     * 加载游戏相关的视频
-     * 返回视频3、5、6
+     * 根据关键词搜索视频
+     * 搜索范围包括：视频标题、UP主名称、标签
      */
-    fun loadGameVideos(): List<Video> {
+    fun loadGameVideos(searchQuery: String = ""): List<Video> {
         return try {
             val inputStream = context.assets.open("data/videos.json")
             val reader = InputStreamReader(inputStream)
             val type = object : TypeToken<List<Video>>() {}.type
             val allVideos: List<Video> = gson.fromJson(reader, type)
-            // 筛选出vid003, vid005, vid006
-            allVideos.filter { it.videoId in listOf("vid003", "vid005", "vid006") }
+
+            // 如果没有搜索关键词，返回所有视频
+            if (searchQuery.isBlank()) {
+                return allVideos
+            }
+
+            // 根据关键词搜索视频（标题、UP主名称、标签）
+            allVideos.filter { video ->
+                video.title.contains(searchQuery, ignoreCase = true) ||
+                video.upMasterName.contains(searchQuery, ignoreCase = true) ||
+                video.tags.any { tag -> tag.contains(searchQuery, ignoreCase = true) }
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             emptyList()

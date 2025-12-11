@@ -65,13 +65,10 @@ fun SearchTab(
             onSearchTextChange = { searchText = it },
             onBack = onBack,
             onSearch = {
-                if (searchText.contains("游戏") || searchText.contains("解说")) {
+                if (searchText.isNotBlank()) {
                     // 指令4,21,23: 记录搜索完成
                     BilibiliAutoTestLogger.logSearchCompleted(searchText)
                     onNavigateToGame(searchText)
-                } else {
-                    presenter.search(searchText)
-                    BilibiliAutoTestLogger.logSearchCompleted(searchText)
                 }
             }
         )

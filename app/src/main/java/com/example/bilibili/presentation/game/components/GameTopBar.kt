@@ -24,7 +24,8 @@ import androidx.compose.ui.unit.sp
 fun GameTopBar(
     searchText: String,
     onSearchTextChange: (String) -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onSearch: () -> Unit = {}
 ) {
     Surface(
         modifier = Modifier
@@ -92,7 +93,7 @@ fun GameTopBar(
                 text = "搜索",
                 fontSize = 15.sp,
                 color = Color(0xFFFF6699),
-                modifier = Modifier.clickable { /* TODO: 搜索 */ }
+                modifier = Modifier.clickable { onSearch() }
             )
         }
     }
