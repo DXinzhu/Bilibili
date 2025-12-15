@@ -66,7 +66,7 @@ fun TextPostCard(post: Post) {
         if (currentPost.images.isNotEmpty()) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data("file:///android_asset/avatar/${currentPost.images[0]}")
+                    .data("file:///android_asset/${currentPost.images[0]}")
                     .crossfade(true)
                     .build(),
                 contentDescription = "配图",

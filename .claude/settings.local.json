@@ -31,7 +31,8 @@
       "Bash(del \".\\nul\")",
       "Bash(for module in action buy cartoon collect concern content game history live load me person recommend search setting up video vip)",
       "Bash(do )",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(del:*)"
     ],
     "deny": [],
     "ask": []

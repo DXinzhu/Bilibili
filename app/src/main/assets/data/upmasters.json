@@ -50,7 +50,7 @@
   {
     "upMasterId": "up001",
     "name": "技术宅阿伟",
-    "avatarUrl": "avatar/up001.jpg",
+    "avatarUrl": "avatar/bike.jpg",
     "description": "专注Android开发教程，带你从入门到精通！",
     "isFollowed": true,
     "fansCount": 125600,
@@ -62,7 +62,7 @@
   {
     "upMasterId": "up002",
     "name": "影视飓风",
-    "avatarUrl": "avatar/up002.jpg",
+    "avatarUrl": "avatar/video.jpg",
     "description": "影视制作干货分享，拍摄技巧与后期特效教学",
     "isFollowed": true,
     "fansCount": 2356000,
@@ -74,7 +74,7 @@
   {
     "upMasterId": "up003",
     "name": "木鱼水心",
-    "avatarUrl": "avatar/up003.jpg",
+    "avatarUrl": "avatar/mark.jpg",
     "description": "电影解说，带你看遍世界好片",
     "isFollowed": false,
     "fansCount": 4567800,
@@ -86,7 +86,7 @@
   {
     "upMasterId": "up004",
     "name": "程序员小灰",
-    "avatarUrl": "avatar/up004.jpg",
+    "avatarUrl": "avatar/draw.jpg",
     "description": "用漫画讲解算法和数据结构",
     "isFollowed": true,
     "fansCount": 987600,
@@ -98,7 +98,7 @@
   {
     "upMasterId": "up005",
     "name": "老番茄",
-    "avatarUrl": "avatar/up005.jpg",
+    "avatarUrl": "avatar/music.jpg",
     "description": "游戏区搞笑UP主，专治各种不开心",
     "isFollowed": false,
     "fansCount": 8765400,
@@ -110,7 +110,7 @@
   {
     "upMasterId": "up006",
     "name": "芳斯塔芙",
-    "avatarUrl": "avatar/up006.jpg",
+    "avatarUrl": "avatar/food.jpg",
     "description": "美食博主，探店美食vlog",
     "isFollowed": true,
     "fansCount": 1234500,
@@ -122,7 +122,7 @@
   {
     "upMasterId": "up007",
     "name": "LexBurner",
-    "avatarUrl": "avatar/up007.jpg",
+    "avatarUrl": "avatar/flower.jpg",
     "description": "动画MAD，燃向剪辑",
     "isFollowed": false,
     "fansCount": 3456700,
@@ -134,7 +134,7 @@
   {
     "upMasterId": "up008",
     "name": "何同学",
-    "avatarUrl": "avatar/up008.jpg",
+    "avatarUrl": "avatar/view.jpg",
     "description": "数码科技测评，用心做视频",
     "isFollowed": true,
     "fansCount": 5432100,

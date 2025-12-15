@@ -4,8 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -39,11 +37,16 @@ fun ConcernVideoItem(
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         // UP主头像
-        Icon(
-            imageVector = Icons.Default.AccountCircle,
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data("file:///android_asset/${upMaster.avatarUrl}")
+                .crossfade(true)
+                .build(),
             contentDescription = upMaster.name,
-            tint = Color.Gray,
-            modifier = Modifier.size(48.dp)
+            modifier = Modifier
+                .size(48.dp)
+                .clip(CircleShape),
+            contentScale = ContentScale.Crop
         )
 
         // UP主信息
