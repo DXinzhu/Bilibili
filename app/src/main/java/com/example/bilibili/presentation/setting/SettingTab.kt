@@ -28,7 +28,8 @@ import com.example.bilibili.presentation.setting.SettingItem
 @Composable
 fun SettingTab(
     context: Context,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onNavigateToMessageSetting: () -> Unit = {}
 ) {
     val presenter = remember { SettingPresenter(context) }
     val settingGroups = remember { presenter.getSettingGroups() }
@@ -53,7 +54,19 @@ fun SettingTab(
             settingGroups.forEachIndexed { groupIndex, group ->
                 // 每组设置项
                 items(group.items) { item ->
-                    SettingItemRow(item)
+                    SettingItemRow(
+                        item = item,
+                        onClick = {
+                            android.util.Log.d("SettingTab", "点击了: ${item.title}")
+                            when (item.title) {
+                                "消息设置" -> {
+                                    android.util.Log.d("SettingTab", "触发消息设置导航")
+                                    onNavigateToMessageSetting()
+                                }
+                                else -> { /* TODO: 其他设置项的处理 */ }
+                            }
+                        }
+                    )
                 }
 
                 // 组间分隔空白
@@ -127,7 +140,10 @@ fun SettingTopBar(onBack: () -> Unit) {
  * 设置项行
  */
 @Composable
-fun SettingItemRow(item: SettingItem) {
+fun SettingItemRow(
+    item: SettingItem,
+    onClick: () -> Unit = {}
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -138,7 +154,7 @@ fun SettingItemRow(item: SettingItem) {
                     BilibiliAutoTestLogger.logTimerShutdownOptionFound()
                     BilibiliAutoTestLogger.logTimerShutdownClicked()
                 }
-                /* TODO: 进入详情页 */
+                onClick()
             }
             .padding(horizontal = 16.dp, vertical = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
