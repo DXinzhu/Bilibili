@@ -26,6 +26,7 @@ import com.example.bilibili.presentation.person.PersonTab
 import com.example.bilibili.presentation.recommend.RecommendTab
 import com.example.bilibili.presentation.search.SearchTab
 import com.example.bilibili.presentation.setting.MessageSettingTab
+import com.example.bilibili.presentation.setting.PushSettingTab
 import com.example.bilibili.presentation.setting.SettingTab
 import com.example.bilibili.presentation.up.UpTab
 import com.example.bilibili.presentation.video.VideoTab
@@ -50,6 +51,7 @@ fun MainScreen() {
     var showVipTab by remember { mutableStateOf(false) }
     var showSettingTab by remember { mutableStateOf(false) }
     var showMessageSettingTab by remember { mutableStateOf(false) }
+    var showPushSettingTab by remember { mutableStateOf(false) }
     var showHistoryTab by remember { mutableStateOf(false) }
     var showCollectTab by remember { mutableStateOf(false) }
     var showSearchTab by remember { mutableStateOf(false) }
@@ -66,7 +68,7 @@ fun MainScreen() {
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             // 只在不显示子页面时���示底部导航栏
-            if (!showConcernTab && !showVipTab && !showSettingTab && !showMessageSettingTab && !showHistoryTab && !showCollectTab && !showSearchTab && !showVideoTab && !showGameTab && !showPersonTab && !showLoadTab && !showUpTab) {
+            if (!showConcernTab && !showVipTab && !showSettingTab && !showMessageSettingTab && !showPushSettingTab && !showHistoryTab && !showCollectTab && !showSearchTab && !showVideoTab && !showGameTab && !showPersonTab && !showLoadTab && !showUpTab) {
                 NavigationBar(
                     containerColor = Color.White,
                     contentColor = Color.Gray
@@ -242,6 +244,10 @@ fun MainScreen() {
                         onNavigateToMessageSetting = {
                             showSettingTab = false
                             showMessageSettingTab = true
+                        },
+                        onNavigateToPushSetting = {
+                            showSettingTab = false
+                            showPushSettingTab = true
                         }
                     )
                 }
@@ -250,6 +256,15 @@ fun MainScreen() {
                         context = context,
                         onBack = {
                             showMessageSettingTab = false
+                            showSettingTab = true
+                        }
+                    )
+                }
+                showPushSettingTab -> {
+                    PushSettingTab(
+                        context = context,
+                        onBack = {
+                            showPushSettingTab = false
                             showSettingTab = true
                         }
                     )

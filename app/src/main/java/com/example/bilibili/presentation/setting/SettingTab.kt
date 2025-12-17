@@ -29,7 +29,8 @@ import com.example.bilibili.presentation.setting.SettingItem
 fun SettingTab(
     context: Context,
     onBack: () -> Unit,
-    onNavigateToMessageSetting: () -> Unit = {}
+    onNavigateToMessageSetting: () -> Unit = {},
+    onNavigateToPushSetting: () -> Unit = {}
 ) {
     val presenter = remember { SettingPresenter(context) }
     val settingGroups = remember { presenter.getSettingGroups() }
@@ -59,6 +60,10 @@ fun SettingTab(
                         onClick = {
                             android.util.Log.d("SettingTab", "点击了: ${item.title}")
                             when (item.title) {
+                                "推送设置" -> {
+                                    android.util.Log.d("SettingTab", "触发推送设置导航")
+                                    onNavigateToPushSetting()
+                                }
                                 "消息设置" -> {
                                     android.util.Log.d("SettingTab", "触发消息设置导航")
                                     onNavigateToMessageSetting()
