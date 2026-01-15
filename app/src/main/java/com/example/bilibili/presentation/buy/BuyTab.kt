@@ -35,7 +35,7 @@ import com.example.bilibili.presentation.buy.components.*
  * 按照MVP模式实现,展示商品列表
  */
 @Composable
-fun BuyTab(context: Context) {
+fun BuyTab(context: Context, onNavigateToUnderDevelopment: () -> Unit = {}) {
     val presenter = remember { BuyPresenter(context) }
     var products by remember { mutableStateOf<List<Product>>(emptyList()) }
 
@@ -45,7 +45,7 @@ fun BuyTab(context: Context) {
 
     Column(modifier = Modifier.fillMaxSize()) {
         // 顶部栏 - 固定不滚动
-        BuyTopBar()
+        BuyTopBar(onNavigateToUnderDevelopment)
 
         // 可滚动内容区域
         LazyColumn(
@@ -55,7 +55,7 @@ fun BuyTab(context: Context) {
         ) {
             // 商品网格列表
             item {
-                ProductGrid(products)
+                ProductGrid(products, onNavigateToUnderDevelopment)
             }
 
             // 底部空白

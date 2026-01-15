@@ -35,7 +35,7 @@ import com.example.bilibili.data.model.User
 import com.example.bilibili.presentation.me.MePresenter
 
 @Composable
-fun TopToolbar() {
+fun TopToolbar(onNavigateToUnderDevelopment: () -> Unit = {}) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -44,7 +44,7 @@ fun TopToolbar() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         // 互连图标
-        IconButton(onClick = { /* TODO */ }) {
+        IconButton(onClick = onNavigateToUnderDevelopment) {
             Icon(
                 imageVector = Icons.Default.Link,
                 contentDescription = "互连",
@@ -53,7 +53,7 @@ fun TopToolbar() {
         }
         Spacer(modifier = Modifier.width(8.dp))
         // 扫一扫图标
-        IconButton(onClick = { /* TODO */ }) {
+        IconButton(onClick = onNavigateToUnderDevelopment) {
             Icon(
                 imageVector = Icons.Default.QrCodeScanner,
                 contentDescription = "扫一扫",
@@ -62,7 +62,7 @@ fun TopToolbar() {
         }
         Spacer(modifier = Modifier.width(8.dp))
         // 皮肤图标
-        IconButton(onClick = { /* TODO */ }) {
+        IconButton(onClick = onNavigateToUnderDevelopment) {
             Icon(
                 imageVector = Icons.Default.Palette,
                 contentDescription = "皮肤",
@@ -71,7 +71,7 @@ fun TopToolbar() {
         }
         Spacer(modifier = Modifier.width(8.dp))
         // 夜间模式图标
-        IconButton(onClick = { /* TODO */ }) {
+        IconButton(onClick = onNavigateToUnderDevelopment) {
             Icon(
                 imageVector = Icons.Default.DarkMode,
                 contentDescription = "夜间模式",

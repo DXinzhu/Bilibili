@@ -32,7 +32,8 @@ fun TopBar(
     user: User,
     selectedTab: String = "推荐",
     onTabSelected: (String) -> Unit = {},
-    onSearchClick: () -> Unit = {}
+    onSearchClick: () -> Unit = {},
+    onNavigateToUnderDevelopment: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -56,7 +57,7 @@ fun TopBar(
                 modifier = Modifier
                     .size(36.dp)
                     .clip(CircleShape)
-                    .clickable { /* TODO */ },
+                    .clickable { onNavigateToUnderDevelopment() },
                 contentScale = ContentScale.Crop
             )
 
@@ -95,7 +96,7 @@ fun TopBar(
             Spacer(modifier = Modifier.width(8.dp))
 
             // 游戏图标
-            Box(modifier = Modifier.clickable { /* TODO */ }) {
+            Box(modifier = Modifier.clickable { onNavigateToUnderDevelopment() }) {
                 Icon(
                     imageVector = Icons.Default.SportsEsports,
                     contentDescription = "游戏",
@@ -107,7 +108,7 @@ fun TopBar(
             Spacer(modifier = Modifier.width(12.dp))
 
             // 信件图标（带红点）
-            Box(modifier = Modifier.clickable { /* TODO */ }) {
+            Box(modifier = Modifier.clickable { onNavigateToUnderDevelopment() }) {
                 Icon(
                     imageVector = Icons.Default.Email,
                     contentDescription = "消息",
@@ -148,15 +149,15 @@ fun TopBar(
         ) {
             TabItem(text = "直播", isSelected = selectedTab == "直播", onClick = { onTabSelected("直播") })
             TabItem(text = "推荐", isSelected = selectedTab == "推荐", onClick = { onTabSelected("推荐") })
-            TabItem(text = "热门", isSelected = selectedTab == "热门", onClick = { onTabSelected("热门") })
+            TabItem(text = "热门", isSelected = selectedTab == "热门", onClick = { onNavigateToUnderDevelopment() })
             TabItem(text = "动画", isSelected = selectedTab == "动画", onClick = {
                 // 指令5: 记录点击动画频道
                 BilibiliAutoTestLogger.logAnimationChannelClicked()
                 Log.d("BilibiliAutoTest", "CHANNEL_ICON_CLICKED: 动画")
                 onTabSelected("动画")
             })
-            TabItem(text = "影视", isSelected = selectedTab == "影视", onClick = { onTabSelected("影视") })
-            TabItem(text = "S15", isSelected = selectedTab == "S15", onClick = { onTabSelected("S15") })
+            TabItem(text = "影视", isSelected = selectedTab == "影视", onClick = { onNavigateToUnderDevelopment() })
+            TabItem(text = "S15", isSelected = selectedTab == "S15", onClick = { onNavigateToUnderDevelopment() })
             Icon(
                 imageVector = Icons.Default.MoreHoriz,
                 contentDescription = "更多",

@@ -33,7 +33,7 @@ import com.example.bilibili.presentation.action.ActionPresenter
 import com.example.bilibili.common.utils.BilibiliAutoTestLogger
 
 @Composable
-fun ActionTopBar() {
+fun ActionTopBar(onNavigateToUnderDevelopment: () -> Unit = {}) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -52,7 +52,7 @@ fun ActionTopBar() {
         )
 
         // 发布动态图标
-        IconButton(onClick = { /* TODO */ }) {
+        IconButton(onClick = { onNavigateToUnderDevelopment() }) {
             Icon(
                 imageVector = Icons.Default.Edit,
                 contentDescription = "发布动态",

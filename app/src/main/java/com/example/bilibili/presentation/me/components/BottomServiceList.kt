@@ -39,7 +39,8 @@ fun BottomServiceList(
     onNavigateToSetting: () -> Unit = {},
     onNavigateToHistory: () -> Unit = {},
     onNavigateToCollect: () -> Unit = {},
-    onNavigateToLoad: () -> Unit = {}
+    onNavigateToLoad: () -> Unit = {},
+    onNavigateToUnderDevelopment: () -> Unit = {}
 ) {
     LazyColumn(
         modifier = Modifier
@@ -66,7 +67,7 @@ fun BottomServiceList(
                         Log.d("BilibiliAutoTest", "FAVORITE_TAB_CLICKED")
                         onNavigateToCollect()
                     })
-                    QuickActionItem(icon = Icons.Default.WatchLater, label = "稍后再看", onClick = { /* TODO */ })
+                    QuickActionItem(icon = Icons.Default.WatchLater, label = "稍后再看", onClick = onNavigateToUnderDevelopment)
                 }
             }
         }
@@ -77,7 +78,7 @@ fun BottomServiceList(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
-                    .clickable { /* TODO */ },
+                    .clickable { onNavigateToUnderDevelopment() },
                 color = Color(0xFFFFE5F0),
                 shape = RoundedCornerShape(8.dp)
             ) {
@@ -142,7 +143,8 @@ fun BottomServiceList(
                         ServiceItem(Icons.Default.Schedule, "我的预约"),
                         ServiceItem(Icons.Default.Gamepad, "找游戏"),
                         ServiceItem(Icons.Default.EmojiEvents, "游戏排行榜")
-                    )
+                    ),
+                    onItemClick = onNavigateToUnderDevelopment
                 )
             }
         }
@@ -165,7 +167,8 @@ fun BottomServiceList(
                         ServiceItem(Icons.Default.Favorite, "哔哩哔哩公益"),
                         ServiceItem(Icons.Default.Store, "工房"),
                         ServiceItem(Icons.Default.LocalGasStation, "能量加油站")
-                    )
+                    ),
+                    onItemClick = onNavigateToUnderDevelopment
                 )
             }
         }
@@ -174,11 +177,11 @@ fun BottomServiceList(
         item {
             ServiceSection(title = "更多服务") {
                 Column {
-                    ServiceListItem(icon = Icons.Default.Support, text = "联系客服")
+                    ServiceListItem(icon = Icons.Default.Support, text = "联系客服", onClick = onNavigateToUnderDevelopment)
                     HorizontalDivider(color = Color.LightGray, thickness = 0.5.dp)
-                    ServiceListItem(icon = Icons.Default.Headphones, text = "听视频", onClick = { /* TODO */ })
+                    ServiceListItem(icon = Icons.Default.Headphones, text = "听视频", onClick = onNavigateToUnderDevelopment)
                     HorizontalDivider(color = Color.LightGray, thickness = 0.5.dp)
-                    ServiceListItem(icon = Icons.Default.ChildCare, text = "未成年人守护", onClick = { /* TODO */ })
+                    ServiceListItem(icon = Icons.Default.ChildCare, text = "未成年人守护", onClick = onNavigateToUnderDevelopment)
                     HorizontalDivider(color = Color.LightGray, thickness = 0.5.dp)
                     ServiceListItem(icon = Icons.Default.Settings, text = "设置", onClick = onNavigateToSetting)
                 }

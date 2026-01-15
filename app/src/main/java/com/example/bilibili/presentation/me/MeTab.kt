@@ -48,7 +48,9 @@ fun MeTab(
     onNavigateToHistory: () -> Unit = {},
     onNavigateToCollect: () -> Unit = {},
     onNavigateToPerson: () -> Unit = {},
-    onNavigateToLoad: () -> Unit = {}
+    onNavigateToLoad: () -> Unit = {},
+    onNavigateToAccountProfile: () -> Unit = {},
+    onNavigateToUnderDevelopment: () -> Unit = {}
 ) {
     val presenter = remember { MePresenter(context) }
     var user by remember { mutableStateOf<User?>(null) }
@@ -65,13 +67,13 @@ fun MeTab(
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
             // 顶部工具栏
-            TopToolbar()
+            TopToolbar(onNavigateToUnderDevelopment)
 
             // 中部信息栏（固定）
-            user?.let { UserInfoSection(it, onNavigateToConcern, onNavigateToVip, onNavigateToPerson) }
+            user?.let { UserInfoSection(it, onNavigateToConcern, onNavigateToVip, onNavigateToPerson, onNavigateToAccountProfile, onNavigateToUnderDevelopment) }
 
             // 底部滚动列表
-            BottomServiceList(onNavigateToSetting, onNavigateToHistory, onNavigateToCollect, onNavigateToLoad)
+            BottomServiceList(onNavigateToSetting, onNavigateToHistory, onNavigateToCollect, onNavigateToLoad, onNavigateToUnderDevelopment)
         }
     }
 }

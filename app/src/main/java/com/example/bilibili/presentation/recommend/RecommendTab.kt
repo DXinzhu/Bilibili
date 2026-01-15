@@ -28,7 +28,8 @@ import com.example.bilibili.presentation.cartoon.CartoonTab
 fun RecommendTab(
     context: Context,
     onNavigateToSearch: () -> Unit = {},
-    onNavigateToVideo: (String) -> Unit = {}
+    onNavigateToVideo: (String) -> Unit = {},
+    onNavigateToUnderDevelopment: () -> Unit = {}
 ) {
     val presenter = remember { RecommendPresenter(context) }
     var user by remember { mutableStateOf<User?>(null) }
@@ -49,7 +50,7 @@ fun RecommendTab(
         else -> {
             Column(modifier = Modifier.fillMaxSize()) {
                 // 顶部工具栏（固定）
-                user?.let { TopBar(it, currentTab, onTabSelected = { selectedTab -> currentTab = selectedTab }, onSearchClick = onNavigateToSearch) }
+                user?.let { TopBar(it, currentTab, onTabSelected = { selectedTab -> currentTab = selectedTab }, onSearchClick = onNavigateToSearch, onNavigateToUnderDevelopment = onNavigateToUnderDevelopment) }
 
                 // 底部滚动内容
                 LazyColumn(

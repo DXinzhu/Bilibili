@@ -38,7 +38,7 @@ import com.example.bilibili.presentation.action.ActionPresenter
  * 按照MVP模式实现,展示关注UP主的动态
  */
 @Composable
-fun ActionTab(context: Context) {
+fun ActionTab(context: Context, onNavigateToUnderDevelopment: () -> Unit = {}) {
     val presenter = remember { ActionPresenter(context) }
     var frequentUPMasters by remember { mutableStateOf<List<UPMaster>>(emptyList()) }
     var posts by remember { mutableStateOf<List<Post>>(emptyList()) }
@@ -55,7 +55,7 @@ fun ActionTab(context: Context) {
 
     Column(modifier = Modifier.fillMaxSize()) {
         // 顶部栏 - 固定不滚动
-        ActionTopBar()
+        ActionTopBar(onNavigateToUnderDevelopment)
 
         // 可滚动内容区域
         LazyColumn(
@@ -73,14 +73,14 @@ fun ActionTab(context: Context) {
 
             // 最常访问栏
             item {
-                FrequentlyVisitedSection(frequentUPMasters)
+                FrequentlyVisitedSection(frequentUPMasters, onNavigateToUnderDevelopment)
             }
 
             // 动态列表
             items(posts) { post ->
                 when (post.type) {
-                    PostType.VIDEO -> VideoPostCard(post)
-                    PostType.TEXT -> TextPostCard(post)
+                    PostType.VIDEO -> VideoPostCard(post, onNavigateToUnderDevelopment)
+                    PostType.TEXT -> TextPostCard(post, onNavigateToUnderDevelopment)
                 }
             }
 

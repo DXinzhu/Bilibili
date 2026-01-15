@@ -33,10 +33,10 @@ import com.example.bilibili.presentation.action.ActionPresenter
 import com.example.bilibili.common.utils.BilibiliAutoTestLogger
 
 @Composable
-fun FrequentUPMasterItem(upMaster: UPMaster) {
+fun FrequentUPMasterItem(upMaster: UPMaster, onNavigateToUnderDevelopment: () -> Unit = {}) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.clickable { /* TODO */ }
+        modifier = Modifier.clickable { onNavigateToUnderDevelopment() }
     ) {
         // 头像
         Box {

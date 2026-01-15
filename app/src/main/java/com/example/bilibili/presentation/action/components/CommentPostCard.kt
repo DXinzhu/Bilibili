@@ -33,7 +33,7 @@ import com.example.bilibili.presentation.action.ActionPresenter
 import com.example.bilibili.common.utils.BilibiliAutoTestLogger
 
 @Composable
-fun TextPostCard(post: Post) {
+fun TextPostCard(post: Post, onNavigateToUnderDevelopment: () -> Unit = {}) {
     var currentPost by remember { mutableStateOf(post) }
 
     Column(
@@ -46,7 +46,8 @@ fun TextPostCard(post: Post) {
         PostHeader(
             avatarUrl = currentPost.upMasterAvatar,
             name = currentPost.upMasterName,
-            time = currentPost.publishTime
+            time = currentPost.publishTime,
+            onNavigateToUnderDevelopment = onNavigateToUnderDevelopment
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -75,7 +76,7 @@ fun TextPostCard(post: Post) {
                     .aspectRatio(16f / 9f)
                     .padding(horizontal = 16.dp)
                     .clip(RoundedCornerShape(8.dp))
-                    .clickable { /* TODO */ },
+                    .clickable { onNavigateToUnderDevelopment() },
                 contentScale = ContentScale.Crop
             )
 
@@ -100,7 +101,8 @@ fun TextPostCard(post: Post) {
             },
             onCoinClick = {
                 currentPost = currentPost.copy().apply { addCoin() }
-            }
+            },
+            onNavigateToUnderDevelopment = onNavigateToUnderDevelopment
         )
     }
 
@@ -111,7 +113,7 @@ fun TextPostCard(post: Post) {
  * 动态头部(UP主信息)
  */
 @Composable
-fun PostHeader(avatarUrl: String, name: String, time: String) {
+fun PostHeader(avatarUrl: String, name: String, time: String, onNavigateToUnderDevelopment: () -> Unit = {}) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -128,7 +130,7 @@ fun PostHeader(avatarUrl: String, name: String, time: String) {
             modifier = Modifier
                 .size(40.dp)
                 .clip(CircleShape)
-                .clickable { /* TODO */ },
+                .clickable { onNavigateToUnderDevelopment() },
             contentScale = ContentScale.Crop
         )
 
@@ -151,7 +153,7 @@ fun PostHeader(avatarUrl: String, name: String, time: String) {
         }
 
         // 更多按钮
-        IconButton(onClick = { /* TODO */ }) {
+        IconButton(onClick = { onNavigateToUnderDevelopment() }) {
             Icon(
                 imageVector = Icons.Default.MoreVert,
                 contentDescription = "更多",
@@ -177,7 +179,8 @@ fun PostActionBar(
     isCoined: Boolean,
     onLikeClick: () -> Unit = {},
     onCollectClick: () -> Unit = {},
-    onCoinClick: () -> Unit = {}
+    onCoinClick: () -> Unit = {},
+    onNavigateToUnderDevelopment: () -> Unit = {}
 ) {
     Row(
         modifier = Modifier
@@ -189,14 +192,14 @@ fun PostActionBar(
         ActionButton(
             icon = Icons.Default.Share,
             count = forwardCount,
-            onClick = { /* TODO */ }
+            onClick = { onNavigateToUnderDevelopment() }
         )
 
         // 评论
         ActionButton(
             icon = Icons.Default.ChatBubbleOutline,
             count = commentCount,
-            onClick = { /* TODO */ }
+            onClick = { onNavigateToUnderDevelopment() }
         )
 
         // 点赞

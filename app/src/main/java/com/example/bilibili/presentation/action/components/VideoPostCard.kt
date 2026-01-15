@@ -33,7 +33,7 @@ import com.example.bilibili.presentation.action.ActionPresenter
 import com.example.bilibili.common.utils.BilibiliAutoTestLogger
 
 @Composable
-fun VideoPostCard(post: Post) {
+fun VideoPostCard(post: Post, onNavigateToUnderDevelopment: () -> Unit = {}) {
     var currentPost by remember { mutableStateOf(post) }
 
     Column(
@@ -46,7 +46,8 @@ fun VideoPostCard(post: Post) {
         PostHeader(
             avatarUrl = currentPost.upMasterAvatar,
             name = currentPost.upMasterName,
-            time = currentPost.publishTime
+            time = currentPost.publishTime,
+            onNavigateToUnderDevelopment = onNavigateToUnderDevelopment
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -61,7 +62,7 @@ fun VideoPostCard(post: Post) {
                     // 指令15: 记录点击第一个动态
                     BilibiliAutoTestLogger.logFirstDynamicClicked()
                     BilibiliAutoTestLogger.logDynamicDetailOpened()
-                    /* TODO: 播放视频 */
+                    onNavigateToUnderDevelopment()
                 }
         ) {
             AsyncImage(
@@ -134,7 +135,8 @@ fun VideoPostCard(post: Post) {
             },
             onCoinClick = {
                 currentPost = currentPost.copy().apply { addCoin() }
-            }
+            },
+            onNavigateToUnderDevelopment = onNavigateToUnderDevelopment
         )
     }
 

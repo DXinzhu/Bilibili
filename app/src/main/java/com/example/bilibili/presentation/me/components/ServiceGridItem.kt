@@ -35,11 +35,11 @@ import com.example.bilibili.data.model.User
 import com.example.bilibili.presentation.me.MePresenter
 
 @Composable
-fun ServiceGridItem(icon: ImageVector, label: String, modifier: Modifier = Modifier) {
+fun ServiceGridItem(icon: ImageVector, label: String, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
-            .clickable { /* TODO */ }
+            .clickable { onClick() }
             .padding(vertical = 8.dp)
     ) {
         Icon(

@@ -39,7 +39,9 @@ fun UserInfoSection(
     user: User,
     onNavigateToConcern: () -> Unit = {},
     onNavigateToVip: () -> Unit = {},
-    onNavigateToPerson: () -> Unit = {}
+    onNavigateToPerson: () -> Unit = {},
+    onNavigateToAccountProfile: () -> Unit = {},
+    onNavigateToUnderDevelopment: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -82,7 +84,9 @@ fun UserInfoSection(
                     Icon(
                         imageVector = Icons.Default.Edit,
                         contentDescription = "编辑",
-                        modifier = Modifier.size(16.dp),
+                        modifier = Modifier
+                            .size(16.dp)
+                            .clickable(onClick = onNavigateToAccountProfile),
                         tint = Color.Gray
                     )
                     Spacer(modifier = Modifier.width(8.dp))
@@ -128,7 +132,7 @@ fun UserInfoSection(
             }
 
             // 空间按钮
-            TextButton(onClick = { /* TODO */ }) {
+            TextButton(onClick = onNavigateToUnderDevelopment) {
                 Text(text = user.space, color = Color.Gray)
                 Icon(
                     imageVector = Icons.Default.ChevronRight,
@@ -145,7 +149,7 @@ fun UserInfoSection(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            StatItem(count = user.dynamicCount, label = "动态", onClick = { /* TODO */ })
+            StatItem(count = user.dynamicCount, label = "动态", onClick = onNavigateToUnderDevelopment)
             HorizontalDivider(
                 modifier = Modifier
                     .width(1.dp)
@@ -159,7 +163,7 @@ fun UserInfoSection(
                     .height(40.dp),
                 color = Color.LightGray
             )
-            StatItem(count = user.fansCount, label = "粉丝", onClick = { /* TODO */ })
+            StatItem(count = user.fansCount, label = "粉丝", onClick = onNavigateToUnderDevelopment)
         }
 
         Spacer(modifier = Modifier.height(16.dp))

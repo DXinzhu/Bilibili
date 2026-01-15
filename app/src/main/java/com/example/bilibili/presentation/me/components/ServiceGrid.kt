@@ -35,7 +35,7 @@ import com.example.bilibili.data.model.User
 import com.example.bilibili.presentation.me.MePresenter
 
 @Composable
-fun ServiceGrid(items: List<ServiceItem>) {
+fun ServiceGrid(items: List<ServiceItem>, onItemClick: () -> Unit = {}) {
     Column {
         items.chunked(4).forEach { rowItems ->
             Row(
@@ -46,7 +46,8 @@ fun ServiceGrid(items: List<ServiceItem>) {
                     ServiceGridItem(
                         icon = item.icon,
                         label = item.label,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        onClick = onItemClick
                     )
                 }
                 // 填充空白项

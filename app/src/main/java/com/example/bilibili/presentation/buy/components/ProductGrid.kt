@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import com.example.bilibili.data.model.Product
 
 @Composable
-fun ProductGrid(products: List<Product>) {
+fun ProductGrid(products: List<Product>, onNavigateToUnderDevelopment: () -> Unit = {}) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier
@@ -21,7 +21,7 @@ fun ProductGrid(products: List<Product>) {
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(products) { product ->
-            ProductCard(product)
+            ProductCard(product, onNavigateToUnderDevelopment)
         }
     }
 }

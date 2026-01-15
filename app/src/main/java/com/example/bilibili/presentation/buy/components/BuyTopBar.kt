@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun BuyTopBar() {
+fun BuyTopBar(onNavigateToUnderDevelopment: () -> Unit = {}) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -42,7 +42,7 @@ fun BuyTopBar() {
                 modifier = Modifier
                     .weight(1f)
                     .height(40.dp)
-                    .clickable { /* TODO */ },
+                    .clickable { onNavigateToUnderDevelopment() },
                 color = Color(0xFFF5F5F5),
                 shape = RoundedCornerShape(20.dp)
             ) {

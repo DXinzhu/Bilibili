@@ -33,7 +33,7 @@ import com.example.bilibili.presentation.action.ActionPresenter
 import com.example.bilibili.common.utils.BilibiliAutoTestLogger
 
 @Composable
-fun FrequentlyVisitedSection(upMasters: List<UPMaster>) {
+fun FrequentlyVisitedSection(upMasters: List<UPMaster>, onNavigateToUnderDevelopment: () -> Unit = {}) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -56,7 +56,7 @@ fun FrequentlyVisitedSection(upMasters: List<UPMaster>) {
             )
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.clickable { /* TODO */ }
+                modifier = Modifier.clickable { onNavigateToUnderDevelopment() }
             ) {
                 Text(
                     text = "更多",
@@ -81,7 +81,7 @@ fun FrequentlyVisitedSection(upMasters: List<UPMaster>) {
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(upMasters) { upMaster ->
-                FrequentUPMasterItem(upMaster)
+                FrequentUPMasterItem(upMaster, onNavigateToUnderDevelopment)
             }
         }
     }

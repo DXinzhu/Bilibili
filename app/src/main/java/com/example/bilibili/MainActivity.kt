@@ -31,6 +31,8 @@ import com.example.bilibili.presentation.setting.SettingTab
 import com.example.bilibili.presentation.up.UpTab
 import com.example.bilibili.presentation.video.VideoTab
 import com.example.bilibili.presentation.vip.VipTab
+import com.example.bilibili.presentation.common.UnderDevelopmentTab
+import com.example.bilibili.presentation.accountprofile.AccountProfileTab
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +62,8 @@ fun MainScreen() {
     var showPersonTab by remember { mutableStateOf(false) }
     var showLoadTab by remember { mutableStateOf(false) }
     var showUpTab by remember { mutableStateOf(false) }
+    var showUnderDevelopmentTab by remember { mutableStateOf(false) }
+    var showAccountProfileTab by remember { mutableStateOf(false) }
     var currentVideoId by remember { mutableStateOf("") }
     var currentUpMasterId by remember { mutableStateOf("") }
     var searchQuery by remember { mutableStateOf("") }
@@ -67,8 +71,8 @@ fun MainScreen() {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            // 只在不显示子页面时���示底部导航栏
-            if (!showConcernTab && !showVipTab && !showSettingTab && !showMessageSettingTab && !showPushSettingTab && !showHistoryTab && !showCollectTab && !showSearchTab && !showVideoTab && !showGameTab && !showPersonTab && !showLoadTab && !showUpTab) {
+            // 只在不显示子页面时显示底部导航栏
+            if (!showConcernTab && !showVipTab && !showSettingTab && !showMessageSettingTab && !showPushSettingTab && !showHistoryTab && !showCollectTab && !showSearchTab && !showVideoTab && !showGameTab && !showPersonTab && !showLoadTab && !showUpTab && !showUnderDevelopmentTab && !showAccountProfileTab) {
                 NavigationBar(
                     containerColor = Color.White,
                     contentColor = Color.Gray
@@ -124,7 +128,7 @@ fun MainScreen() {
                     },
                     label = { },
                     selected = false,
-                    onClick = { /* TODO: 发布功能 */ }
+                    onClick = { showUnderDevelopmentTab = true }
                 )
 
                 // 会员购
@@ -179,6 +183,12 @@ fun MainScreen() {
 
             // 根据状态显示不同的页面
             when {
+                showUnderDevelopmentTab -> {
+                    UnderDevelopmentTab(
+                        context = context,
+                        onNavigateBack = { showUnderDevelopmentTab = false }
+                    )
+                }
                 showPersonTab -> {
                     PersonTab(
                         context = context,
@@ -248,6 +258,10 @@ fun MainScreen() {
                         onNavigateToPushSetting = {
                             showSettingTab = false
                             showPushSettingTab = true
+                        },
+                        onNavigateToAccountProfile = {
+                            showSettingTab = false
+                            showAccountProfileTab = true
                         }
                     )
                 }
@@ -287,6 +301,12 @@ fun MainScreen() {
                         onNavigateBack = { showLoadTab = false }
                     )
                 }
+                showAccountProfileTab -> {
+                    AccountProfileTab(
+                        context = context,
+                        onNavigateBack = { showAccountProfileTab = false }
+                    )
+                }
                 else -> {
                     when (selectedTab) {
                         0 -> RecommendTab(
@@ -295,10 +315,11 @@ fun MainScreen() {
                             onNavigateToVideo = { videoId ->
                                 currentVideoId = videoId
                                 showVideoTab = true
-                            }
+                            },
+                            onNavigateToUnderDevelopment = { showUnderDevelopmentTab = true }
                         )  // 推荐页面
-                        1 -> ActionTab(context = context)     // 动态页面
-                        2 -> BuyTab(context = context)        // 会员购页面
+                        1 -> ActionTab(context = context, onNavigateToUnderDevelopment = { showUnderDevelopmentTab = true })     // 动态页面
+                        2 -> BuyTab(context = context, onNavigateToUnderDevelopment = { showUnderDevelopmentTab = true })        // 会员购页面
                         3 -> MeTab(
                             context = context,
                             onNavigateToConcern = { showConcernTab = true },
@@ -307,7 +328,9 @@ fun MainScreen() {
                             onNavigateToHistory = { showHistoryTab = true },
                             onNavigateToCollect = { showCollectTab = true },
                             onNavigateToPerson = { showPersonTab = true },
-                            onNavigateToLoad = { showLoadTab = true }
+                            onNavigateToLoad = { showLoadTab = true },
+                            onNavigateToAccountProfile = { showAccountProfileTab = true },
+                            onNavigateToUnderDevelopment = { showUnderDevelopmentTab = true }
                         )  // 我的页面
                     }
                 }

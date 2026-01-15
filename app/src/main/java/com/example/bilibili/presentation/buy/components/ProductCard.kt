@@ -23,13 +23,13 @@ import coil.request.ImageRequest
 import com.example.bilibili.data.model.Product
 
 @Composable
-fun ProductCard(product: Product) {
+fun ProductCard(product: Product, onNavigateToUnderDevelopment: () -> Unit = {}) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White, RoundedCornerShape(8.dp))
             .clip(RoundedCornerShape(8.dp))
-            .clickable { /* TODO: 查看商品详情 */ }
+            .clickable { onNavigateToUnderDevelopment() }
             .padding(8.dp)
     ) {
         AsyncImage(
