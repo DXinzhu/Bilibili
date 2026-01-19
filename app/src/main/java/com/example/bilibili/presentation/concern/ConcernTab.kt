@@ -28,6 +28,9 @@ import coil.request.ImageRequest
 import com.example.bilibili.data.model.UPMaster
 import com.example.bilibili.presentation.concern.components.*
 import com.example.bilibili.presentation.concern.ConcernPresenter
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.File
 
 /**
  * 关注页面
@@ -50,6 +53,85 @@ fun ConcernTab(
         BilibiliAutoTestLogger.logFollowPageEntered()
         // 指令16: 记录进入关注列表/最近访问
         BilibiliAutoTestLogger.logFollowListEntered()
+
+        // 指令14: 导出关注动态数据供自动化测试使用
+        try {
+            val dynamics = presenter.getFollowingDynamics()
+            val dynamicsArray = JSONArray()
+
+            dynamics.forEach { post ->
+                // 从videoPlayCount字符串中提取数字（如"1439播放" -> 1439）
+                val playCount = if (post.videoPlayCount.isNotEmpty()) {
+                    post.videoPlayCount.replace(Regex("[^0-9]"), "").toIntOrNull() ?: 0
+                } else {
+                    0
+                }
+
+                val dynamicObj = JSONObject().apply {
+                    put("post_id", post.postId)
+                    put("type", post.type.name)
+                    put("up_master_id", post.upMasterId)
+                    put("up_master_name", post.upMasterName)
+                    put("like_count", post.likeCount)
+                    put("play_count", playCount)
+                    put("comment_count", post.commentCount)
+                }
+                dynamicsArray.put(dynamicObj)
+            }
+
+            val dynamicsData = JSONObject().apply {
+                put("dynamics", dynamicsArray)
+            }
+
+            val dynamicsFile = File(context.filesDir, "following_dynamics.json")
+            dynamicsFile.writeText(dynamicsData.toString())
+
+            // 记录到日志
+            val totalLikesAndPlays = dynamics.sumOf {
+                val playCount = if (it.videoPlayCount.isNotEmpty()) {
+                    it.videoPlayCount.replace(Regex("[^0-9]"), "").toIntOrNull() ?: 0
+                } else {
+                    0
+                }
+                it.likeCount + playCount
+            }
+            android.util.Log.d("BilibiliAutoTest", "FOLLOWING_DYNAMICS_TOTAL: $totalLikesAndPlays")
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        // 指令15: 导出关注列表数据供自动化测试使用
+        try {
+            val followingList = JSONArray()
+            var mutualFollowCount = 0
+            // 只导出已关注的UP主
+            upMasters.filter { it.isFollowed }.forEach { upMaster ->
+                if (upMaster.isMutualFollow) {
+                    mutualFollowCount++
+                }
+                val userObj = JSONObject().apply {
+                    put("up_master_id", upMaster.upMasterId)
+                    put("name", upMaster.name)
+                    put("is_followed", upMaster.isFollowed)
+                    put("is_mutual_follow", upMaster.isMutualFollow)
+                    put("fans_count", upMaster.fansCount)
+                }
+                followingList.put(userObj)
+            }
+
+            val jsonData = JSONObject().apply {
+                put("following_list", followingList)
+                put("mutual_follow_count", mutualFollowCount)
+            }
+
+            val file = File(context.filesDir, "following_list.json")
+            file.writeText(jsonData.toString())
+
+            // 记录互粉数量到日志
+            android.util.Log.d("BilibiliAutoTest", "MUTUAL_FOLLOW_COUNT: $mutualFollowCount")
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     Column(

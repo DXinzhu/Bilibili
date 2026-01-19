@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.bilibili.common.utils.BilibiliAutoTestLogger
 
 /**
  * 推送设置页面
@@ -28,6 +29,20 @@ fun PushSettingTab(
 ) {
     val presenter = remember { PushSettingPresenter(context) }
     val settingGroups = remember { presenter.getPushSettingGroups() }
+
+    // 记录进入推送设置页面并记录接收消息通知总开关状态
+    LaunchedEffect(Unit) {
+        // 查找"接收消息通知总开关"项并记录其状态
+        settingGroups.forEach { group ->
+            group.items.forEach { item ->
+                if (item.title == "接收消息通知总开关") {
+                    // 从 optionValue 中提取状态（"[已关闭]" 或 "[已开启]"）
+                    val status = if (item.optionValue.contains("关闭")) "关闭" else "开启"
+                    BilibiliAutoTestLogger.logSmartFilterStatusViewed(status == "开启")
+                }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier

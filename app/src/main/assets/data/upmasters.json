@@ -30,7 +30,6 @@
     "avatarUrl": "avatar/winter.jpg",
     "description": "专注游戏解说，带你领略电竞风采",
     "isFollowed": true,
-    "isMutualFollow": true,
     "fansCount": 80000,
     "videoCount": 35,
     "videoList": ["vid003"],

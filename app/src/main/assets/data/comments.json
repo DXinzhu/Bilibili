@@ -10,7 +10,8 @@
     "likeCount": 1951,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 5
   },
   {
     "commentId": "cmt004",
@@ -23,7 +24,8 @@
     "likeCount": 1407,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 5
   },
   {
     "commentId": "cmt002",
@@ -36,7 +38,8 @@
     "likeCount": 1339,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 5
   },
   {
     "commentId": "cmt005",
@@ -49,7 +52,8 @@
     "likeCount": 1053,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 5
   },
   {
     "commentId": "cmt003",
@@ -61,8 +65,36 @@
     "publishTime": 1729151279469,
     "likeCount": 834,
     "parentCommentId": null,
-    "replyList": [],
-    "isLiked": false
+    "replyList": [
+      {
+        "commentId": "reply_cmt003_1",
+        "videoId": "vid001",
+        "content": "说得对，这个案例确实很有代表性",
+        "authorId": "user101",
+        "authorName": "用户101号",
+        "userLevel": 3,
+        "publishTime": 1729843730123,
+        "likeCount": 67,
+        "parentCommentId": "cmt003",
+        "replyList": [],
+        "isLiked": false
+      },
+      {
+        "commentId": "reply_cmt003_2",
+        "videoId": "vid001",
+        "content": "我也觉得，罗老师讲得很清楚",
+        "authorId": "user102",
+        "authorName": "用户102号",
+        "userLevel": 4,
+        "publishTime": 1729843730124,
+        "likeCount": 45,
+        "parentCommentId": "cmt003",
+        "replyList": [],
+        "isLiked": false
+      }
+    ],
+    "isLiked": false,
+    "userLevel": 1
   },
   {
     "commentId": "cmt013",
@@ -75,7 +107,8 @@
     "likeCount": 436,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 4
   },
   {
     "commentId": "cmt011",
@@ -88,7 +121,8 @@
     "likeCount": 350,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 4
   },
   {
     "commentId": "cmt014",
@@ -101,7 +135,8 @@
     "likeCount": 338,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 4
   },
   {
     "commentId": "cmt008",
@@ -114,7 +149,8 @@
     "likeCount": 296,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 4
   },
   {
     "commentId": "cmt017",
@@ -127,7 +163,8 @@
     "likeCount": 281,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 4
   },
   {
     "commentId": "cmt018",
@@ -140,7 +177,8 @@
     "likeCount": 234,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt019",
@@ -153,7 +191,8 @@
     "likeCount": 232,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt015",
@@ -166,7 +205,8 @@
     "likeCount": 219,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt006",
@@ -179,7 +219,8 @@
     "likeCount": 201,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt010",
@@ -192,7 +233,8 @@
     "likeCount": 146,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt016",
@@ -205,7 +247,8 @@
     "likeCount": 144,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 2
   },
   {
     "commentId": "cmt020",
@@ -218,7 +261,8 @@
     "likeCount": 77,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 2
   },
   {
     "commentId": "cmt007",
@@ -231,7 +275,8 @@
     "likeCount": 74,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 2
   },
   {
     "commentId": "cmt012",
@@ -244,7 +289,8 @@
     "likeCount": 55,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 2
   },
   {
     "commentId": "cmt009",
@@ -257,7 +303,8 @@
     "likeCount": 33,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 2
   },
   {
     "commentId": "cmt021",
@@ -270,7 +317,8 @@
     "likeCount": 1728,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt025",
@@ -283,7 +331,8 @@
     "likeCount": 1255,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt024",
@@ -296,7 +345,8 @@
     "likeCount": 1048,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt023",
@@ -309,7 +359,8 @@
     "likeCount": 975,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt027",
@@ -322,7 +373,8 @@
     "likeCount": 447,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt034",
@@ -335,7 +387,8 @@
     "likeCount": 440,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt040",
@@ -348,7 +401,8 @@
     "likeCount": 433,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt035",
@@ -361,7 +415,8 @@
     "likeCount": 402,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt029",
@@ -374,7 +429,8 @@
     "likeCount": 320,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt032",
@@ -387,7 +443,8 @@
     "likeCount": 319,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt031",
@@ -400,7 +457,8 @@
     "likeCount": 272,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt039",
@@ -413,7 +471,8 @@
     "likeCount": 266,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt033",
@@ -426,7 +485,8 @@
     "likeCount": 250,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt028",
@@ -439,7 +499,8 @@
     "likeCount": 234,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt036",
@@ -452,7 +513,8 @@
     "likeCount": 218,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt022",
@@ -465,7 +527,8 @@
     "likeCount": 205,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt038",
@@ -478,7 +541,8 @@
     "likeCount": 205,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt037",
@@ -491,7 +555,8 @@
     "likeCount": 177,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt030",
@@ -504,7 +569,8 @@
     "likeCount": 95,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt026",
@@ -517,7 +583,8 @@
     "likeCount": 45,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt042",
@@ -530,7 +597,8 @@
     "likeCount": 1527,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt043",
@@ -543,7 +611,8 @@
     "likeCount": 1133,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt041",
@@ -556,7 +625,8 @@
     "likeCount": 766,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt045",
@@ -569,7 +639,8 @@
     "likeCount": 724,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt053",
@@ -582,7 +653,8 @@
     "likeCount": 498,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt048",
@@ -595,7 +667,8 @@
     "likeCount": 477,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt044",
@@ -608,7 +681,8 @@
     "likeCount": 472,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt049",
@@ -621,7 +695,8 @@
     "likeCount": 469,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt056",
@@ -634,7 +709,8 @@
     "likeCount": 408,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt059",
@@ -647,7 +723,8 @@
     "likeCount": 382,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt051",
@@ -660,7 +737,8 @@
     "likeCount": 373,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt052",
@@ -673,7 +751,8 @@
     "likeCount": 336,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt054",
@@ -686,7 +765,8 @@
     "likeCount": 294,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt060",
@@ -699,7 +779,8 @@
     "likeCount": 227,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt055",
@@ -712,7 +793,8 @@
     "likeCount": 224,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt047",
@@ -725,7 +807,8 @@
     "likeCount": 141,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt050",
@@ -738,7 +821,8 @@
     "likeCount": 124,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt058",
@@ -751,7 +835,8 @@
     "likeCount": 84,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt057",
@@ -764,7 +849,8 @@
     "likeCount": 81,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt046",
@@ -777,7 +863,8 @@
     "likeCount": 30,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt065",
@@ -790,7 +877,8 @@
     "likeCount": 1753,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt061",
@@ -803,7 +891,8 @@
     "likeCount": 1700,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt063",
@@ -816,7 +905,8 @@
     "likeCount": 1413,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt062",
@@ -829,7 +919,8 @@
     "likeCount": 1055,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt072",
@@ -842,7 +933,8 @@
     "likeCount": 492,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt068",
@@ -855,7 +947,8 @@
     "likeCount": 447,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt074",
@@ -868,7 +961,8 @@
     "likeCount": 445,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt077",
@@ -881,7 +975,8 @@
     "likeCount": 432,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt079",
@@ -894,7 +989,8 @@
     "likeCount": 411,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt073",
@@ -907,7 +1003,8 @@
     "likeCount": 384,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt080",
@@ -920,7 +1017,8 @@
     "likeCount": 321,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt070",
@@ -933,7 +1031,8 @@
     "likeCount": 244,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt066",
@@ -946,7 +1045,8 @@
     "likeCount": 198,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt071",
@@ -959,7 +1059,8 @@
     "likeCount": 182,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt067",
@@ -972,7 +1073,8 @@
     "likeCount": 162,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt076",
@@ -985,7 +1087,8 @@
     "likeCount": 128,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt064",
@@ -998,7 +1101,8 @@
     "likeCount": 83,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt069",
@@ -1011,7 +1115,8 @@
     "likeCount": 70,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt078",
@@ -1024,7 +1129,8 @@
     "likeCount": 40,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt075",
@@ -1037,7 +1143,8 @@
     "likeCount": 17,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt084",
@@ -1050,7 +1157,8 @@
     "likeCount": 1902,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt082",
@@ -1063,7 +1171,8 @@
     "likeCount": 1484,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt085",
@@ -1076,7 +1185,8 @@
     "likeCount": 1118,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt093",
@@ -1089,7 +1199,8 @@
     "likeCount": 480,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt096",
@@ -1102,7 +1213,8 @@
     "likeCount": 472,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt097",
@@ -1115,7 +1227,8 @@
     "likeCount": 409,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt094",
@@ -1128,7 +1241,8 @@
     "likeCount": 407,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt100",
@@ -1141,7 +1255,8 @@
     "likeCount": 359,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt092",
@@ -1154,7 +1269,8 @@
     "likeCount": 356,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt081",
@@ -1167,7 +1283,8 @@
     "likeCount": 355,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt090",
@@ -1180,7 +1297,8 @@
     "likeCount": 330,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt087",
@@ -1193,7 +1311,8 @@
     "likeCount": 329,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt089",
@@ -1206,7 +1325,8 @@
     "likeCount": 281,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt083",
@@ -1219,7 +1339,8 @@
     "likeCount": 268,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt088",
@@ -1232,7 +1353,8 @@
     "likeCount": 232,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt091",
@@ -1245,7 +1367,8 @@
     "likeCount": 214,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt086",
@@ -1258,7 +1381,8 @@
     "likeCount": 149,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt095",
@@ -1271,7 +1395,8 @@
     "likeCount": 122,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt099",
@@ -1284,7 +1409,8 @@
     "likeCount": 35,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt098",
@@ -1297,7 +1423,8 @@
     "likeCount": 11,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt101",
@@ -1310,7 +1437,8 @@
     "likeCount": 1760,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt104",
@@ -1323,7 +1451,8 @@
     "likeCount": 1333,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt103",
@@ -1336,7 +1465,8 @@
     "likeCount": 797,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt105",
@@ -1349,7 +1479,8 @@
     "likeCount": 712,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt102",
@@ -1362,7 +1493,8 @@
     "likeCount": 673,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt111",
@@ -1375,7 +1507,8 @@
     "likeCount": 444,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt110",
@@ -1388,7 +1521,8 @@
     "likeCount": 428,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt118",
@@ -1401,7 +1535,8 @@
     "likeCount": 351,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt117",
@@ -1414,7 +1549,8 @@
     "likeCount": 334,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt114",
@@ -1427,7 +1563,8 @@
     "likeCount": 296,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt119",
@@ -1440,7 +1577,8 @@
     "likeCount": 295,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt120",
@@ -1453,7 +1591,8 @@
     "likeCount": 246,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt107",
@@ -1466,7 +1605,8 @@
     "likeCount": 158,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt109",
@@ -1479,7 +1619,8 @@
     "likeCount": 118,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt113",
@@ -1492,7 +1633,8 @@
     "likeCount": 114,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt112",
@@ -1505,7 +1647,8 @@
     "likeCount": 52,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt116",
@@ -1518,7 +1661,8 @@
     "likeCount": 46,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt115",
@@ -1531,7 +1675,8 @@
     "likeCount": 44,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt108",
@@ -1544,7 +1689,8 @@
     "likeCount": 36,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt106",
@@ -1557,7 +1703,8 @@
     "likeCount": 16,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt122",
@@ -1570,7 +1717,8 @@
     "likeCount": 1876,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt121",
@@ -1583,7 +1731,8 @@
     "likeCount": 1081,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt125",
@@ -1596,7 +1745,8 @@
     "likeCount": 760,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt123",
@@ -1609,7 +1759,8 @@
     "likeCount": 758,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt132",
@@ -1622,7 +1773,8 @@
     "likeCount": 496,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt126",
@@ -1635,7 +1787,8 @@
     "likeCount": 473,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt134",
@@ -1648,7 +1801,8 @@
     "likeCount": 464,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt139",
@@ -1661,7 +1815,8 @@
     "likeCount": 444,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt128",
@@ -1674,7 +1829,8 @@
     "likeCount": 427,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt135",
@@ -1687,7 +1843,8 @@
     "likeCount": 396,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt127",
@@ -1700,7 +1857,8 @@
     "likeCount": 365,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt136",
@@ -1713,7 +1871,8 @@
     "likeCount": 364,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt124",
@@ -1726,7 +1885,8 @@
     "likeCount": 279,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt129",
@@ -1739,7 +1899,8 @@
     "likeCount": 240,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt140",
@@ -1752,7 +1913,8 @@
     "likeCount": 229,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt133",
@@ -1765,7 +1927,8 @@
     "likeCount": 189,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt130",
@@ -1778,7 +1941,8 @@
     "likeCount": 181,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt137",
@@ -1791,7 +1955,8 @@
     "likeCount": 149,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt138",
@@ -1804,7 +1969,8 @@
     "likeCount": 95,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt131",
@@ -1817,7 +1983,8 @@
     "likeCount": 88,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt143",
@@ -1830,7 +1997,8 @@
     "likeCount": 1687,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt142",
@@ -1843,7 +2011,8 @@
     "likeCount": 749,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt144",
@@ -1856,7 +2025,8 @@
     "likeCount": 597,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt159",
@@ -1869,7 +2039,8 @@
     "likeCount": 472,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt141",
@@ -1882,7 +2053,8 @@
     "likeCount": 444,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt155",
@@ -1895,7 +2067,8 @@
     "likeCount": 406,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt151",
@@ -1908,7 +2081,8 @@
     "likeCount": 391,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt156",
@@ -1921,7 +2095,8 @@
     "likeCount": 369,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt149",
@@ -1934,7 +2109,8 @@
     "likeCount": 324,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt145",
@@ -1947,7 +2123,8 @@
     "likeCount": 280,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt150",
@@ -1960,7 +2137,8 @@
     "likeCount": 228,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt152",
@@ -1973,7 +2151,8 @@
     "likeCount": 220,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt153",
@@ -1986,7 +2165,8 @@
     "likeCount": 219,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt154",
@@ -1999,7 +2179,8 @@
     "likeCount": 207,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt147",
@@ -2012,7 +2193,8 @@
     "likeCount": 200,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt148",
@@ -2025,7 +2207,8 @@
     "likeCount": 181,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt158",
@@ -2038,7 +2221,8 @@
     "likeCount": 135,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt146",
@@ -2051,7 +2235,8 @@
     "likeCount": 61,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt160",
@@ -2064,7 +2249,8 @@
     "likeCount": 40,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt157",
@@ -2077,7 +2263,8 @@
     "likeCount": 22,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt162",
@@ -2090,7 +2277,8 @@
     "likeCount": 1614,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt161",
@@ -2103,7 +2291,8 @@
     "likeCount": 1164,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt165",
@@ -2116,7 +2305,8 @@
     "likeCount": 784,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt163",
@@ -2129,7 +2319,8 @@
     "likeCount": 644,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt166",
@@ -2142,7 +2333,8 @@
     "likeCount": 484,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt170",
@@ -2155,7 +2347,8 @@
     "likeCount": 468,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt177",
@@ -2168,7 +2361,8 @@
     "likeCount": 419,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt173",
@@ -2181,7 +2375,8 @@
     "likeCount": 389,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt179",
@@ -2194,7 +2389,8 @@
     "likeCount": 386,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt167",
@@ -2207,7 +2403,8 @@
     "likeCount": 381,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt172",
@@ -2220,7 +2417,8 @@
     "likeCount": 216,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt180",
@@ -2233,7 +2431,8 @@
     "likeCount": 183,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt169",
@@ -2246,7 +2445,8 @@
     "likeCount": 169,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt164",
@@ -2259,7 +2459,8 @@
     "likeCount": 163,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt175",
@@ -2272,7 +2473,8 @@
     "likeCount": 162,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt174",
@@ -2285,7 +2487,8 @@
     "likeCount": 161,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt171",
@@ -2298,7 +2501,8 @@
     "likeCount": 133,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt168",
@@ -2311,7 +2515,8 @@
     "likeCount": 120,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt178",
@@ -2324,7 +2529,8 @@
     "likeCount": 96,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt176",
@@ -2337,7 +2543,8 @@
     "likeCount": 77,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt181",
@@ -2350,7 +2557,8 @@
     "likeCount": 1855,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt185",
@@ -2363,7 +2571,8 @@
     "likeCount": 1499,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt182",
@@ -2376,7 +2585,8 @@
     "likeCount": 866,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt183",
@@ -2389,7 +2599,8 @@
     "likeCount": 663,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt188",
@@ -2402,7 +2613,8 @@
     "likeCount": 491,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt192",
@@ -2415,7 +2627,8 @@
     "likeCount": 482,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt195",
@@ -2428,7 +2641,8 @@
     "likeCount": 479,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt197",
@@ -2441,7 +2655,8 @@
     "likeCount": 443,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt196",
@@ -2454,7 +2669,8 @@
     "likeCount": 430,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt190",
@@ -2467,7 +2683,8 @@
     "likeCount": 344,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt184",
@@ -2480,7 +2697,8 @@
     "likeCount": 343,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt199",
@@ -2493,7 +2711,8 @@
     "likeCount": 337,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt198",
@@ -2506,7 +2725,8 @@
     "likeCount": 256,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt187",
@@ -2519,7 +2739,8 @@
     "likeCount": 250,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt191",
@@ -2532,7 +2753,8 @@
     "likeCount": 240,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt189",
@@ -2545,7 +2767,8 @@
     "likeCount": 216,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt194",
@@ -2558,7 +2781,8 @@
     "likeCount": 166,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt186",
@@ -2571,7 +2795,8 @@
     "likeCount": 150,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt193",
@@ -2584,7 +2809,8 @@
     "likeCount": 144,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt200",
@@ -2597,7 +2823,8 @@
     "likeCount": 23,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt202",
@@ -2610,7 +2837,8 @@
     "likeCount": 1812,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt205",
@@ -2623,7 +2851,8 @@
     "likeCount": 1488,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt203",
@@ -2636,7 +2865,8 @@
     "likeCount": 603,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt213",
@@ -2649,7 +2879,8 @@
     "likeCount": 467,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt201",
@@ -2662,7 +2893,8 @@
     "likeCount": 466,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt218",
@@ -2675,7 +2907,8 @@
     "likeCount": 448,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt212",
@@ -2688,7 +2921,8 @@
     "likeCount": 324,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt209",
@@ -2701,7 +2935,8 @@
     "likeCount": 306,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt207",
@@ -2714,7 +2949,8 @@
     "likeCount": 294,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt210",
@@ -2727,7 +2963,8 @@
     "likeCount": 279,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt216",
@@ -2740,7 +2977,8 @@
     "likeCount": 259,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt206",
@@ -2753,7 +2991,8 @@
     "likeCount": 254,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt204",
@@ -2766,7 +3005,8 @@
     "likeCount": 246,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt219",
@@ -2779,7 +3019,8 @@
     "likeCount": 195,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt211",
@@ -2792,7 +3033,8 @@
     "likeCount": 185,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt208",
@@ -2805,7 +3047,8 @@
     "likeCount": 125,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt220",
@@ -2818,7 +3061,8 @@
     "likeCount": 95,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt214",
@@ -2831,7 +3075,8 @@
     "likeCount": 46,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt217",
@@ -2844,7 +3089,8 @@
     "likeCount": 30,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt215",
@@ -2857,7 +3103,8 @@
     "likeCount": 19,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt222",
@@ -2870,7 +3117,8 @@
     "likeCount": 1642,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt223",
@@ -2883,7 +3131,8 @@
     "likeCount": 1049,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt224",
@@ -2896,7 +3145,8 @@
     "likeCount": 1019,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt221",
@@ -2909,7 +3159,8 @@
     "likeCount": 770,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt228",
@@ -2922,7 +3173,8 @@
     "likeCount": 486,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt236",
@@ -2935,7 +3187,8 @@
     "likeCount": 475,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt232",
@@ -2948,7 +3201,8 @@
     "likeCount": 420,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt231",
@@ -2961,7 +3215,8 @@
     "likeCount": 407,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt229",
@@ -2974,7 +3229,8 @@
     "likeCount": 378,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt238",
@@ -2987,7 +3243,8 @@
     "likeCount": 377,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt226",
@@ -3000,7 +3257,8 @@
     "likeCount": 337,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt233",
@@ -3013,7 +3271,8 @@
     "likeCount": 322,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt235",
@@ -3026,7 +3285,8 @@
     "likeCount": 314,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt227",
@@ -3039,7 +3299,8 @@
     "likeCount": 281,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt240",
@@ -3052,7 +3313,8 @@
     "likeCount": 249,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt237",
@@ -3065,7 +3327,8 @@
     "likeCount": 176,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt234",
@@ -3078,7 +3341,8 @@
     "likeCount": 173,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": false
+    "isLiked": false,
+    "userLevel": 3
   },
   {
     "commentId": "cmt225",
@@ -3091,7 +3355,8 @@
     "likeCount": 119,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt230",
@@ -3104,7 +3369,8 @@
     "likeCount": 21,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   },
   {
     "commentId": "cmt239",
@@ -3117,6 +3383,7 @@
     "likeCount": 17,
     "parentCommentId": null,
     "replyList": [],
-    "isLiked": true
+    "isLiked": true,
+    "userLevel": 3
   }
 ]

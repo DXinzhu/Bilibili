@@ -313,6 +313,22 @@ object BilibiliAutoTestLogger {
         Log.d(TAG, "TOP_LIKED_COMMENT_USER: $userName")
     }
 
+    /**
+     * 指令19: 记录等级最低评论的回复点赞数
+     * @param likeCount 回复点赞数
+     */
+    fun logLowestLevelCommentReplyLikes(likeCount: Int) {
+        Log.d(TAG, "LOWEST_LEVEL_COMMENT_REPLY_LIKES: $likeCount")
+    }
+
+    /**
+     * 指令17: 记录评论区点赞总数
+     * @param totalLikes 点赞总数
+     */
+    fun logCommentsTotalLikes(totalLikes: Int) {
+        Log.d(TAG, "COMMENTS_TOTAL_LIKES: $totalLikes")
+    }
+
     // ==================== 搜索相关 ====================
 
     /**
@@ -351,6 +367,14 @@ object BilibiliAutoTestLogger {
      */
     fun logSearchResultsCountDisplayed(count: Int) {
         Log.d(TAG, "SEARCH_RESULTS_COUNT_DISPLAYED: $count")
+    }
+
+    /**
+     * 指令21: 显示相关视频数量
+     * @param count 相关视频数量
+     */
+    fun logRelatedVideosCountDisplayed(count: Int) {
+        Log.d(TAG, "RELATED_VIDEOS_COUNT_DISPLAYED: $count")
     }
 
     /**

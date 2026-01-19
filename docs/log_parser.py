@@ -12,17 +12,14 @@ class LogParser:
     @staticmethod
     def parse_task_17(log_content):
         """
-        任务17: 评论区一共有多少个赞
-        从日志中提取评论相关信息
+        任务17: 评论区点赞总数
+        从日志中提取: COMMENTS_TOTAL_LIKES: X
         """
-        # 查找评论发送成功标记
-        if 'COMMENT_SENT_SUCCESS' in log_content:
-            return "评论发送成功"
-
-        # 查找评论页面进入标记
-        if 'COMMENT_PAGE_ENTERED' in log_content:
-            return "进入评论页面"
-
+        pattern = r'COMMENTS_TOTAL_LIKES: (\d+)'
+        match = re.search(pattern, log_content)
+        if match:
+            total_likes = match.group(1)
+            return total_likes
         return None
 
     @staticmethod
@@ -41,17 +38,14 @@ class LogParser:
     @staticmethod
     def parse_task_19(log_content):
         """
-        任务19: 等级最低的评论点赞数
-        从日志中提取UP主相关信息
+        任务19: 等级最低的评论的回复点赞数
+        从日志中提取: LOWEST_LEVEL_COMMENT_REPLY_LIKES: X
         """
-        # 查找UP主页面进入
-        if 'UPLOADER_PAGE_ENTERED' in log_content:
-            return "进入UP主页面"
-
-        # 查找UP主数据加载
-        if 'UPLOADER_DATA_LOADED' in log_content:
-            return "UP主数据加载完成"
-
+        pattern = r'LOWEST_LEVEL_COMMENT_REPLY_LIKES: (\d+)'
+        match = re.search(pattern, log_content)
+        if match:
+            likes = match.group(1)
+            return likes
         return None
 
     @staticmethod
@@ -76,12 +70,20 @@ class LogParser:
     def parse_task_21(log_content):
         """
         任务21: 相关视频数量
-        从日志中提取搜索结果数量
+        从日志中提取相关视频数量
         """
-        pattern = r'SEARCH_RESULTS_COUNT_DISPLAYED: (\d+)'
-        match = re.search(pattern, log_content)
-        if match:
-            count = match.group(1)
+        # 优先查找相关视频数量
+        pattern1 = r'RELATED_VIDEOS_COUNT_DISPLAYED: (\d+)'
+        match1 = re.search(pattern1, log_content)
+        if match1:
+            count = match1.group(1)
+            return count
+
+        # 回退到搜索结果数量
+        pattern2 = r'SEARCH_RESULTS_COUNT_DISPLAYED: (\d+)'
+        match2 = re.search(pattern2, log_content)
+        if match2:
+            count = match2.group(1)
             return count
         return None
 

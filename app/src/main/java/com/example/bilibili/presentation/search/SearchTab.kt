@@ -62,11 +62,19 @@ fun SearchTab(
         // 顶部搜索栏
         SearchBar(
             searchText = searchText,
-            onSearchTextChange = { searchText = it },
+            onSearchTextChange = {
+                searchText = it
+                // 指令20: 记录搜索输入
+                if (it.isNotBlank()) {
+                    BilibiliAutoTestLogger.logSearchInput(it)
+                }
+            },
             onBack = onBack,
             onSearch = {
                 if (searchText.isNotBlank()) {
-                    // 指令4,21,23: 记录搜索完成
+                    // 指令4,20,21,22,23: 记录搜索按钮点击
+                    BilibiliAutoTestLogger.logSearchButtonClicked()
+                    // 指令4,20,21,22,23: 记录搜索完成
                     BilibiliAutoTestLogger.logSearchCompleted(searchText)
                     onNavigateToGame(searchText)
                 }

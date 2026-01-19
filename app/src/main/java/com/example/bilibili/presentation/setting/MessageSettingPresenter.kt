@@ -33,7 +33,7 @@ class MessageSettingPresenter(private val context: Context) {
                         title = "私信智能拦截",
                         description = "开启后，将自动拦截疑似骚扰和不良的会话",
                         type = MessageSettingItemType.SWITCH,
-                        switchState = true
+                        switchState = false
                     ),
                     MessageSettingItem(
                         title = "消息屏蔽词",

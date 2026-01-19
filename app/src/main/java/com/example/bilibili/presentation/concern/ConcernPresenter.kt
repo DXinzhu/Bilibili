@@ -2,6 +2,7 @@ package com.example.bilibili.presentation.concern
 
 import android.content.Context
 import com.example.bilibili.data.model.UPMaster
+import com.example.bilibili.data.model.Post
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.InputStreamReader
@@ -67,5 +68,29 @@ class ConcernPresenter(private val context: Context) {
      */
     fun getFollowedCount(): Int {
         return getConcernPageUPMasters().size
+    }
+
+    /**
+     * 获取关注的UP主发布的动态
+     * 从posts.json中筛选关注的UP主发布的动态
+     */
+    fun getFollowingDynamics(): List<Post> {
+        return try {
+            // 获取已关注的UP主ID列表
+            val followedUPMasterIds = getConcernPageUPMasters().map { it.upMasterId }.toSet()
+
+            // 加载所有动态
+            val inputStream = context.assets.open("data/posts.json")
+            val reader = InputStreamReader(inputStream)
+            val type = object : TypeToken<List<Post>>() {}.type
+            val allPosts: List<Post> = gson.fromJson(reader, type)
+            reader.close()
+
+            // 筛选出关注的UP主发布的动态
+            allPosts.filter { it.upMasterId in followedUPMasterIds }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emptyList()
+        }
     }
 }

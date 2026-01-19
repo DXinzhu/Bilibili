@@ -3,10 +3,10 @@ import json
 import os
 import re
 
-def validate_task_17(result=None, device_id=None, backup_dir=None):
+def validate_task_19(result=None, device_id=None, backup_dir=None):
     """
-    任务17: 看第一个视频，不算我点的赞，看看评论区所有赞加起来有多少
-    改进: 从APP数据源获取评论数据并计算点赞总数
+    任务19: 在首页推荐第一个视频评论页面，查看等级最低的那个人的被回复评论的点赞数
+    改进: 从APP数据源获取评论数据并查找等级最低的人的评论点赞数
     """
     if result is None:
         return False
@@ -39,41 +39,41 @@ def validate_task_17(result=None, device_id=None, backup_dir=None):
         # 检查命令是否成功执行
         if result_data.returncode != 0 or not result_data.stdout:
             print("⚠️ 无法读取评论数据，回退验证")
-            return '9700' in final_msg
+            return '67' in final_msg
 
         # 2. 解析JSON数据
         try:
             data = json.loads(result_data.stdout)
         except json.JSONDecodeError:
             print("⚠️ 评论数据格式错误，回退验证")
-            return '9700' in final_msg
+            return '67' in final_msg
 
-        # 3. 计算评论区所有点赞数的总和（不包括当前用户点的赞）
+        # 3. 查找等级最低的人的被回复评论点赞数
         comments_list = data.get("comments", [])
-        current_user_id = data.get("current_user_id", "user_current")
+        if not comments_list:
+            print("⚠️ 评论列表为空，回退验证")
+            return '67' in final_msg
 
-        total_likes = sum(
-            comment.get("like_count", 0)
-            for comment in comments_list
-            if comment.get("user_id") != current_user_id
-        )
+        # 找到等级最低的评论
+        min_level_comment = min(comments_list, key=lambda x: x.get("user_level", 999))
+        like_count = min_level_comment.get("like_count", 0)
 
         # 4. 验证 final_message 中是否包含正确答案
-        if str(total_likes) in final_msg:
-            print(f"✓ 验证成功: 评论区点赞总数（不含自己） = {total_likes}")
+        if str(like_count) in final_msg:
+            print(f"✓ 验证成功: 等级最低的人的评论点赞数 = {like_count}")
             return True
         else:
-            print(f"❌ 验证失败: 期望答案={total_likes}, 实际回答={final_msg}")
+            print(f"❌ 验证失败: 期望答案={like_count}, 实际回答={final_msg}")
             return False
 
     except subprocess.TimeoutExpired:
         print("⚠️ ADB命令超时，回退验证")
-        return '9700' in final_msg
+        return '67' in final_msg
     except Exception as e:
         print(f"⚠️ 验证过程出错: {str(e)}, 回退验证")
-        return '9700' in final_msg
+        return '67' in final_msg
 
 if __name__ == '__main__':
-    result = validate_task_17()
+    result = validate_task_19()
     print(result)
 

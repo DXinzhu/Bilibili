@@ -29,6 +29,7 @@ import com.example.bilibili.data.model.Comment
 import com.example.bilibili.presentation.game.components.*
 import com.example.bilibili.data.model.Video
 import com.example.bilibili.presentation.game.GamePresenter
+import com.example.bilibili.common.utils.BilibiliAutoTestLogger
 
 /**
  * 游戏搜索结果页面
@@ -53,8 +54,10 @@ fun GameTab(
     LaunchedEffect(searchQuery) {
         videos = presenter.loadGameVideos(searchQuery)
         allComments = presenter.loadComments()
-        // 记录游戏搜索结果页面加载成功
-        Log.d("BilibiliAutoTest", "GAME_SEARCH_PAGE_LOADED: $searchQuery")
+        // 指令20: 记录游戏搜索结果页面加载成功
+        BilibiliAutoTestLogger.logGameSearchPageLoaded()
+        // 指令20: 记录搜索结果数量
+        BilibiliAutoTestLogger.logSearchResultsCountDisplayed(videos.size)
     }
 
     Column(
@@ -88,8 +91,15 @@ fun GameTab(
                 .fillMaxSize()
                 .padding(horizontal = 8.dp)
         ) {
-            items(videos) { video ->
-                GameItem(video, onClick = { onNavigateToVideo(video.videoId) })
+            items(videos.size) { index ->
+                val video = videos[index]
+                GameItem(video, onClick = {
+                    // 指令22: 如果是第一个视频，记录点击
+                    if (index == 0) {
+                        BilibiliAutoTestLogger.logFirstSearchResultClicked()
+                    }
+                    onNavigateToVideo(video.videoId)
+                })
                 Spacer(modifier = Modifier.height(8.dp))
             }
 

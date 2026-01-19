@@ -10,6 +10,7 @@ data class Comment(
     val content: String,                    // 评论内容
     val authorId: String,                   // 评论作者ID
     val authorName: String,                 // 评论作者名称
+    val userLevel: Int = 1,                 // 用户等级
     val publishTime: Long = System.currentTimeMillis(),  // 发布时间戳
     var likeCount: Int = 0,                 // 点赞数
     val parentCommentId: String? = null,    // 父评论ID（用于回复评论）

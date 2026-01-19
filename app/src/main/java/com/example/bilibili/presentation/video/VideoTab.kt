@@ -74,6 +74,8 @@ fun VideoTab(
         video?.let {
             upMaster = presenter.getUpMasterById(it.upMasterId)
             recommendedVideos = presenter.getRecommendedVideos(videoId)
+            // 指令21: 记录相关视频数量
+            BilibiliAutoTestLogger.logRelatedVideosCountDisplayed(recommendedVideos.size)
         }
         comments = contentPresenter.getCommentsByVideoId(videoId)
         // 指令9,17,18,21,22,23: 记录视频播放页打开
@@ -85,6 +87,23 @@ fun VideoTab(
             topLikedComment?.let {
                 BilibiliAutoTestLogger.logTopLikedCommentUser(it.authorName)
             }
+        }
+
+        // 指令19: 记录等级最低评论的回复点赞数
+        if (comments.isNotEmpty()) {
+            val lowestLevelComment = comments.minByOrNull { it.userLevel }
+            lowestLevelComment?.let { comment ->
+                if (comment.replyList.isNotEmpty()) {
+                    val firstReplyLikes = comment.replyList[0].likeCount
+                    BilibiliAutoTestLogger.logLowestLevelCommentReplyLikes(firstReplyLikes)
+                }
+            }
+        }
+
+        // 指令17: 记录评论区点赞总数
+        if (comments.isNotEmpty()) {
+            val totalLikes = comments.sumOf { it.likeCount }
+            BilibiliAutoTestLogger.logCommentsTotalLikes(totalLikes)
         }
     }
 
