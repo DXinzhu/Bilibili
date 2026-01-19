@@ -29,6 +29,7 @@ import coil.request.ImageRequest
 import com.example.bilibili.data.model.Product
 import com.example.bilibili.presentation.buy.BuyPresenter
 import com.example.bilibili.presentation.buy.components.*
+import com.example.bilibili.common.utils.BilibiliAutoTestLogger
 
 /**
  * 会员购页面
@@ -40,7 +41,17 @@ fun BuyTab(context: Context, onNavigateToUnderDevelopment: () -> Unit = {}) {
     var products by remember { mutableStateOf<List<Product>>(emptyList()) }
 
     LaunchedEffect(Unit) {
+        // 指令6: 记录进入会员购页面
+        BilibiliAutoTestLogger.logVipShopPageEntered()
+
         products = presenter.getProducts()
+
+        // 指令6: 记录商品数据加载完成，计算总销量
+        if (products.isNotEmpty()) {
+            val totalSalesCount = products.sumOf { it.salesCount }
+            val totalPrice = products.sumOf { it.price }
+            BilibiliAutoTestLogger.logVipShopDataLoaded(totalSalesCount, totalPrice)
+        }
     }
 
     Column(modifier = Modifier.fillMaxSize()) {

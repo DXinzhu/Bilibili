@@ -25,10 +25,10 @@ def find_adb():
 
     return None
 
-def CheckHistoryItemDelete():
+def CheckTopLikedComment():
     """
-    检验逻辑:在历史记录页面，找到昨天观看过的一个视频，长按该记录项，将其从历史记录中删除
-    验证用户是否在APP中真正完成了历史记录删除操作
+    检验逻辑:在首页第一条视频评论页面，找到一条点赞数最高的评论
+    验证用户是否在APP中真正找到了点赞数最高的评论
     """
     try:
         adb_cmd = find_adb()
@@ -47,11 +47,10 @@ def CheckHistoryItemDelete():
         print("=" * 60)
         print("请在虚拟机中执行以下操作:")
         print("1. 打开bilibili APP")
-        print("2. 进入'我的'页面")
-        print("3. 点击'历史记录'")
-        print("4. 找到昨天观看过的一个视频")
-        print("5. 长按该记录项")
-        print("6. 点击删除")
+        print("2. 在首页点击第一条视频")
+        print("3. 进入评论页面")
+        print("4. 切换到'按热度排序'(如有)")
+        print("5. 找到点赞数最高的评论")
         print("=" * 60)
 
         input("\n完成上述操作后，按回车键继续验证...")
@@ -70,32 +69,33 @@ def CheckHistoryItemDelete():
         log_content = result.stdout
 
         # step3. 验证关键操作 - 放宽验证条件
-        history_page_entered = 'HISTORY_PAGE_ENTERED' in log_content
-        history_data_loaded = 'HISTORY_DATA_LOADED' in log_content
-        history_item_long_pressed = 'HISTORY_ITEM_LONG_PRESSED' in log_content
-        delete_button_clicked = 'DELETE_BUTTON_CLICKED' in log_content
-        history_item_deleted = 'HISTORY_ITEM_DELETED' in log_content
+        home_page_active = 'HOME_PAGE_ACTIVE' in log_content
+        first_video_clicked = 'FIRST_VIDEO_CLICKED' in log_content
+        comment_page_entered = 'COMMENT_PAGE_ENTERED' in log_content
+        comment_list_loaded = 'COMMENT_LIST_LOADED' in log_content
+        sort_by_likes = 'SORT_BY_LIKES_SELECTED' in log_content
+        top_liked_comment = 'TOP_LIKED_COMMENT_FOUND' in log_content
 
-        # 只要检测到删除相关操作即可
-        if not (history_item_long_pressed or delete_button_clicked or history_item_deleted):
-            print("验证失败: 未检测到删除历史记录操作")
+        # 只要检测到评论页或找到点赞最高评论即可
+        if not (comment_page_entered or comment_list_loaded or top_liked_comment):
+            print("验证失败: 未检测到查看点赞最高评论相关操作")
             print("\n提示: 请确保:")
-            print("1. 进入了历史记录页面")
-            print("2. 长按了某个历史记录项")
-            print("3. 点击了删除")
+            print("1. 在首页点击了第一条视频")
+            print("2. 进入了评论页面")
+            print("3. 找到了点赞数最高的评论")
             print(f"\n日志内容:\n{log_content}")
             return False
 
-        print("历史记录删除验证成功!")
+        print("查找点赞数最高评论验证成功!")
         return True
 
     except subprocess.TimeoutExpired:
         print("验证失败: 读取日志超时")
         return False
     except Exception as e:
-        print(f"检查历史记录删除时发生错误: {str(e)}")
+        print(f"检查点赞数最高评论时发生错误: {str(e)}")
         return False
 
 if __name__ == "__main__":
-    result = CheckHistoryItemDelete()
+    result = CheckTopLikedComment()
     print(result)

@@ -95,6 +95,16 @@ class HistoryPresenter(private val context: Context) {
     }
 
     /**
+     * 删除指定的历史记录项
+     * @param item 要删除的历史记录项
+     * @return 删除成功返回true，否则返回false
+     */
+    fun deleteHistoryItem(item: HistoryItem): Boolean {
+        val cache = historyItemsCache ?: return false
+        return cache.remove(item)
+    }
+
+    /**
      * 批量删除历史记录
      * @param historyIds 要删除的历史记录ID列表
      * @return 成功删除的数量

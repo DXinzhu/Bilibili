@@ -6,6 +6,7 @@
     "videoPath": "video/1.mp4",
     "upMasterId": "up1",
     "upMasterName": "up1",
+    "duration": 225,
     "isLiked": false,
     "isFavorited": true,
     "isShared": false,
@@ -17,7 +18,9 @@
     "viewCount": 489000,
     "commentCount": 1793,
     "onlineViewers": 477,
-    "tags": ["把兴趣玩出名堂"],
+    "tags": [
+      "把兴趣玩出名堂"
+    ],
     "danmakuList": [],
     "commentList": [],
     "createdTime": 1729526100000,
@@ -30,6 +33,7 @@
     "videoPath": "video/2.mp4",
     "upMasterId": "up001",
     "upMasterName": "技术宅阿伟",
+    "duration": 1280,
     "isLiked": true,
     "isFavorited": true,
     "isShared": true,
@@ -41,7 +45,10 @@
     "viewCount": 125000,
     "commentCount": 568,
     "onlineViewers": 89,
-    "tags": ["Android开发", "MVVM架构"],
+    "tags": [
+      "Android开发",
+      "MVVM架构"
+    ],
     "danmakuList": [],
     "commentList": [],
     "createdTime": 1728230400000,
@@ -54,6 +61,7 @@
     "videoPath": "video/3.mp4",
     "upMasterId": "up3",
     "upMasterName": "游戏解说君",
+    "duration": 845,
     "isLiked": false,
     "isFavorited": true,
     "isShared": false,
@@ -65,7 +73,11 @@
     "viewCount": 67000,
     "commentCount": 325,
     "onlineViewers": 45,
-    "tags": ["游戏解说", "英雄联盟", "精彩集锦"],
+    "tags": [
+      "游戏解说",
+      "英雄联盟",
+      "精彩集锦"
+    ],
     "danmakuList": [],
     "commentList": [],
     "createdTime": 1727625600000,
@@ -89,11 +101,16 @@
     "viewCount": 235000,
     "commentCount": 987,
     "onlineViewers": 156,
-    "tags": ["影视", "调色教程", "达芬奇"],
+    "tags": [
+      "影视",
+      "调色教程",
+      "达芬奇"
+    ],
     "danmakuList": [],
     "commentList": [],
     "createdTime": 1728921600000,
-    "lastUpdateTime": 1729008000000
+    "lastUpdateTime": 1729008000000,
+    "duration": 1560
   },
   {
     "videoId": "vid005",
@@ -113,11 +130,16 @@
     "viewCount": 178000,
     "commentCount": 756,
     "onlineViewers": 112,
-    "tags": ["游戏", "原神", "角色攻略"],
+    "tags": [
+      "游戏",
+      "原神",
+      "角色攻略"
+    ],
     "danmakuList": [],
     "commentList": [],
     "createdTime": 1728316800000,
-    "lastUpdateTime": 1728316800000
+    "lastUpdateTime": 1728316800000,
+    "duration": 920
   },
   {
     "videoId": "vid006",
@@ -137,11 +159,16 @@
     "viewCount": 567000,
     "commentCount": 2145,
     "onlineViewers": 289,
-    "tags": ["游戏", "英雄联盟", "电竞"],
+    "tags": [
+      "游戏",
+      "英雄联盟",
+      "电竞"
+    ],
     "danmakuList": [],
     "commentList": [],
     "createdTime": 1729008000000,
-    "lastUpdateTime": 1729008000000
+    "lastUpdateTime": 1729008000000,
+    "duration": 1845
   },
   {
     "videoId": "vid007",
@@ -161,11 +188,16 @@
     "viewCount": 678000,
     "commentCount": 2876,
     "onlineViewers": 345,
-    "tags": ["电影解说", "星际穿越", "诺兰"],
+    "tags": [
+      "电影解说",
+      "星际穿越",
+      "诺兰"
+    ],
     "danmakuList": [],
     "commentList": [],
     "createdTime": 1728662400000,
-    "lastUpdateTime": 1728748800000
+    "lastUpdateTime": 1728748800000,
+    "duration": 2340
   },
   {
     "videoId": "vid008",
@@ -185,11 +217,16 @@
     "viewCount": 456000,
     "commentCount": 1987,
     "onlineViewers": 234,
-    "tags": ["电影解说", "盗梦空间", "诺兰"],
+    "tags": [
+      "电影解说",
+      "盗梦空间",
+      "诺兰"
+    ],
     "danmakuList": [],
     "commentList": [],
     "createdTime": 1728057600000,
-    "lastUpdateTime": 1728057600000
+    "lastUpdateTime": 1728057600000,
+    "duration": 1680
   },
   {
     "videoId": "vid009",
@@ -209,11 +246,16 @@
     "viewCount": 189000,
     "commentCount": 765,
     "onlineViewers": 123,
-    "tags": ["编程", "算法", "快速排序"],
+    "tags": [
+      "编程",
+      "算法",
+      "快速排序"
+    ],
     "danmakuList": [],
     "commentList": [],
     "createdTime": 1728489600000,
-    "lastUpdateTime": 1728576000000
+    "lastUpdateTime": 1728576000000,
+    "duration": 1125
   },
   {
     "videoId": "vid010",
@@ -233,11 +275,16 @@
     "viewCount": 156000,
     "commentCount": 623,
     "onlineViewers": 98,
-    "tags": ["编程", "算法", "二叉树"],
+    "tags": [
+      "编程",
+      "算法",
+      "二叉树"
+    ],
     "danmakuList": [],
     "commentList": [],
     "createdTime": 1727884800000,
-    "lastUpdateTime": 1727884800000
+    "lastUpdateTime": 1727884800000,
+    "duration": 980
   },
   {
     "videoId": "vid011",
@@ -257,11 +304,16 @@
     "viewCount": 95000,
     "commentCount": 486,
     "onlineViewers": 78,
-    "tags": ["传统文化", "民间艺术", "打铁花"],
+    "tags": [
+      "传统文化",
+      "民间艺术",
+      "打铁花"
+    ],
     "danmakuList": [],
     "commentList": [],
     "createdTime": 1728835200000,
-    "lastUpdateTime": 1728835200000
+    "lastUpdateTime": 1728835200000,
+    "duration": 765
   },
   {
     "videoId": "vid012",
@@ -281,11 +333,16 @@
     "viewCount": 142000,
     "commentCount": 728,
     "onlineViewers": 95,
-    "tags": ["传统文化", "舞龙", "民俗表演"],
+    "tags": [
+      "传统文化",
+      "舞龙",
+      "民俗表演"
+    ],
     "danmakuList": [],
     "commentList": [],
     "createdTime": 1728403200000,
-    "lastUpdateTime": 1728489600000
+    "lastUpdateTime": 1728489600000,
+    "duration": 1050
   },
   {
     "videoId": "cartoon001",
@@ -305,14 +362,19 @@
     "viewCount": 2340000,
     "commentCount": 8976,
     "onlineViewers": 1234,
-    "tags": ["国创", "时光代理人", "悬疑"],
+    "tags": [
+      "国创",
+      "时光代理人",
+      "悬疑"
+    ],
     "danmakuList": [],
     "commentList": [],
     "createdTime": 1729008000000,
     "lastUpdateTime": 1729094400000,
     "category": "cartoon",
     "ranking": 1,
-    "episodeInfo": "更新至12话"
+    "episodeInfo": "更新至12话",
+    "duration": 1440
   },
   {
     "videoId": "cartoon002",
@@ -332,14 +394,19 @@
     "viewCount": 4560000,
     "commentCount": 15678,
     "onlineViewers": 2345,
-    "tags": ["日番", "奇幻", "冒险"],
+    "tags": [
+      "日番",
+      "奇幻",
+      "冒险"
+    ],
     "danmakuList": [],
     "commentList": [],
     "createdTime": 1728921600000,
     "lastUpdateTime": 1729180800000,
     "category": "cartoon",
     "ranking": 2,
-    "episodeInfo": "更新至28话"
+    "episodeInfo": "更新至28话",
+    "duration": 1920
   },
   {
     "videoId": "cartoon003",
@@ -359,14 +426,19 @@
     "viewCount": 3450000,
     "commentCount": 12345,
     "onlineViewers": 1876,
-    "tags": ["国创", "修仙", "热血"],
+    "tags": [
+      "国创",
+      "修仙",
+      "热血"
+    ],
     "danmakuList": [],
     "commentList": [],
     "createdTime": 1728835200000,
     "lastUpdateTime": 1729267200000,
     "category": "cartoon",
     "ranking": 3,
-    "episodeInfo": "更新至165话"
+    "episodeInfo": "更新至165话",
+    "duration": 2160
   },
   {
     "videoId": "cartoon004",
@@ -386,13 +458,18 @@
     "viewCount": 3890000,
     "commentCount": 14567,
     "onlineViewers": 2123,
-    "tags": ["日番", "热血", "战斗"],
+    "tags": [
+      "日番",
+      "热血",
+      "战斗"
+    ],
     "danmakuList": [],
     "commentList": [],
     "createdTime": 1728748800000,
     "lastUpdateTime": 1729353600000,
     "category": "cartoon",
     "ranking": 4,
-    "episodeInfo": "全23话"
+    "episodeInfo": "全23话",
+    "duration": 1800
   }
 ]

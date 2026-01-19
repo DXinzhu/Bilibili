@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -54,12 +55,38 @@ fun ConcernVideoItem(
             modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            Text(
-                text = upMaster.name,
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Medium,
-                color = Color.Black
-            )
+            // UP主名字和互粉标识
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                Text(
+                    text = upMaster.name,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = Color.Black
+                )
+
+                // 互粉标识
+                if (upMaster.isMutualFollow) {
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                color = Color(0xFFFF6699),
+                                shape = RoundedCornerShape(4.dp)
+                            )
+                            .padding(horizontal = 6.dp, vertical = 2.dp)
+                    ) {
+                        Text(
+                            text = "互粉",
+                            fontSize = 11.sp,
+                            color = Color.White,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                }
+            }
+
             Text(
                 text = "${upMaster.fansCount}粉丝 · ${upMaster.videoCount}视频",
                 fontSize = 13.sp,

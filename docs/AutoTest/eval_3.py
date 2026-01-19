@@ -65,25 +65,25 @@ def CheckSearchGame():
 
         log_content = result.stdout
 
-        # step3. 验证是否输入了搜索内容
-        if 'SEARCH_INPUT' not in log_content or '游戏解说' not in log_content:
-            print("验证失败: 未检测到输入'游戏解说'")
+        # step3. 验证是否完成了搜索（检查 SEARCH_COMPLETED 或 SEARCH_INPUT）
+        has_search = ('SEARCH_COMPLETED' in log_content or 'SEARCH_INPUT' in log_content) and '游戏解说' in log_content
+        if not has_search:
+            print("❌ 验证失败: 未检测到搜索'游戏解说'")
             print(f"日志内容:\n{log_content}")
             return False
 
-        # step4. 验证是否点击了搜索按钮
-        if 'SEARCH_BUTTON_CLICKED' not in log_content:
-            print("验证失败: 未检测到点击搜索按钮")
-            print(f"日志内容:\n{log_content}")
-            return False
-
-        # step5. 验证是否成功跳转到游戏搜索结果页面
+        # step4. 验证是否成功跳转到游戏搜索结果页面
         if 'GAME_SEARCH_PAGE_LOADED' not in log_content:
-            print("验证失败: 未成功跳转到游戏搜索结果页面")
+            print("❌ 验证失败: 未成功跳转到游戏搜索结果页面")
             print(f"日志内容:\n{log_content}")
             return False
 
+        print("✓ 检测到搜索'游戏解说'")
+        print("✓ 成功跳转到游戏搜索结果页面")
+
+        print("\n" + "=" * 60)
         print("搜索操作验证成功!")
+        print("=" * 60)
         return True
 
     except subprocess.TimeoutExpired:

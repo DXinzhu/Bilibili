@@ -10,6 +10,7 @@ data class UPMaster(
     val avatarUrl: String = "",             // 头像URL
     val description: String = "",           // 个人简介
     var isFollowed: Boolean = false,        // 是否已关注
+    var isMutualFollow: Boolean = false,    // 是否互粉
     var fansCount: Int = 0,                 // 粉丝数
     var videoCount: Int = 0,                // 视频数量
     val videoList: MutableList<String> = mutableListOf(),  // 视频ID列表

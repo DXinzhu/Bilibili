@@ -79,8 +79,11 @@ fun HistoryVideoList(
                 TextButton(
                     onClick = {
                         BilibiliAutoTestLogger.logDeleteButtonClicked()
+                        // 先记录删除后的剩余数量
+                        val remainingCount = historyItems.size - 1
+                        BilibiliAutoTestLogger.logHistoryItemDeleted(remainingCount)
+                        // 然后执行删除操作
                         onDeleteItem(itemToDelete!!)
-                        BilibiliAutoTestLogger.logHistoryItemDeleted(historyItems.size - 1)
                         showDeleteDialog = false
                         itemToDelete = null
                     }

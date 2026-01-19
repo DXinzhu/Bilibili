@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.bilibili.common.utils.BilibiliAutoTestLogger
 
 /**
  * 消息设置页面
@@ -28,6 +29,21 @@ fun MessageSettingTab(
 ) {
     val presenter = remember { MessageSettingPresenter(context) }
     val settingGroups = remember { presenter.getMessageSettingGroups() }
+
+    // 记录进入消息设置页面
+    LaunchedEffect(Unit) {
+        BilibiliAutoTestLogger.logMessageSettingsPageEntered()
+        BilibiliAutoTestLogger.logMessageSettingsDataLoaded()
+
+        // 查找私信智能拦截项并记录其状态
+        settingGroups.forEach { group ->
+            group.items.forEach { item ->
+                if (item.title == "私信智能拦截") {
+                    BilibiliAutoTestLogger.logSmartFilterStatusViewed(item.switchState)
+                }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier

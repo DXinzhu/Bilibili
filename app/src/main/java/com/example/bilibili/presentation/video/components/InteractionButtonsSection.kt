@@ -61,6 +61,15 @@ fun InteractionButtonsSection(
     var isLiked by remember { mutableStateOf(video.isLiked) }
     var isFavorited by remember { mutableStateOf(video.isFavorited) }
 
+    // 记录视频互动数据显示
+    LaunchedEffect(video.videoId) {
+        BilibiliAutoTestLogger.logVideoStatsDisplayed(
+            videoId = video.videoId,
+            likeCount = video.likeCount,
+            coinCount = video.coinCount
+        )
+    }
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()

@@ -32,7 +32,9 @@
       "Bash(for module in action buy cartoon collect concern content game history live load me person recommend search setting up video vip)",
       "Bash(do )",
       "Bash(done)",
-      "Bash(del:*)"
+      "Bash(del:*)",
+      "Bash(test_results.txt)",
+      "Bash(eval_1_output.txt)"
     ],
     "deny": [],
     "ask": []

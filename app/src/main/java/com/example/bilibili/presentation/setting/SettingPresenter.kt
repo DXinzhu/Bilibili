@@ -1,6 +1,9 @@
 package com.example.bilibili.presentation.setting
 
 import android.content.Context
+import com.example.bilibili.data.model.User
+import com.google.gson.Gson
+import java.io.IOException
 
 /**
  * 设置页面 Presenter
@@ -8,15 +11,33 @@ import android.content.Context
  */
 class SettingPresenter(private val context: Context) {
 
+    private val gson = Gson()
+
+    /**
+     * 加载用户数据
+     */
+    private fun loadUserData(): User? {
+        return try {
+            val jsonString = context.assets.open("data/user.json").bufferedReader().use { it.readText() }
+            gson.fromJson(jsonString, User::class.java)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
     /**
      * 获取所有设置项（按分组）
      */
     fun getSettingGroups(): List<SettingGroup> {
+        val user = loadUserData()
+        val uidText = if (user != null) "UID: ${user.uid}" else ""
+
         return listOf(
             // 第一组：账号相关
             SettingGroup(
                 items = listOf(
-                    SettingItem("账号资料", ""),
+                    SettingItem("账号资料", uidText),
                     SettingItem("安全隐私", ""),
                     SettingItem("收货信息", "")
                 )

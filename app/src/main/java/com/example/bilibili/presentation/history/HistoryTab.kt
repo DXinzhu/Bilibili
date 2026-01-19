@@ -77,8 +77,10 @@ fun HistoryTab(
         HistoryVideoList(
             historyItems = filteredItems,
             onDeleteItem = { item ->
+                // 从列表中移除该项
                 historyItems = historyItems.filter { it != item }
-                refreshTrigger++
+                // 通知 presenter 删除数据（如果需要持久化）
+                presenter.deleteHistoryItem(item)
             }
         )
     }

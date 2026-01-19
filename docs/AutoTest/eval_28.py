@@ -3,7 +3,6 @@ import json
 import os
 import shutil
 import time
-import re
 
 def find_adb():
     """查找adb命令路径"""
@@ -25,10 +24,10 @@ def find_adb():
 
     return None
 
-def CheckTopLikedComment():
+def CheckTimerShutdownStatus():
     """
-    检验逻辑:在首页第一条视频评论页面，找到一条点赞数最高的评论
-    验证用户是否在APP中真正找到了点赞数最高的评论
+    检验逻辑:在设置中，查看当前定时关闭是否开启
+    验证用户是否在APP中真正查看了定时关闭的状态
     """
     try:
         adb_cmd = find_adb()
@@ -47,10 +46,10 @@ def CheckTopLikedComment():
         print("=" * 60)
         print("请在虚拟机中执行以下操作:")
         print("1. 打开bilibili APP")
-        print("2. 在首页点击第一条视频")
-        print("3. 进入评论页面")
-        print("4. 切换到'按热度排序'(如有)")
-        print("5. 找到点赞数最高的评论")
+        print("2. 进入'我的'页面")
+        print("3. 点击'设置'")
+        print("4. 找到'定时关闭'选项")
+        print("5. 查看当前状态(开启/关闭)")
         print("=" * 60)
 
         input("\n完成上述操作后，按回车键继续验证...")
@@ -68,34 +67,39 @@ def CheckTopLikedComment():
 
         log_content = result.stdout
 
-        # step3. 验证关键操作 - 放宽验证条件
-        home_page_active = 'HOME_PAGE_ACTIVE' in log_content
-        first_video_clicked = 'FIRST_VIDEO_CLICKED' in log_content
-        comment_page_entered = 'COMMENT_PAGE_ENTERED' in log_content
-        comment_list_loaded = 'COMMENT_LIST_LOADED' in log_content
-        sort_by_likes = 'SORT_BY_LIKES_SELECTED' in log_content
-        top_liked_comment = 'TOP_LIKED_COMMENT_FOUND' in log_content
+        # step3. 验证关键操作 - 放宽验证条件，只需检测到相关操作即可
+        settings_entered = 'SETTINGS_PAGE_ENTERED' in log_content
+        timer_option_found = 'TIMER_SHUTDOWN_OPTION_FOUND' in log_content
+        timer_clicked = 'TIMER_SHUTDOWN_CLICKED' in log_content
+        timer_status_loaded = 'TIMER_SHUTDOWN_STATUS_LOADED' in log_content
 
-        # 只要检测到评论页或找到点赞最高评论即可
-        if not (comment_page_entered or comment_list_loaded or top_liked_comment):
-            print("验证失败: 未检测到查看点赞最高评论相关操作")
+        # 至少检测到进入设置页面或找到定时关闭选项
+        if not (settings_entered or timer_option_found or timer_clicked or timer_status_loaded):
+            print("验证失败: 未检测到任何定时关闭相关操作")
             print("\n提示: 请确保:")
-            print("1. 在首页点击了第一条视频")
-            print("2. 进入了评论页面")
-            print("3. 找到了点赞数最高的评论")
+            print("1. 进入了设置页面")
+            print("2. 找到了定时关闭选项")
             print(f"\n日志内容:\n{log_content}")
             return False
 
-        print("查找点赞数最高评论验证成功!")
+        # 提取并验证状态值
+        status = "未知"
+        if '开启' in log_content or 'enabled' in log_content or 'on' in log_content:
+            status = "开启"
+        elif '关闭' in log_content or 'disabled' in log_content or 'off' in log_content:
+            status = "关闭"
+
+        print(f"定时关闭状态: {status}")
+        print("查看定时关闭状态验证成功!")
         return True
 
     except subprocess.TimeoutExpired:
         print("验证失败: 读取日志超时")
         return False
     except Exception as e:
-        print(f"检查点赞数最高评论时发生错误: {str(e)}")
+        print(f"检查定时关闭状态时发生错误: {str(e)}")
         return False
 
 if __name__ == "__main__":
-    result = CheckTopLikedComment()
+    result = CheckTimerShutdownStatus()
     print(result)

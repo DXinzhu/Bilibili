@@ -63,6 +63,12 @@ fun LiveTab(
         if (recommendedLives.isNotEmpty()) {
             BilibiliAutoTestLogger.logFirstLiveFound()
         }
+        // 任务29: 计算并记录人数最少的两个直播间的总观看人数
+        if (recommendedLives.size >= 2) {
+            val sortedByViewers = recommendedLives.sortedBy { it.viewerCount }
+            val minTwoTotal = sortedByViewers.take(2).sumOf { it.viewerCount }
+            BilibiliAutoTestLogger.logMinTwoLiveTotalViewers(minTwoTotal)
+        }
     }
 
     Column(modifier = Modifier.fillMaxSize()) {

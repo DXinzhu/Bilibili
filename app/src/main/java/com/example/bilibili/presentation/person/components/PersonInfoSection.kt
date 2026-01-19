@@ -3,13 +3,20 @@ package com.example.bilibili.presentation.person.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.bilibili.data.model.User
 import com.example.bilibili.presentation.person.PersonPresenter
 
@@ -40,6 +47,15 @@ fun PersonInfoSection(
                 fontSize = 14.sp,
                 color = Color.Gray
             )
+            Spacer(modifier = Modifier.height(8.dp))
+            // 显示UID
+            if (user != null) {
+                Text(
+                    text = "UID: ${user.uid}",
+                    fontSize = 14.sp,
+                    color = Color.Gray
+                )
+            }
             Spacer(modifier = Modifier.height(16.dp))
         }
 
@@ -69,7 +85,20 @@ fun PersonInfoSection(
                     fontSize = 14.sp,
                     color = Color.Gray
                 )
+                Spacer(modifier = Modifier.height(16.dp))
             }
+        }
+
+        // 我追的动漫
+        item {
+            Text(
+                text = "我追的动漫",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            FollowedCartoonsRow()
         }
     }
 }
@@ -91,3 +120,57 @@ private fun StatItem(label: String, count: Int) {
         )
     }
 }
+
+@Composable
+private fun FollowedCartoonsRow() {
+    val context = LocalContext.current
+    val cartoons = listOf(
+        CartoonItem("cartoon2.jpg", "进击的巨人"),
+        CartoonItem("cartoon3.jpg", "鬼灭之刃"),
+        CartoonItem("cartoon4.jpg", "咒术回战")
+    )
+
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        items(cartoons.size) { index ->
+            CartoonCard(cartoon = cartoons[index])
+        }
+    }
+}
+
+@Composable
+private fun CartoonCard(cartoon: CartoonItem) {
+    val context = LocalContext.current
+
+    Column(
+        modifier = Modifier.width(120.dp)
+    ) {
+        AsyncImage(
+            model = ImageRequest.Builder(context)
+                .data("file:///android_asset/video/${cartoon.imageName}")
+                .crossfade(true)
+                .build(),
+            contentDescription = cartoon.name,
+            modifier = Modifier
+                .width(120.dp)
+                .height(160.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(Color(0xFFF0F0F0)),
+            contentScale = ContentScale.Crop
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = cartoon.name,
+            fontSize = 14.sp,
+            color = Color.Black,
+            maxLines = 1
+        )
+    }
+}
+
+private data class CartoonItem(
+    val imageName: String,
+    val name: String
+)

@@ -58,6 +58,11 @@ fun PersonTab(
         recentLikedVideos = presenter.getRecentLikedVideos()
 
         BilibiliAutoTestLogger.logProfileDataLoaded()
+
+        // 指令25: 记录UID显示
+        if (user != null) {
+            BilibiliAutoTestLogger.logUidDisplayed(user!!.uid)
+        }
     }
 
     Column(

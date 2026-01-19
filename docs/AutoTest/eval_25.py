@@ -1,96 +1,81 @@
 import subprocess
+import json
 import os
-import shutil
+import re
 
-def find_adb():
-    """查找adb命令路径"""
-    adb_path = shutil.which('adb')
-    if adb_path:
-        return adb_path
-
-    possible_paths = [
-        r'C:\Users\%USERNAME%\AppData\Local\Android\Sdk\platform-tools\adb.exe',
-        r'C:\Android\sdk\platform-tools\adb.exe',
-        r'D:\Android\sdk\platform-tools\adb.exe',
-        r'%LOCALAPPDATA%\Android\Sdk\platform-tools\adb.exe',
-    ]
-
-    for path in possible_paths:
-        expanded_path = os.path.expandvars(path)
-        if os.path.exists(expanded_path):
-            return expanded_path
-
-    return None
-
-def CheckDanmakuToggle():
+def validate_task_25(result=None, device_id=None, backup_dir=None):
     """
-    检验逻辑:在视频播放页面，点击"弹幕"开关
-    验证用户是否点击了弹幕开关按钮（UI变化）
+    任务25: 去设置里找一下uid是多少
+    改进: 从APP配置中读取实际UID
     """
+    if result is None:
+        return False
+
+    final_msg = result.get("final_message", "")
+
     try:
-        adb_cmd = find_adb()
-        if not adb_cmd:
-            print("错误: 找不到adb命令")
-            return False
+        # 1. 使用 ADB 从设备拉取用户配置
+        cmd = ["adb"]
+        if device_id:
+            cmd.extend(["-s", device_id])
+        cmd.extend(["exec-out", "run-as", "com.example.bilibili",
+                   "cat", "files/user_profile.json"])
 
-        print(f"使用adb路径: {adb_cmd}")
-
-        # step1. 清除旧的logcat日志
-        print("\n清除旧日志...")
-        subprocess.run([adb_cmd, 'logcat', '-c'],
-                      stderr=subprocess.PIPE,
-                      stdout=subprocess.PIPE)
-
-        print("=" * 60)
-        print("请在虚拟机中执行以下操作:")
-        print("1. 打开bilibili APP")
-        print("2. 打开任意视频播放页面")
-        print("3. 点击弹幕开关按钮（UI变化即可）")
-        print("=" * 60)
-
-        input("\n完成上述操作后，按回车键继续验证...")
-
-        # step2. 读取logcat日志
-        print("\n正在检查日志...")
-        result = subprocess.run(
-            [adb_cmd, 'logcat', '-d', '-s', 'BilibiliAutoTest:D'],
+        result_data = subprocess.run(
+            cmd,
             capture_output=True,
-            text=True,
-            timeout=10,
             encoding='utf-8',
-            errors='ignore'  # 忽略无法解码的字符
+            errors='replace',
+            text=True,
+            timeout=10
         )
 
-        log_content = result.stdout
+        # 保存数据到备份目录
+        if backup_dir:
+            profile_file_path = os.path.join(backup_dir, 'user_profile.json')
+            with open(profile_file_path, 'w', encoding='utf-8') as f:
+                f.write(result_data.stdout)
 
-        # step3. 验证是否在视频播放页
-        if 'VIDEO_PLAYER_OPENED' not in log_content:
-            print("验证失败: 未检测到进入视频播放页")
-            print(f"日志内容:\n{log_content}")
+        # 检查命令是否成功执行
+        if result_data.returncode != 0 or not result_data.stdout:
+            print("Cannot read user profile data, fallback validation")
+            pattern = r'(?<!\d)1668348161(?!\d)'
+            return bool(re.search(pattern, final_msg))
+
+        # 2. 解析JSON数据
+        try:
+            data = json.loads(result_data.stdout)
+        except json.JSONDecodeError:
+            print("JSON decode error, fallback validation")
+            pattern = r'(?<!\d)1668348161(?!\d)'
+            return bool(re.search(pattern, final_msg))
+
+        # 3. 获取UID
+        uid = str(data.get("uid", ""))
+
+        # 4. 验证 final_message 中是否包含正确答案
+        if uid:
+            pattern = rf'(?<!\d){uid}(?!\d)'
+            if re.search(pattern, final_msg):
+                print(f"Validation SUCCESS: UID = {uid}")
+                return True
+            else:
+                print(f"Validation FAILED: Expected UID={uid}, Actual={final_msg}")
+                return False
+        else:
+            print(f"Validation FAILED: Cannot get UID")
             return False
-
-        # step4. 验证是否点击弹幕开关
-        if 'DANMAKU_SWITCH_CLICKED' not in log_content:
-            print("验证失败: 未检测到弹幕开关点击")
-            print(f"日志内容:\n{log_content}")
-            return False
-
-        # step5. 验证弹幕状态是否改变
-        if 'DANMAKU_STATUS_CHANGED' not in log_content:
-            print("验证失败: 未检测到弹幕状态变化")
-            print(f"日志内容:\n{log_content}")
-            return False
-
-        print("弹幕开关验证成功!")
-        return True
 
     except subprocess.TimeoutExpired:
-        print("验证失败: 读取日志超时")
-        return False
+        print("ADB timeout, fallback validation")
+        pattern = r'(?<!\d)1668348161(?!\d)'
+        return bool(re.search(pattern, final_msg))
     except Exception as e:
-        print(f"检查弹幕开关时发生错误: {str(e)}")
-        return False
+        print(f"Validation error: {str(e)}, fallback validation")
+        pattern = r'(?<!\d)1668348161(?!\d)'
+        return bool(re.search(pattern, final_msg))
 
-if __name__ == "__main__":
-    result = CheckDanmakuToggle()
+if __name__ == '__main__':
+    result = validate_task_25()
     print(result)
+

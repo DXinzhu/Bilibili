@@ -37,8 +37,21 @@ fun SettingTab(
     val settingGroups = remember { presenter.getSettingGroups() }
 
     // 指令30: 记录进入设置页面
+    // 指令25: 记录UID显示
     LaunchedEffect(Unit) {
         BilibiliAutoTestLogger.logSettingsPageEntered()
+
+        // 从用户数据中获取UID并记录
+        try {
+            val jsonString = context.assets.open("data/user.json").bufferedReader().use { it.readText() }
+            val gson = com.google.gson.Gson()
+            val user = gson.fromJson(jsonString, com.example.bilibili.data.model.User::class.java)
+            if (user != null) {
+                BilibiliAutoTestLogger.logUidDisplayed(user.uid)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     Column(
@@ -154,6 +167,13 @@ fun SettingItemRow(
     item: SettingItem,
     onClick: () -> Unit = {}
 ) {
+    // 指令28: 当定时关闭项显示时，记录其状态
+    LaunchedEffect(item.title, item.subtitle) {
+        if (item.title == "定时关闭") {
+            BilibiliAutoTestLogger.logTimerCloseStatusViewed(item.subtitle)
+        }
+    }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()

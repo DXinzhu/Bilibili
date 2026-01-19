@@ -3,67 +3,34 @@ import json
 import os
 import shutil
 import time
+import re
 
-def find_adb():
-    """查找adb命令路径"""
-    adb_path = shutil.which('adb')
-    if adb_path:
-        return adb_path
 
-    possible_paths = [
-        r'C:\Users\%USERNAME%\AppData\Local\Android\Sdk\platform-tools\adb.exe',
-        r'C:\Android\sdk\platform-tools\adb.exe',
-        r'D:\Android\sdk\platform-tools\adb.exe',
-        r'%LOCALAPPDATA%\Android\Sdk\platform-tools\adb.exe',
-    ]
-
-    for path in possible_paths:
-        expanded_path = os.path.expandvars(path)
-        if os.path.exists(expanded_path):
-            return expanded_path
-
-    return None
-
-def CheckSearchGame():
+def CheckSearchGame1(result=None,device_id=None,backup_dir=None):
     """
     检验逻辑:在首页搜索框输入游戏解说，点击搜索按钮
     验证用户是否完成搜索操作
     """
     try:
-        adb_cmd = find_adb()
-        if not adb_cmd:
-            print("错误: 找不到adb命令")
-            return False
-
-        print(f"使用adb路径: {adb_cmd}")
-
-        # step1. 清除旧的logcat日志
-        print("\n清除旧日志...")
-        subprocess.run([adb_cmd, 'logcat', '-c'],
-                      stderr=subprocess.PIPE,
-                      stdout=subprocess.PIPE)
-
-        print("=" * 60)
-        print("请在虚拟机中执行以下操作:")
-        print("1. 打开bilibili APP")
-        print("2. 在首页搜索框输入'游戏解说'")
-        print("3. 点击搜索按钮")
-        print("=" * 60)
-
-        input("\n完成上述操作后，按回车键继续验证...")
-
-        # step2. 读取logcat日志
         print("\n正在检查日志...")
-        result = subprocess.run(
-            [adb_cmd, 'logcat', '-d', '-s', 'BilibiliAutoTest:D'],
+        cmd_logcat = ['adb']
+        if device_id:
+            cmd_logcat.extend(['-s', device_id])
+        cmd_logcat.extend(['logcat', '-d', '-s', 'BilibiliAutoTest:D'])
+
+        result1 = subprocess.run(
+            cmd_logcat,
             capture_output=True,
             text=True,
             timeout=10,
             encoding='utf-8',
-            errors='ignore'  # 忽略无法解码的字符
+            errors='ignore'
         )
 
-        log_content = result.stdout
+        log_content = result1.stdout
+        if backup_dir:
+            logcat_file_path = os.path.join(backup_dir, 'logcat.txt')
+            open(logcat_file_path, 'w', encoding='utf-8').write(log_content)
 
         # step3. 验证是否输入了搜索内容
         if 'SEARCH_INPUT' not in log_content or '游戏解说' not in log_content:
@@ -83,16 +50,45 @@ def CheckSearchGame():
             print(f"日志内容:\n{log_content}")
             return False
 
-        print("搜索操作验证成功!")
-        return True
+
+        # 验证 result 存在
+        if result is None:
+            return False
+
+        # 检测 result 中的final_messages中是否包含数字"3"（作为独立的数字）
+        # 使用正则表达式精确匹配，避免匹配到"30"、"13"、"300"等包含3的数字
+        if 'final_message' in result:
+            final_msg = result['final_message']
+            # 匹配独立的数字3，支持中文环境
+            pattern = r'(?<!\d)3(?!\d)'
+            if re.search(pattern, final_msg):
+                print(f"Validation SUCCESS: Found search result count = 3")
+                return True
+            else:
+                print(f"Validation FAILED: Number 3 not found - {final_msg}")
+                return False
+
+        return False
+
+
 
     except subprocess.TimeoutExpired:
         print("验证失败: 读取日志超时")
         return False
-    except Exception as e:
-        print(f"检查搜索操作时发生错误: {str(e)}")
-        return False
+    finally:
+        # 无论成功失败，最后都清除日志
+        try:
+            cmd_clear = ['adb']
+            if device_id:
+                cmd_clear.extend(['-s', device_id])
+            cmd_clear.extend(['logcat', '-c'])
+            subprocess.run(cmd_clear, timeout=5)
+            print("🔄 已清除日志缓存")
+        except subprocess.TimeoutExpired:
+            print("⚠️ 清除日志超时")
+        except Exception as e:
+            print(f"⚠️ 清除日志失败: {str(e)}")
 
 if __name__ == "__main__":
-    result = CheckSearchGame()
-    print(result)
+    result1 = CheckSearchGame1()
+    print(result1)

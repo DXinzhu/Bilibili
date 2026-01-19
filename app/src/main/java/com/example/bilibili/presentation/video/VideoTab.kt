@@ -78,6 +78,14 @@ fun VideoTab(
         comments = contentPresenter.getCommentsByVideoId(videoId)
         // 指令9,17,18,21,22,23: 记录视频播放页打开
         BilibiliAutoTestLogger.logVideoPlayerOpened(videoId)
+
+        // 指令27: 记录点赞数最高评论的用户名
+        if (comments.isNotEmpty()) {
+            val topLikedComment = comments.maxByOrNull { it.likeCount }
+            topLikedComment?.let {
+                BilibiliAutoTestLogger.logTopLikedCommentUser(it.authorName)
+            }
+        }
     }
 
     // 全屏模式下只显示视频播放器

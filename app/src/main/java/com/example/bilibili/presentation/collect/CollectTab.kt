@@ -51,9 +51,16 @@ fun CollectTab(
         // 加载收藏视频数据
         collectedVideos = presenter.getCollectedVideos()
 
-        // 指令7,25: 记录数据加载完成
+        // 指令7,24: 记录数据加载完成
         BilibiliAutoTestLogger.logFavoriteDataLoaded(collectedVideos.size)
         BilibiliAutoTestLogger.logFavoriteCountDisplayed(collectedVideos.size)
+
+        // 指令23: 记录第一个视频的时长
+        if (collectedVideos.isNotEmpty()) {
+            val firstVideo = collectedVideos[0]
+            val duration = presenter.formatDuration(firstVideo.duration)
+            BilibiliAutoTestLogger.logFirstFavoriteVideoDuration(duration)
+        }
     }
 
     Column(

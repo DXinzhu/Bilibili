@@ -63,6 +63,14 @@ object BilibiliAutoTestLogger {
         Log.d(TAG, "FAVORITE_COUNT_DISPLAYED: $count")
     }
 
+    /**
+     * 指令23: 显示第一个收藏视频的时长
+     * @param duration 视频时长（格式：MM:SS）
+     */
+    fun logFirstFavoriteVideoDuration(duration: String) {
+        Log.d(TAG, "FIRST_FAVORITE_VIDEO_DURATION: $duration")
+    }
+
     // ==================== 视频播放相关 ====================
 
     /**
@@ -297,6 +305,14 @@ object BilibiliAutoTestLogger {
         Log.d(TAG, "TOP_LIKED_COMMENT_FOUND: likes=$likes")
     }
 
+    /**
+     * 指令27: 记录点赞数最高评论的用户名
+     * @param userName 用户名
+     */
+    fun logTopLikedCommentUser(userName: String) {
+        Log.d(TAG, "TOP_LIKED_COMMENT_USER: $userName")
+    }
+
     // ==================== 搜索相关 ====================
 
     /**
@@ -461,6 +477,14 @@ object BilibiliAutoTestLogger {
         Log.d(TAG, "PROFILE_DATA_LOADED")
     }
 
+    /**
+     * 指令25: 显示用户UID
+     * @param uid 用户UID
+     */
+    fun logUidDisplayed(uid: Long) {
+        Log.d(TAG, "UID_DISPLAYED: $uid")
+    }
+
     // ==================== 设置相关 ====================
 
     /**
@@ -491,6 +515,14 @@ object BilibiliAutoTestLogger {
     fun logTimerShutdownStatusLoaded(isEnabled: Boolean) {
         val status = if (isEnabled) "on" else "off"
         Log.d(TAG, "TIMER_SHUTDOWN_STATUS_LOADED: $status")
+    }
+
+    /**
+     * 指令28: 查看定时关闭状态
+     * @param status 定时关闭状态（开启/不开启）
+     */
+    fun logTimerCloseStatusViewed(status: String) {
+        Log.d(TAG, "TIMER_CLOSE_STATUS_VIEWED: $status")
     }
 
     // ==================== 会员相关 ====================
@@ -572,6 +604,14 @@ object BilibiliAutoTestLogger {
         Log.d(TAG, "LIVE_VIEWER_COUNT_DISPLAYED: $viewerCount")
     }
 
+    /**
+     * 任务29: 记录人数最少的两个直播间的总观看人数
+     * @param totalViewers 总观看人数
+     */
+    fun logMinTwoLiveTotalViewers(totalViewers: Int) {
+        Log.d(TAG, "MIN_TWO_LIVE_TOTAL_VIEWERS: $totalViewers")
+    }
+
     // ==================== 频道相关 ====================
 
     /**
@@ -620,5 +660,59 @@ object BilibiliAutoTestLogger {
     fun logDanmakuInitialState(isOn: Boolean) {
         val status = if (isOn) "on" else "off"
         Log.d(TAG, "DANMAKU_INITIAL_STATE: $status")
+    }
+
+    // ==================== 消息设置相关 ====================
+
+    /**
+     * 指令2: 进入消息设置页面
+     */
+    fun logMessageSettingsPageEntered() {
+        Log.d(TAG, "MESSAGE_SETTINGS_PAGE_ENTERED")
+    }
+
+    /**
+     * 指令2: 消息设置数据加载完成
+     */
+    fun logMessageSettingsDataLoaded() {
+        Log.d(TAG, "MESSAGE_SETTINGS_DATA_LOADED")
+    }
+
+    /**
+     * 指令2: 查看私信智能拦截状态
+     * @param isEnabled true表示开启，false表示关闭
+     */
+    fun logSmartFilterStatusViewed(isEnabled: Boolean) {
+        val status = if (isEnabled) "开启" else "关闭"
+        Log.d(TAG, "SMART_FILTER_STATUS_VIEWED: $status")
+    }
+
+    /**
+     * 指令4: 显示视频统计数据（点赞数、投币数）
+     * @param videoId 视频ID
+     * @param likeCount 点赞数
+     * @param coinCount 投币数
+     */
+    fun logVideoStatsDisplayed(videoId: String, likeCount: Int, coinCount: Int) {
+        val total = likeCount + coinCount
+        Log.d(TAG, "VIDEO_STATS_DISPLAYED: videoId=$videoId, likes=$likeCount, coins=$coinCount, total=$total")
+    }
+
+    // ==================== 会员购相关 ====================
+
+    /**
+     * 指令6: 进入会员购页面
+     */
+    fun logVipShopPageEntered() {
+        Log.d(TAG, "VIP_SHOP_PAGE_ENTERED")
+    }
+
+    /**
+     * 指令6: 会员购商品数据加载完成
+     * @param productCount 商品数量
+     * @param totalPrice 商品总价
+     */
+    fun logVipShopDataLoaded(productCount: Int, totalPrice: Double) {
+        Log.d(TAG, "VIP_SHOP_DATA_LOADED: count=$productCount, totalPrice=$totalPrice")
     }
 }

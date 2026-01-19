@@ -11,6 +11,7 @@ data class Video(
     val videoPath: String = "",             // 视频文件路径
     val upMasterId: String,                 // UP主ID
     val upMasterName: String,               // UP主名称
+    val duration: Int = 0,                  // 视频时长（秒）
     var isLiked: Boolean = false,           // 是否已点赞
     var isFavorited: Boolean = false,       // 是否已收藏
     var isShared: Boolean = false,          // 是否已分享

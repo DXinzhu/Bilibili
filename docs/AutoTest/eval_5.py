@@ -24,46 +24,36 @@ def find_adb():
 
     return None
 
-def CheckLikeVideo():
+def CheckLikeVideo(result=None,device_id=None,backup_dir=None):
     """
     检验逻辑:在视频播放页，点击「点赞」按钮
     验证用户是否在视频播放页点击了点赞按钮
     """
     try:
-        adb_cmd = find_adb()
-        if not adb_cmd:
-            print("错误: 找不到adb命令")
+        adb_path = find_adb()
+        if not adb_path:
+            print("错误: 找不到 adb 命令")
             return False
 
-        print(f"使用adb路径: {adb_cmd}")
-
-        # step1. 清除旧的logcat日志
-        print("\n清除旧日志...")
-        subprocess.run([adb_cmd, 'logcat', '-c'],
-                      stderr=subprocess.PIPE,
-                      stdout=subprocess.PIPE)
-
-        print("=" * 60)
-        print("请在虚拟机中执行以下操作:")
-        print("1. 打开bilibili APP")
-        print("2. 进入任意视频播放页")
-        print("3. 点击「点赞」按钮")
-        print("=" * 60)
-
-        input("\n完成上述操作后，按回车键继续验证...")
-
-        # step2. 读取logcat日志
         print("\n正在检查日志...")
-        result = subprocess.run(
-            [adb_cmd, 'logcat', '-d', '-s', 'BilibiliAutoTest:D'],
+        cmd_logcat = [adb_path]
+        if device_id:
+            cmd_logcat.extend(['-s', device_id])
+        cmd_logcat.extend(['logcat', '-d', '-s', 'BilibiliAutoTest:D'])
+
+        result1 = subprocess.run(
+            cmd_logcat,
             capture_output=True,
             text=True,
             timeout=10,
             encoding='utf-8',
-            errors='ignore'  # 忽略无法解码的字符
+            errors='ignore'
         )
 
-        log_content = result.stdout
+        log_content = result1.stdout
+        if backup_dir:
+            logcat_file_path = os.path.join(backup_dir, 'logcat.txt')
+            open(logcat_file_path, 'w', encoding='utf-8').write(log_content)
 
         # step3. 验证是否进入视频播放页
         if 'VIDEO_PLAYER_OPENED' not in log_content:
@@ -78,8 +68,14 @@ def CheckLikeVideo():
             return False
 
         # step5. 验证点赞状态是否更新
-        if 'LIKE_STATUS_CHANGED' not in log_content or 'liked' not in log_content:
+        if 'LIKE_STATUS_CHANGED' not in log_content:
             print("验证失败: 点赞状态未更新")
+            print(f"日志内容:\n{log_content}")
+            return False
+
+        # 检查是否包含 liked 或 unliked
+        if 'LIKE_STATUS_CHANGED: liked' not in log_content and 'LIKE_STATUS_CHANGED: unliked' not in log_content:
+            print("验证失败: 点赞状态格式不正确")
             print(f"日志内容:\n{log_content}")
             return False
 
@@ -89,10 +85,24 @@ def CheckLikeVideo():
     except subprocess.TimeoutExpired:
         print("验证失败: 读取日志超时")
         return False
-    except Exception as e:
-        print(f"检查点赞操作时发生错误: {str(e)}")
-        return False
+    finally:
+        # 无论成功失败，最后都清除日志
+        try:
+            adb_path = find_adb()
+            if adb_path:
+                cmd_clear = [adb_path]
+                if device_id:
+                    cmd_clear.extend(['-s', device_id])
+                cmd_clear.extend(['logcat', '-c'])
+                subprocess.run(cmd_clear, timeout=5)
+                print("🔄 已清除日志缓存")
+            else:
+                print("⚠️ 找不到 adb，无法清除日志")
+        except subprocess.TimeoutExpired:
+            print("⚠️ 清除日志超时")
+        except Exception as e:
+            print(f"⚠️ 清除日志失败: {str(e)}")
 
 if __name__ == "__main__":
-    result = CheckLikeVideo()
-    print(result)
+    result1 = CheckLikeVideo()
+    print(result1)
