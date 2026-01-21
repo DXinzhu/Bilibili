@@ -51,7 +51,21 @@
     "publishTime": 1728459168305,
     "likeCount": 1053,
     "parentCommentId": null,
-    "replyList": [],
+    "replyList": [
+      {
+        "commentId": "reply_cmt003_1",
+        "videoId": "vid001",
+        "content": "说得对，这个案例确实很有代表性",
+        "authorId": "user101",
+        "authorName": "用户101号",
+        "userLevel": 3,
+        "publishTime": 1729843730123,
+        "likeCount": 67,
+        "parentCommentId": "cmt005",
+        "replyList": [],
+        "isLiked": false
+      }
+    ],
     "isLiked": true,
     "userLevel": 5
   },
@@ -65,34 +79,7 @@
     "publishTime": 1729151279469,
     "likeCount": 834,
     "parentCommentId": null,
-    "replyList": [
-      {
-        "commentId": "reply_cmt003_1",
-        "videoId": "vid001",
-        "content": "说得对，这个案例确实很有代表性",
-        "authorId": "user101",
-        "authorName": "用户101号",
-        "userLevel": 3,
-        "publishTime": 1729843730123,
-        "likeCount": 67,
-        "parentCommentId": "cmt003",
-        "replyList": [],
-        "isLiked": false
-      },
-      {
-        "commentId": "reply_cmt003_2",
-        "videoId": "vid001",
-        "content": "我也觉得，罗老师讲得很清楚",
-        "authorId": "user102",
-        "authorName": "用户102号",
-        "userLevel": 4,
-        "publishTime": 1729843730124,
-        "likeCount": 45,
-        "parentCommentId": "cmt003",
-        "replyList": [],
-        "isLiked": false
-      }
-    ],
+    "replyList": [],
     "isLiked": false,
     "userLevel": 1
   },

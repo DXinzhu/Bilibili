@@ -33,6 +33,7 @@ fun TopBar(
     selectedTab: String = "推荐",
     onTabSelected: (String) -> Unit = {},
     onSearchClick: () -> Unit = {},
+    onNavigateToMe: () -> Unit = {},
     onNavigateToUnderDevelopment: () -> Unit = {}
 ) {
     Column(
@@ -57,7 +58,7 @@ fun TopBar(
                 modifier = Modifier
                     .size(36.dp)
                     .clip(CircleShape)
-                    .clickable { onNavigateToUnderDevelopment() },
+                    .clickable { onNavigateToMe() },
                 contentScale = ContentScale.Crop
             )
 

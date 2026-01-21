@@ -29,7 +29,8 @@ fun RecommendTab(
     context: Context,
     onNavigateToSearch: () -> Unit = {},
     onNavigateToVideo: (String) -> Unit = {},
-    onNavigateToUnderDevelopment: () -> Unit = {}
+    onNavigateToUnderDevelopment: () -> Unit = {},
+    onNavigateToMe: () -> Unit = {}
 ) {
     val presenter = remember { RecommendPresenter(context) }
     var user by remember { mutableStateOf<User?>(null) }
@@ -50,7 +51,7 @@ fun RecommendTab(
         else -> {
             Column(modifier = Modifier.fillMaxSize()) {
                 // 顶部工具栏（固定）
-                user?.let { TopBar(it, currentTab, onTabSelected = { selectedTab -> currentTab = selectedTab }, onSearchClick = onNavigateToSearch, onNavigateToUnderDevelopment = onNavigateToUnderDevelopment) }
+                user?.let { TopBar(it, currentTab, onTabSelected = { selectedTab -> currentTab = selectedTab }, onSearchClick = onNavigateToSearch, onNavigateToMe = onNavigateToMe, onNavigateToUnderDevelopment = onNavigateToUnderDevelopment) }
 
                 // 底部滚动内容
                 LazyColumn(

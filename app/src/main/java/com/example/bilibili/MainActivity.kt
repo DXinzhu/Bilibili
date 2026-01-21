@@ -316,7 +316,8 @@ fun MainScreen() {
                                 currentVideoId = videoId
                                 showVideoTab = true
                             },
-                            onNavigateToUnderDevelopment = { showUnderDevelopmentTab = true }
+                            onNavigateToUnderDevelopment = { showUnderDevelopmentTab = true },
+                            onNavigateToMe = { selectedTab = 3 }
                         )  // 推荐页面
                         1 -> ActionTab(context = context, onNavigateToUnderDevelopment = { showUnderDevelopmentTab = true })     // 动态页面
                         2 -> BuyTab(context = context, onNavigateToUnderDevelopment = { showUnderDevelopmentTab = true })        // 会员购页面
