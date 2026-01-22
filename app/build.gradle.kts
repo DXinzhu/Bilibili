@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    namespace = "com.example.bilibili"
+    namespace = "com.example.bilibili_sim"
     compileSdk = 36
     buildToolsVersion = "36.0.0"
 
     defaultConfig {
-        applicationId = "com.example.bilibili"
+        applicationId = "com.example.bilibili_sim"
         minSdk = 33
         targetSdk = 33
         versionCode = 1
